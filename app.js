@@ -77,8 +77,9 @@ app.use(function(err, req, res, next) {
 	});
 });
 
-app.listen(process.env.PORT || 3001, function() {
-	console.log('Started on port ' + process.env.PORT || 3001)
+var port = process.env.PORT || 3001;
+app.listen(port, function() {
+	console.log('Started on port ' + port)
 });
 
 module.exports = app;
