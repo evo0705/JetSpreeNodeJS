@@ -35,7 +35,10 @@ router
             });
     })
 
-    /* DELETE Only to clear junk records, we shouldn't delete any record in Production */
+    /*
+	 * DELETE Only to clear junk records, we shouldn't delete any record in
+	 * Production
+	 */
     .delete('/truncate', function (req, res) {
         var db = req.db;
         var collection = db.get('trip');
