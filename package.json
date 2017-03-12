@@ -2,7 +2,9 @@
 	"name": "jet-spree-node-js",
 	"version": "0.0.0",
 	"private": true,
-	"start": "node app"
+	"scripts": { 
+		"start": "app.js" 
+	},
 	"description": "JetSpree API",
 	"author": 
 	{
