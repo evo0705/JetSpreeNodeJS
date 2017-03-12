@@ -77,9 +77,8 @@ app.use(function(err, req, res, next) {
 	});
 });
 
-var port = process.env.PORT || 3001;
-app.listen(port, function() {
-	console.log('Started on port ' + port)
+app.listen(process.env.PORT || 3001, function(){
+  console.log("Started on port %d in %s mode", this.address().port, app.settings.env);
 });
 
 module.exports = app;
