@@ -6,9 +6,9 @@ router
 	/* GET list of Categories */
 	.get('/', function (req, res) {
 		var db = req.db;
-		var collection = db.get('categories').find({"main": null});
+		var collection = db.get('categories');
 			
-		collection.find({}, {}, function (e, docs) {
+		collection.find({"main": null}, {}, function (e, docs) {
 			res.json(docs);
 		});
 	})
@@ -16,8 +16,8 @@ router
 	/* GET list of Sub Categories */
 	.get('/sub', function (req, res) {
 		var db = req.db;
-		var collection = db.get('categories').find({"main": {$ne: null} });			
-		collection.find({}, {}, function (e, docs) {
+		var collection = db.get('categories');			
+		collection.find({"main": {$ne: null} }, {}, function (e, docs) {
 			res.json(docs);
 		});
 	})
