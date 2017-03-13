@@ -13,13 +13,18 @@ router
         if (req.query.page) page = parseInt(req.query.page);
         if (req.query.pagesize) pagesize = parseInt(req.query.pagesize);
 		
-		var query = {
-		  name: {
-			$regex: new RegExp(req.query.name.match(/[^ ]+/g).join("|"), 'g'),
-			$options: 'i' //i: ignore case, m: multiline, etc
-		  },
-		  category: req.query.category
-		};
+		var query = {};
+		
+		if(req.query.category){
+			query.category = req.query.category;
+		}
+		
+		if(req.query.name){
+			query.name = {
+				$regex: new RegExp(req.query.name.match(/[^ ]+/g).join("|"), 'g'),
+				$options: 'i' //i: ignore case, m: multiline, etc
+			};
+		}
 		
         collection.find(query, { skip: pagesize * (page - 1), limit: pagesize }, function (e, docs) {
             res.json(docs);
