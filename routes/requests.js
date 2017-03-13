@@ -6,7 +6,7 @@ router
     /* GET list of Requests */
     .get('/', function (req, res) {
         var db = req.db;
-        var collection = db.get('request');
+        var collection = db.get('requests');
 
         var page = 1;
         var pagesize = 30;
@@ -36,7 +36,7 @@ router
         }
 
         var db = req.db;
-        var collection = db.get('request');
+        var collection = db.get('requests');
         collection.insert(
             {
                 "uid": req.body.uid,
@@ -62,7 +62,7 @@ router
 
 for(var i = 0; i < 100; i++){
         var db = req.db;
-        var collection = db.get('request');
+        var collection = db.get('requests');
         collection.insert(
             {
                 "uid": req.body.uid,
@@ -84,7 +84,7 @@ for(var i = 0; i < 100; i++){
 	 */
     .delete('/truncate', function (req, res) {
         var db = req.db;
-        var collection = db.get('request');
+        var collection = db.get('requests');
         collection.drop();
         res.json({ message: "truncated" });
     });
