@@ -8,14 +8,12 @@ var bodyParser = require('body-parser');
 
 var mongo = require('mongodb');
 var monk = require('monk');
-//var db = monk('localhost:27017/HelloWorld');
 var db = monk('admin:P%40ssword123@cluster0-shard-00-00-ajvux.mongodb.net:27017,cluster0-shard-00-01-ajvux.mongodb.net:27017,cluster0-shard-00-02-ajvux.mongodb.net:27017/jetspree?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin');
-
-//var mongo_express = require('./node_modules/mongo-express/lib/middleware')
-//var mongo_express_config = require('./node_modules/mongo-express/config')
 
 var routes = require('./routes/index');
 var requests = require('./routes/requests');
+var countries = require('./routes/countries');
+var categories = require('./routes/categories');
 var trips = require('./routes/trips');
 
 var app = express();
@@ -24,8 +22,7 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-// uncomment after placing your favicon in /public
-// app.use(favicon(__dirname + '/public/favicon.ico'));
+app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(expressValidator([]));
@@ -44,8 +41,9 @@ app.use(function(req, res, next) {
 });
 
 app.use('/', routes);
-//app.use('/admin/dbui', mongo_express(mongo_express_config));
 app.use('/api/requests', requests);
+app.use('/api/countries', countries);
+app.use('/api/categories', categories);
 app.use('/api/trips', trips);
 
 // catch 404 and forward to error handler
