@@ -41,10 +41,10 @@ app.use(function(req, res, next) {
 });
 
 app.use('/', routes);
-app.use('/api/requests', requests);
-app.use('/api/countries', countries);
-app.use('/api/categories', categories);
-app.use('/api/trips', trips);
+app.use('/requests', requests);
+app.use('/countries', countries);
+app.use('/categories', categories);
+app.use('/trips', trips);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
