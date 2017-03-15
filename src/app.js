@@ -1,22 +1,21 @@
-﻿var express = require('express');
-var expressValidator = require('express-validator');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+﻿import express from 'express';
+import expressValidator from 'express-validator';
+import path from 'path';
+import favicon from 'serve-favicon';
+import logger from 'morgan';
+import cookieParser from 'cookie-parser';
+import bodyParser from 'body-parser';
 
-var mongo = require('mongodb');
-var monk = require('monk');
-var db = monk('admin:P%40ssword123@cluster0-shard-00-00-ajvux.mongodb.net:27017,cluster0-shard-00-01-ajvux.mongodb.net:27017,cluster0-shard-00-02-ajvux.mongodb.net:27017/jetspree?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin');
+import mongo from 'mongodb';
+import monk from 'monk';
+import routes from './routes/index';
+import requests from './routes/requests';
+import countries from './routes/countries';
+import categories from './routes/categories';
+import trips from './routes/trips';
 
-var routes = require('./routes/index');
-var requests = require('./routes/requests');
-var countries = require('./routes/countries');
-var categories = require('./routes/categories');
-var trips = require('./routes/trips');
-
-var app = express();
+const app = express();
+const db = monk('admin:P%40ssword123@cluster0-shard-00-00-ajvux.mongodb.net:27017,cluster0-shard-00-01-ajvux.mongodb.net:27017,cluster0-shard-00-02-ajvux.mongodb.net:27017/jetspree?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

@@ -1,6 +1,6 @@
-var express = require('express');
-var schemas = require('../schemas');
-var router = express.Router();
+import express from 'express';
+import schemas from '../schemas';
+const router = express.Router();
 
 router
 	/* GET list of Countries */

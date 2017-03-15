@@ -1,4 +1,4 @@
-﻿trip = {
+﻿const trip = {
 	'uid' : {
 		notEmpty : true,
 		errorMessage : 'Invalid uid'

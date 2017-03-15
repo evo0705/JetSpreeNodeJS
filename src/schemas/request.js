@@ -1,4 +1,4 @@
-﻿request = {
+﻿const request = {
 	'uid' : {
 		notEmpty : true,
 		errorMessage : 'Invalid uid'
