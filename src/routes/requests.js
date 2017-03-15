@@ -5,15 +5,15 @@ const router = express.Router();
 router
     /* GET list of Requests */
     .get('/', function (req, res) {
-        var db = req.db;
-        var collection = db.get('requests');
+        let db = req.db;
+        let collection = db.get('requests');
 
-        var page = 1;
-        var pagesize = 30;
+        let page = 1;
+        let pagesize = 30;
         if (req.query.page) page = parseInt(req.query.page);
         if (req.query.pagesize) pagesize = parseInt(req.query.pagesize);
 		
-		var query = {};
+		let query = {};
 		
 		if(req.query.category){
 			query.category = req.query.category;
@@ -34,14 +34,14 @@ router
     /* POST a new Request */
     .post('/', function (req, res) {
         req.checkBody(schemas.request);
-        var errors = req.validationErrors();
+        let errors = req.validationErrors();
 
         if (errors) {
             return res.send(errors);
         }
 
-        var db = req.db;
-        var collection = db.get('requests');
+        let db = req.db;
+        let collection = db.get('requests');
         collection.insert(
             {
                 "uid": req.body.uid,
@@ -59,15 +59,15 @@ router
     /* POST a batch Request for testing */
     .post('/batch', function (req, res) {
         req.checkBody(schemas.request);
-        var errors = req.validationErrors();
+        let errors = req.validationErrors();
 
         if (errors) {
             return res.send(errors);
         }
 
-for(var i = 0; i < 100; i++){
-        var db = req.db;
-        var collection = db.get('requests');
+for(let i = 0; i < 100; i++){
+        let db = req.db;
+        let collection = db.get('requests');
         collection.insert(
             {
                 "uid": req.body.uid,
@@ -88,8 +88,8 @@ for(var i = 0; i < 100; i++){
 	 * Production
 	 */
     .delete('/truncate', function (req, res) {
-        var db = req.db;
-        var collection = db.get('requests');
+        let db = req.db;
+        let collection = db.get('requests');
         collection.drop();
         res.json({ message: "truncated" });
     });

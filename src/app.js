@@ -5,7 +5,6 @@ import favicon from 'serve-favicon';
 import logger from 'morgan';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
-
 import mongo from 'mongodb';
 import monk from 'monk';
 import routes from './routes/index';
@@ -32,7 +31,7 @@ app.use(cookieParser());
 app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(function(req, res, next) {
+app.use((req, res, next) => {
 	req.db = db;
 	res.header("Access-Control-Allow-Origin", "*");
 	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -46,8 +45,8 @@ app.use('/categories', categories);
 app.use('/trips', trips);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-	var err = new Error('Not Found');
+app.use((req, res, next) => {
+	let err = new Error('Not Found');
 	err.status = 404;
 	next(err);
 });
@@ -57,7 +56,7 @@ app.use(function(req, res, next) {
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
-	app.use(function(err, req, res, next) {
+	app.use((err, req, res, next) => {
 		res.status(err.status || 500);
 		res.render('error', {
 			message : err.message,
@@ -68,7 +67,7 @@ if (app.get('env') === 'development') {
 
 // production error handler
 // no stacktraces leaked to user
-app.use(function(err, req, res, next) {
+app.use((err, req, res, next) => {
 	res.status(err.status || 500);
 	res.render('error', {
 		message : err.message,

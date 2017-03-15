@@ -4,11 +4,11 @@ const router = express.Router();
 router
     /* GET list of Trips */
     .get('/', function (req, res) {
-        var db = req.db;
-        var collection = db.get('trip');
+        let db = req.db;
+        let collection = db.get('trip');
 
-        var page = 1;
-        var pagesize = 30;
+        let page = 1;
+        let pagesize = 30;
         if (req.query.page) page = parseInt(req.query.page);
         if (req.query.pagesize) pagesize = parseInt(req.query.pagesize);
         collection.find({}, { skip: pagesize * (page - 1), limit: pagesize }, function (e, docs) {
@@ -18,8 +18,8 @@ router
 
     /* POST a new Trip */
     .post('/', function (req, res) {
-        var db = req.db;
-        var collection = db.get('trip');
+        let db = req.db;
+        let collection = db.get('trip');
 
         collection.insert(
             {
@@ -40,8 +40,8 @@ router
 	 * Production
 	 */
     .delete('/truncate', function (req, res) {
-        var db = req.db;
-        var collection = db.get('trip');
+        let db = req.db;
+        let collection = db.get('trip');
         collection.drop();
         res.json({ message: "truncated" });
     });

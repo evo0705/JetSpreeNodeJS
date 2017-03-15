@@ -5,8 +5,8 @@ const router = express.Router();
 router
 	/* GET list of Countries */
 	.get('/', function (req, res) {
-		var db = req.db;
-		var collection = db.get('countries');
+		let db = req.db;
+		let collection = db.get('countries');
 			
 		collection.find({}, {}, function (e, docs) {
 			res.json(docs);
