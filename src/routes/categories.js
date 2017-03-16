@@ -26,7 +26,7 @@ router
 	
 	/* GET list of Categories from Postgres */
 	.get('/pg', function (req, res) {
-		let client = new pg.Client();
+		let client = new pg.Client(process.env.DATABASE_URL);
 		client.connect(function (err) {
 			if (err) throw err;
 
