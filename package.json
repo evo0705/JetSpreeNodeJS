@@ -38,7 +38,8 @@
     "stylus": "0.42.3",
     "mongodb": "2.2.24",
     "monk": "4.0.0",
-	"request": "2.81.0"
+	"request": "2.81.0",
+	"pg": "6.1.4"
   },
   "engines": {
     "node": "6.2.0"
