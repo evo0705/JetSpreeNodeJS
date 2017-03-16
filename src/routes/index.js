@@ -9,6 +9,7 @@ router.get('/', function (req, res) {
 		apis: [
 			{ name: "GET: Countries (MongoDB)", url: "/countries", desc: "list of countries" },
 			{ name: "GET: Categories (MongoDB)", url: "/categories", desc: "list of categories" },
+			{ name: "GET: Sub-Categories (MongoDB)", url: "/categories/sub", desc: "list of sub-categories" },
 			{ name: "GET: Requests (MongoDB)", url: "/requests", desc: "list of filtered requests", 
 				params:[ 
 					{ name: "name", desc: "filter request name" },
