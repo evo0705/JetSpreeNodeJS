@@ -18,7 +18,7 @@ router.get('/', function (req, res) {
 					{ name: "pagesize", desc: "pagination pagesize number" } 
 				] 
 			},
-			{ name: "GET: Countries (PostgreSQL)", url: "/categories/pg", desc: "list of categories" },
+			{ name: "GET: Countries (PostgreSQL)", url: "/countries/pg", desc: "list of countries" },
 			{ name: "GET: Search tweets", url: "/twitter/user/nodejs", desc: "filtered JSON of tweets from twitter api" }
 		]
 	});
