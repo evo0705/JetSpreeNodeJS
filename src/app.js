@@ -12,6 +12,7 @@ import requests from './routes/requests';
 import countries from './routes/countries';
 import categories from './routes/categories';
 import trips from './routes/trips';
+import twitter from './routes/twitter';
 
 const app = express();
 const db = monk('admin:P%40ssword123@cluster0-shard-00-00-ajvux.mongodb.net:27017,cluster0-shard-00-01-ajvux.mongodb.net:27017,cluster0-shard-00-02-ajvux.mongodb.net:27017/jetspree?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin');
@@ -43,6 +44,7 @@ app.use('/requests', requests);
 app.use('/countries', countries);
 app.use('/categories', categories);
 app.use('/trips', trips);
+app.use('/twitter', twitter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

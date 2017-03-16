@@ -1,5 +1,7 @@
 import express from 'express';
 import schemas from '../schemas';
+import pg from 'pg';
+
 const router = express.Router();
 
 router
@@ -21,6 +23,24 @@ router
 			res.json(docs);
 		});
 	})
+	
+	/* GET list of Categories from Postgres */
+	.get('/pg', function (req, res) {
+		let client = new pg.Client();
+		client.connect(function (err) {
+			if (err) throw err;
+
+			client.query('SELECT * FROM public.countries', [], function (err, result) {
+				if (err) throw err;
+				
+				res.json(result.rows);
+				
+				client.end(function (err) {
+					if (err) throw err;
+				});
+			});
+		});
+	})	
 	
 ;
 
