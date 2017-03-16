@@ -26,7 +26,7 @@ router
 	
 	/* GET list of Categories from Postgres */
 	.get('/pg', function (req, res) {
-		let client = new pg.Client(process.env.DATABASE_URL);
+		let client = new pg.Client(process.env.DATABASE_URL || 'postgres://postgres:P%40ssword@localhost:5432/jetspree');
 		client.connect(function (err) {
 			if (err) throw err;
 

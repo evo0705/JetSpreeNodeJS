@@ -16,7 +16,8 @@ router.get('/', function (req, res) {
 					{ name: "page", desc: "pagination page number." },
 					{ name: "pagesize", desc: "pagination pagesize number." } 
 				] 
-			}
+			},
+			{ name: "GET: Countries from PostgreSQL", url: "/categories/pg", desc: "return list of categories from PostgreSQL" }
 		]
 	});
 });
