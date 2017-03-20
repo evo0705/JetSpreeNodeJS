@@ -32,7 +32,7 @@ router.get('/', function (req, res) {
 					{ name: "password", desc: "-" }
 				]  
 			},
-			{ name: "GET: User (PostgreSQL)", url: "/auth/user", desc: "got logged in user's info" }
+			{ name: "GET: User (PostgreSQL)", url: "/auth/user", desc: "get logged in user's info" }
 		]
 	});
 });

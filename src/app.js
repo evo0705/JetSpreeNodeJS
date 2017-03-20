@@ -1,8 +1,9 @@
-﻿import config from './config';
+﻿// libraries
+import config from './config';
 import express from 'express';
-import url from 'url';
-import pgPool from 'pg-pool';
 import expressValidator from 'express-validator';
+import pgPool from 'pg-pool';
+import url from 'url';
 import path from 'path';
 import favicon from 'serve-favicon';
 import logger from 'morgan';
@@ -10,6 +11,8 @@ import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import mongo from 'mongodb';
 import monk from 'monk';
+
+// public routes
 import routes from './routes/index';
 import requests from './routes/requests';
 import countries from './routes/countries';
@@ -17,12 +20,13 @@ import categories from './routes/categories';
 import trips from './routes/trips';
 import twitter from './routes/twitter';
 import logon from './routes/logon';
+
+// private routes
 import authorize from './routes/private/authorize';
 import user from './routes/private/user';
 
 const app = express();
 const db = monk('admin:P%40ssword123@cluster0-shard-00-00-ajvux.mongodb.net:27017,cluster0-shard-00-01-ajvux.mongodb.net:27017,cluster0-shard-00-02-ajvux.mongodb.net:27017/jetspree?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin');
-
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -65,9 +69,9 @@ app.use('/trips', trips);
 app.use('/twitter', twitter);
 app.use('/logon', logon);
 
+// routes that requires login
 authorize.use('/user', user);
 app.use('/auth', authorize);
-
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
