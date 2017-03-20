@@ -23,8 +23,7 @@ router
 				
 				// check if username already exists
 				client.query('SELECT username FROM users WHERE username=$1', [req.body.username])
-				.then(result => {	
-					client.release();						
+				.then(result => {			
 					if(result.rowCount >= 1) 
 						return res.json({ success: false, message: "This username has already been taken." });
 				})
@@ -40,11 +39,12 @@ router
 					// create new user record
 					client.query('INSERT INTO users(username, password) VALUES($1, $2)', [req.body.username, hash])
 					.then(result => {
-						client.release();						
+						client.release();
 						if(result.rowCount == 1)					
 							return res.json({ success: true });
 						else
 							return res.json({ success: false });
+						console.log("already res.json");
 					})
 					.catch(e => {
 						client.release();
