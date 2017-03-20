@@ -1,17 +1,14 @@
 import express from 'express';
-import pg from 'pg';
 import config from './../../config';
 
 const router = express.Router();
 
 router
 	.get('/', function (req, res) {
-		pg.connect(config.connStr, function(err, client, done) {		
-			if (err) throw err;
-
-			client.query('SELECT * FROM users WHERE id=$1', [req.decoded.id], function(err, result) {	
-				done();
-				if (err) throw err;
+		req.pool.connect().then(client => {	
+			client.query('SELECT * FROM users WHERE id=$1', [req.decoded.id])
+			.then(result => {	
+				client.release();
 						
 				if(result.rowCount == 1){					
 					return res.json({
@@ -21,6 +18,10 @@ router
 					});
 				}else
 					return res.json({ success: false });
+			})
+			.catch(e => {
+				client.release();
+				throw e;
 			});
 		});
 	});

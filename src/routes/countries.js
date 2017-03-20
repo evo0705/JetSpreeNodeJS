@@ -1,6 +1,5 @@
 import express from 'express';
 import schemas from '../schemas';
-import pg from 'pg';
 const router = express.Router();
 
 router
@@ -16,18 +15,15 @@ router
 	
 	/* GET list of Countries from Postgres */
 	.get('/pg', function (req, res) {
-		let client = new pg.Client(process.env.DATABASE_URL || 'postgres://postgres:P%40ssword@localhost:5432/jetspree');
-		client.connect(function (err) {
-			if (err) throw err;
-
-			client.query('SELECT * FROM public.countries', [], function (err, result) {
-				if (err) throw err;
-				
+		req.pool.connect().then(client => {
+			client.query('SELECT * FROM public.countries', [])
+			.then(result => {
+				client.release();				
 				res.json(result.rows);
-				
-				client.end(function (err) {
-					if (err) throw err;
-				});
+			})
+			.catch(e => {
+				client.release();
+				throw e;
 			});
 		});
 	})	

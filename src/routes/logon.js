@@ -1,5 +1,4 @@
 import express from 'express';
-import pg from 'pg';
 import config from './../config';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
@@ -20,16 +19,18 @@ router
 			if(req.body.password.length<6)
 				return res.json({ success: false, message: "Password too short." });
 		
-			pg.connect(config.connStr, function(err, client, done) {		
-				if (err) throw err;
+			req.pool.connect().then(client => {
 				
 				// check if username already exists
-				client.query('SELECT username FROM users WHERE username=$1', [req.body.username], function(err, result) {	
-					done();
-					if (err) throw err;
-						
+				client.query('SELECT username FROM users WHERE username=$1', [req.body.username])
+				.then(result => {	
+					client.release();						
 					if(result.rowCount >= 1) 
 						return res.json({ success: false, message: "This username has already been taken." });
+				})
+				.catch(e => {
+					client.release();
+					throw e;
 				});
 
 				// encrypt password
@@ -37,14 +38,17 @@ router
 				.then(function(hash) {
 				
 					// create new user record
-					client.query('INSERT INTO users(username, password) VALUES($1, $2)', [req.body.username, hash], function(err, result) {	
-						done();
-						if (err) throw err;
-						
+					client.query('INSERT INTO users(username, password) VALUES($1, $2)', [req.body.username, hash])
+					.then(result => {
+						client.release();						
 						if(result.rowCount == 1)					
 							return res.json({ success: true });
 						else
 							return res.json({ success: false });
+					})
+					.catch(e => {
+						client.release();
+						throw e;
 					});
 				})
 				.catch(function(err){
@@ -55,13 +59,12 @@ router
 	})
 	
 	.post('/authenticate', function (req, res) {
-		pg.connect(config.connStr, function(err, client, done) {		
-			if (err) throw err;
+		req.pool.connect().then(client => {
 			
 			// find the user
-			client.query('SELECT * FROM users WHERE username=$1 LIMIT 1', [req.body.username], function(err, result) {			
-				done();
-				if (err) throw err;
+			client.query('SELECT * FROM users WHERE username=$1 LIMIT 1', [req.body.username])
+			.then(result => {
+				client.release();
 				
 				// user not found
 				if(result.rows.length < 1) {
@@ -92,6 +95,10 @@ router
 						
 					});
 				}
+			})
+			.catch(e => {
+				client.release();
+				throw e;
 			});
 		});
 		

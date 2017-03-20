@@ -1,5 +1,7 @@
 ﻿import config from './config';
 import express from 'express';
+import url from 'url';
+import pgPool from 'pg-pool';
 import expressValidator from 'express-validator';
 import path from 'path';
 import favicon from 'serve-favicon';
@@ -21,6 +23,7 @@ import user from './routes/private/user';
 const app = express();
 const db = monk('admin:P%40ssword123@cluster0-shard-00-00-ajvux.mongodb.net:27017,cluster0-shard-00-01-ajvux.mongodb.net:27017,cluster0-shard-00-02-ajvux.mongodb.net:27017/jetspree?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin');
 
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -38,6 +41,17 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use((req, res, next) => {
 	req.db = db;
+	let parsedConnStr = url.parse(config.connStr);
+	let dbAuth = parsedConnStr.auth.split(':');
+	let dbConfig = {
+		user: dbAuth[0],
+		password: dbAuth[1],
+		host: parsedConnStr.hostname,
+		port: parsedConnStr.port,
+		database: parsedConnStr.pathname.split('/')[1],
+		ssl: req.secure
+	};
+	req.pool = new pgPool(dbConfig);
 	res.header("Access-Control-Allow-Origin", "*");
 	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	next();
