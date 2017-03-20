@@ -17,7 +17,7 @@ import categories from './routes/categories';
 import trips from './routes/trips';
 import twitter from './routes/twitter';
 import logon from './routes/logon';
-import authenticate from './routes/private/authenticate';
+import authorize from './routes/private/authorize';
 import user from './routes/private/user';
 
 const app = express();
@@ -65,8 +65,8 @@ app.use('/trips', trips);
 app.use('/twitter', twitter);
 app.use('/logon', logon);
 
-authenticate.use('/user', user);
-app.use('/auth', authenticate);
+authorize.use('/user', user);
+app.use('/auth', authorize);
 
 
 // catch 404 and forward to error handler
