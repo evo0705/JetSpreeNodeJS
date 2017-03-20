@@ -1,4 +1,5 @@
-﻿import express from 'express';
+﻿import config from './config';
+import express from 'express';
 import expressValidator from 'express-validator';
 import path from 'path';
 import favicon from 'serve-favicon';
@@ -13,6 +14,9 @@ import countries from './routes/countries';
 import categories from './routes/categories';
 import trips from './routes/trips';
 import twitter from './routes/twitter';
+import logon from './routes/logon';
+import authenticate from './routes/private/authenticate';
+import user from './routes/private/user';
 
 const app = express();
 const db = monk('admin:P%40ssword123@cluster0-shard-00-00-ajvux.mongodb.net:27017,cluster0-shard-00-01-ajvux.mongodb.net:27017,cluster0-shard-00-02-ajvux.mongodb.net:27017/jetspree?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin');
@@ -45,6 +49,11 @@ app.use('/countries', countries);
 app.use('/categories', categories);
 app.use('/trips', trips);
 app.use('/twitter', twitter);
+app.use('/logon', logon);
+
+authenticate.use('/user', user);
+app.use('/auth', authenticate);
+
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

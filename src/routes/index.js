@@ -19,7 +19,20 @@ router.get('/', function (req, res) {
 				] 
 			},
 			{ name: "GET: Countries (PostgreSQL)", url: "/countries/pg", desc: "list of countries" },
-			{ name: "GET: Search tweets", url: "/twitter/user/nodejs", desc: "filtered JSON of tweets from twitter api" }
+			{ name: "GET: Search tweets", url: "/twitter/user/nodejs", desc: "filtered JSON of tweets from twitter api" },
+			{ name: "POST: Signup (PostgreSQL)", url: "/logon/signup", desc: "register a new account", 
+				params:[ 
+					{ name: "username", desc: "-" },
+					{ name: "password", desc: "-" }
+				]  
+			},
+			{ name: "POST: Login (PostgreSQL)", url: "/logon/authenticate", desc: "account login", 
+				params:[ 
+					{ name: "username", desc: "-" },
+					{ name: "password", desc: "-" }
+				]  
+			},
+			{ name: "GET: User (PostgreSQL)", url: "/auth/user", desc: "got logged in user's info" }
 		]
 	});
 });
