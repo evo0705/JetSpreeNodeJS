@@ -13,14 +13,24 @@ router
 	
 		if(req.body.username == undefined || req.body.password == undefined
 			|| req.body.username == '' || req.body.password == ''){	
-			res.json({ success: false, message: "Username and Password are required." });
+			return res.json({ success: false, message: "Username and Password are required." });
 		} else {
 			
-			//TODO: check if username already exists
-			//TODO: check password strength
+			// check password mininum length
+			if(req.body.password.length<6)
+				return res.json({ success: false, message: "Password too short." });
 		
 			pg.connect(config.connStr, function(err, client, done) {		
 				if (err) throw err;
+				
+				// check if username already exists
+				client.query('SELECT username FROM users WHERE username=$1', [req.body.username], function(err, result) {	
+					done();
+					if (err) throw err;
+						
+					if(result.rowCount >= 1) 
+						return res.json({ success: false, message: "This username has already been taken." });
+				});
 
 				// encrypt password
 				bcrypt.hash(req.body.password, saltRounds)
@@ -32,9 +42,9 @@ router
 						if (err) throw err;
 						
 						if(result.rowCount == 1)					
-							res.json({ success: true });
+							return res.json({ success: true });
 						else
-							res.json({ success: false });
+							return res.json({ success: false });
 					});
 				})
 				.catch(function(err){
@@ -55,7 +65,7 @@ router
 				
 				// user not found
 				if(result.rows.length < 1) {
-					res.json({ success: false, message: 'Authentication failed.' });
+					return res.json({ success: false, message: 'Authentication failed.' });
 				} else {
 					var user = result.rows[0];
 					
@@ -64,7 +74,7 @@ router
 					
 						// wrong password
 						if (!match) {
-							res.json({ success: false, message: 'Authentication failed.' });
+							return res.json({ success: false, message: 'Authentication failed.' });
 						} else {	
 						
 							// create a token
@@ -73,7 +83,7 @@ router
 							});
 							
 							// return the token information
-							res.json({
+							return res.json({
 								success: true,
 								token: token,
 								expiresIn: config.tokenDuration

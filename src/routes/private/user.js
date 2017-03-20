@@ -14,13 +14,13 @@ router
 				if (err) throw err;
 						
 				if(result.rowCount == 1){					
-					res.json({
+					return res.json({
 						id: result.rows[0].id,
 						username: result.rows[0].username,
 						admin: result.rows[0].admin
 					});
 				}else
-					res.json({ success: false });
+					return res.json({ success: false });
 			});
 		});
 	});
