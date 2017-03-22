@@ -7,7 +7,8 @@ block content
 	br
 	each api, index in apis
 		- params = api.params
-		p #[strong #{(index+1) + ". " + api.name}] #[a(href="#{api.url}") #{api.url}]
+		p #[strong #{(index+1) + ". " + api.name}] 
+			a(href=api.url) #{api.url}
 			|#[br] #[span #{api.desc}]
 			if params != undefined
 				|#[br] #[u Params:] #[br] 

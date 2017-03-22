@@ -1,27 +1,27 @@
 ﻿const trip = {
-	'uid' : {
-		notEmpty : true,
-		errorMessage : 'Invalid uid'
+	'uid': {
+		notEmpty: true,
+		errorMessage: 'Invalid uid'
 	},
-	'destinationCountry' : {
-		notEmpty : true,
-		errorMessage : 'Invalid destinationCountry'
+	'destinationCountry': {
+		notEmpty: true,
+		errorMessage: 'Invalid destinationCountry'
 	},
-	'returnCountry' : {
-		notEmpty : true,
-		errorMessage : 'Invalid returnCountry'
+	'returnCountry': {
+		notEmpty: true,
+		errorMessage: 'Invalid returnCountry'
 	},
-	'returnDate' : {
-		notEmpty : true,
-		errorMessage : 'Invalid returnDate'
+	'returnDate': {
+		notEmpty: true,
+		errorMessage: 'Invalid returnDate'
 	},
-	'datetime' : {
-		notEmpty : true,
-		errorMessage : 'Invalid datetime'
+	'datetime': {
+		notEmpty: true,
+		errorMessage: 'Invalid datetime'
 	},
-	'lastModified' : {
-		notEmpty : true,
-		errorMessage : 'Invalid datetime'
+	'lastModified': {
+		notEmpty: true,
+		errorMessage: 'Invalid datetime'
 	}
 };
 

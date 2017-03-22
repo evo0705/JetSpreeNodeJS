@@ -1,5 +1,4 @@
 import express from 'express';
-import config from './../../config';
 
 const router = express.Router();
 
@@ -13,7 +12,7 @@ router
 				if(result.rowCount == 1){					
 					return res.json({
 						id: result.rows[0].id,
-						username: result.rows[0].username,
+						email: result.rows[0].email,
 						admin: result.rows[0].admin
 					});
 				}else

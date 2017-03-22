@@ -1,0 +1,17 @@
+﻿extends layout
+
+block content
+	h1= title
+	small="ver"+version
+	br
+	br
+	each api, index in apis
+		- params = api.params
+		p #[strong #{(index+1) + ". " + api.name}] 
+			a(href=api.url) #{api.url}
+			|#[br] #[span #{api.desc}]
+			if params != undefined
+				|#[br] #[u Params:] #[br] 
+				each param, index2 in params
+					span= (index2+1) + ". " + param.name + ": " + param.desc
+					|#[br]
