@@ -34,10 +34,7 @@ module.exports = function (passport, pool) {
                                 [profile.emails[0].value, null, profile.id]);
                         }
                         user = result.rows[0];
-                    } catch (err) {
-                        console.error(err.message, e.stack);
-                        return done(err);
-                    } finally {
+                    }finally {
                         client.release();
                     }
                     return done(null, user);
@@ -70,9 +67,6 @@ module.exports = function (passport, pool) {
                                 [profile.emails[0].value, null, profile.id]);
                         }
                         user = result.rows[0];
-                    } catch (err) {
-                        console.error(err.message, e.stack);
-                        return done(err);
                     } finally {
                         client.release();
                     }
