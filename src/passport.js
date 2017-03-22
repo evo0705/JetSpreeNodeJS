@@ -29,7 +29,7 @@ module.exports = function (passport, pool) {
                         let result = await client.query('SELECT id,email FROM users WHERE facebook_id=$1', [profile.id]);
                         if (result.rows.length == 0) {
                             result = await client.query('INSERT INTO users (email, password, facebook_id) VALUES($1,$2,$3) RETURNING id,email',
-                                [profile.emails[0].value, "123456", profile.id]);
+                                [profile.emails[0].value, null, profile.id]);
                         }
                         user = result.rows[0];
                     } finally {

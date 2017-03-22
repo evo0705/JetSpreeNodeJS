@@ -62,12 +62,14 @@ router
 		req.pool.connect().then(client => {
 
 			// find the user
-			client.query('SELECT id,email FROM users WHERE email=$1 LIMIT 1', [req.body.email])
+			client.query('SELECT * FROM users WHERE email=$1 LIMIT 1', [req.body.email])
 				.then(result => {
 					client.release();
 
 					// user not found
 					if (result.rows.length < 1) {
+						return res.json({ success: false, message: 'Authentication failed.' });
+					} else if (result.rows[0].password == null) {
 						return res.json({ success: false, message: 'Authentication failed.' });
 					} else {
 						var user = result.rows[0];
@@ -81,9 +83,12 @@ router
 								} else {
 
 									// create a token
-									var token = jwt.sign(user, config.secret, {
-										expiresIn: config.token_duration
-									});
+									var token = jwt.sign({
+										id: user.id,
+										email: user.email
+									}, config.secret, {
+											expiresIn: config.token_duration
+										});
 
 									// return the token information
 									return res.json({
