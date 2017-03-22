@@ -11,8 +11,8 @@ import favicon from 'serve-favicon';
 import logger from 'morgan';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
-import mongo from 'mongodb';
-import monk from 'monk';
+//import mongo from 'mongodb';
+//import monk from 'monk';
 import passport from 'passport';
 import passportSetup from './passport';
 import flash from 'connect-flash';
@@ -31,7 +31,7 @@ import user from './routes/private/user';
 
 const app = express();
 app.use(helmet());
-const db = monk('admin:P%40ssword123@cluster0-shard-00-00-ajvux.mongodb.net:27017,cluster0-shard-00-01-ajvux.mongodb.net:27017,cluster0-shard-00-02-ajvux.mongodb.net:27017/jetspree?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin');
+//const db = monk('admin:P%40ssword123@cluster0-shard-00-00-ajvux.mongodb.net:27017,cluster0-shard-00-01-ajvux.mongodb.net:27017,cluster0-shard-00-02-ajvux.mongodb.net:27017/jetspree?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -49,7 +49,7 @@ app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use((req, res, next) => {
-	req.db = db;
+	//req.db = db;
 	let parsedConnStr = url.parse(config.connection_string);
 	let dbAuth = parsedConnStr.auth.split(':');
 	let dbConfig = {
@@ -69,18 +69,26 @@ app.use((req, res, next) => {
 
 // required for passport
 app.use(expressSession({
-    secret: config.secret,
-    resave: true,
-    saveUninitialized: true
+	secret: config.secret,
+	resave: true,
+	saveUninitialized: true
 }));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 
 //Facebook Passport Router
-app.get('/login/facebook', passport.authenticate('facebook'));
+app.get('/login/facebook', passport.authenticate('facebook', { scope: 'email' }));
 app.get('/login/facebook/callback',
 	passport.authenticate('facebook', {
+		successRedirect: '/login/authenticated',
+		failureRedirect: '/login'
+	}));
+
+//Google Passport Router
+app.get('/login/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+app.get('/login/google/callback',
+	passport.authenticate('google', {
 		successRedirect: '/login/authenticated',
 		failureRedirect: '/login'
 	}));

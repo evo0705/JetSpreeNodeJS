@@ -46,7 +46,7 @@ router
 						client.query('INSERT INTO users(email, password) VALUES($1, $2) RETURNING id,email', [req.body.email, hash])
 							.then(result => {
 								client.release();
-								if (result.rowCount == 1){
+								if (result.rowCount == 1) {
 									// create a token
 									var token = jwt.sign({
 										id: result.rows[0].id,

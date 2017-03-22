@@ -4,19 +4,19 @@ const router = express.Router();
 
 router
 	/* GET list of Countries */
-	.get('/', function (req, res) {
-		let db = req.db;
-		let collection = db.get('countries');
+	// .get('/', function (req, res) {
+	// 	let db = req.db;
+	// 	let collection = db.get('countries');
 
-		collection.find({}, {}, function (e, docs) {
-			res.json(docs);
-		});
-	})
+	// 	collection.find({}, {}, function (e, docs) {
+	// 		res.json(docs);
+	// 	});
+	// })
 
 	/* GET list of Countries from Postgres */
-	.get('/pg', function (req, res) {
+	.get('/', function (req, res) {
 		req.pool.connect().then(client => {
-			client.query('SELECT * FROM public.countries', [])
+			client.query('SELECT * FROM countries', [])
 				.then(result => {
 					client.release();
 					res.json(result.rows);
