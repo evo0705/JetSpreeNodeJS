@@ -77,7 +77,7 @@ router
 		}
 	})
 
-	.post('/authenticate', function (req, res) {
+	.post('/account', function (req, res) {
 		req.pool.connect().then(client => {
 
 			// find the user

@@ -29,7 +29,7 @@ router.get('/', function (req, res) {
 				]
 			},
 			{
-				name: "POST: Login", url: "/login/authenticate", desc: "login to jetspree account",
+				name: "POST: Login", url: "/login/account", desc: "login to jetspree account",
 				params: [
 					{ name: "email", desc: "-" },
 					{ name: "password", desc: "-" }
