@@ -3,6 +3,7 @@ import config from './config';
 import express from 'express';
 import expressSession from 'express-session';
 import expressValidator from 'express-validator';
+import helmet from 'helmet';
 import pgPool from 'pg-pool';
 import url from 'url';
 import path from 'path';
@@ -29,6 +30,7 @@ import authorize from './routes/private/authorize';
 import user from './routes/private/user';
 
 const app = express();
+app.use(helmet());
 const db = monk('admin:P%40ssword123@cluster0-shard-00-00-ajvux.mongodb.net:27017,cluster0-shard-00-01-ajvux.mongodb.net:27017,cluster0-shard-00-02-ajvux.mongodb.net:27017/jetspree?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin');
 
 // view engine setup
