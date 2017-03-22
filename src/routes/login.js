@@ -2,6 +2,8 @@ import express from 'express';
 import config from './../config';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import validator from 'validator';
+
 const saltRounds = 10;
 
 const router = express.Router();
@@ -14,6 +16,10 @@ router
 			|| req.body.email == '' || req.body.password == '') {
 			return res.json({ success: false, message: "Email and Password are required." });
 		} else {
+
+			// check if email is valid
+			if (!validator.isEmail(req.body.email))
+				return res.json({ success: false, message: "Invalid email address." });
 
 			// check password mininum length
 			if (req.body.password.length < 6)
@@ -37,12 +43,25 @@ router
 					.then(function (hash) {
 
 						// create new user record
-						client.query('INSERT INTO users(email, password) VALUES($1, $2)', [req.body.email, hash])
+						client.query('INSERT INTO users(email, password) VALUES($1, $2) RETURNING id,email', [req.body.email, hash])
 							.then(result => {
 								client.release();
-								if (result.rowCount == 1)
-									return res.json({ success: true });
-								else
+								if (result.rowCount == 1){
+									// create a token
+									var token = jwt.sign({
+										id: result.rows[0].id,
+										email: result.rows[0].email
+									}, config.secret, {
+											expiresIn: config.token_duration
+										});
+
+									// return the token information
+									return res.json({
+										success: true,
+										token: token,
+										expiresIn: config.token_duration
+									});
+								} else
 									return res.json({ success: false });
 								console.log("already res.json");
 							})

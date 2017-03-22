@@ -24,14 +24,14 @@ router.get('/', function (req, res) {
 			{
 				name: "POST: Signup (PostgreSQL)", url: "/login/signup", desc: "register a new account",
 				params: [
-					{ name: "username", desc: "-" },
+					{ name: "email", desc: "-" },
 					{ name: "password", desc: "-" }
 				]
 			},
 			{
 				name: "POST: Login (PostgreSQL)", url: "/login/authenticate", desc: "login to jetspree account",
 				params: [
-					{ name: "username", desc: "-" },
+					{ name: "email", desc: "-" },
 					{ name: "password", desc: "-" }
 				]
 			},
