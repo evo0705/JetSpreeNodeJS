@@ -1,4 +1,5 @@
 ﻿// libraries
+import 'babel-polyfill';
 import config from './config';
 import express from 'express';
 import expressSession from 'express-session';

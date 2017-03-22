@@ -48,7 +48,8 @@
     "passport": "~0.3.2",
     "passport-facebook": "~2.1.1",
     "passport-google-oauth": "~1.0.0",
-    "connect-flash": "~0.1.1"
+    "connect-flash": "~0.1.1",
+    "babel-polyfill": "~6.23.0"
   },
   "engines": {
     "node": "6.2.0"
