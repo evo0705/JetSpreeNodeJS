@@ -17,10 +17,9 @@ module.exports = function (passport, pool) {
         clientID: config.facebook_app_id,
         clientSecret: config.facebook_app_secret,
         callbackURL: config.facebook_callback_url,
-        profileFields: ['id', 'displayName', 'photos', 'email'],
-        passReqToCallback: true
+        profileFields: ['id', 'displayName', 'photos', 'email']
     },
-        function (req, token, refreshToken, profile, done) {
+        function (token, refreshToken, profile, done) {
             process.nextTick(function () {
                 //Check whether the User exists or not using profile.id
                 (async () => {
@@ -50,10 +49,9 @@ module.exports = function (passport, pool) {
     passport.use(new GoogleStrategy({
         clientID: config.google_client_id,
         clientSecret: config.google_client_secret,
-        callbackURL: config.google_callback_url,
-        passReqToCallback: true
+        callbackURL: config.google_callback_url
     },
-        function (req, token, refreshToken, profile, done) {
+        function (token, refreshToken, profile, done) {
             process.nextTick(function () {
                 //Check whether the User exists or not using profile.id
                 (async () => {
