@@ -24,7 +24,8 @@ import login from './routes/login';
 import requests from './routes/requests';
 // private routes
 import authorize from './routes/private/authorize';
-import user from './routes/private/user';
+import authUser from './routes/private/user';
+import authRequests from './routes/private/requests';
 
 const app = express();
 app.use(helmet());
@@ -95,7 +96,8 @@ app.use('/login', login);
 app.use('/requests', requests);
 
 // routes that requires login to access
-authorize.use('/user', user);
+authorize.use('/user', authUser);
+authorize.use('/requests', authRequests);
 app.use('/auth', authorize);
 
 // catch 404 and forward to error handler

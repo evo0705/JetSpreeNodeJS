@@ -21,6 +21,7 @@ router.get('/', function (req, res) {
 			// },
 			{ name: "GET: Search tweets", url: "/twitter/user/nodejs", desc: "filtered JSON of tweets from twitter api" },
 			{ name: "GET: Countries", url: "/countries", desc: "list of countries" },
+			{ name: "GET: Requests", url: "/requests", desc: "get list of request" },
 			{
 				name: "POST: Signup", url: "/login/signup", desc: "register a new account",
 				params: [
@@ -39,14 +40,13 @@ router.get('/', function (req, res) {
 			{ name: "GET: Login with Google", url: "/login/google", desc: "login to jetspree via google" },
 			{ name: "GET: User (x-access-token)", url: "/auth/user", desc: "get logged in user's info, require x-access-token header" },
 			{
-				name: "POST: Requests (PostgreSQL)", url: "/requests", desc: "create a new request",
+				name: "POST: Requests (x-access-token)", url: "/auth/requests", desc: "create a new request",
 				params: [
 					{ name: "name", desc: "-"},
 					{ name: "price", desc: "-"},
 					{ name: "description", desc: "-"}
 				]
-			},
-			{ name: "GET: Requests (PostgreSQL)", url: "/requests", desc: "get list of request" }
+			}
 		]
 	});
 });
