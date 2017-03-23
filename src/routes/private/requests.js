@@ -4,6 +4,7 @@ const router = express.Router();
 
 router
 
+    // Post a request
     .post('/', function (req, res) {
 
 		req.checkBody(schemas.request);
