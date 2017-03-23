@@ -1,15 +1,17 @@
-﻿import express from 'express';
+import express from 'express';
 import schemas from '../schemas';
-const router = express.Router();
+
+const router = express;
 
 router
-
-    // PostgresSQL Post and Get method
     .get('/', function (req, res) {
         req.pool.connect().then(client => {
-            client.query('SELECT * FROM items')
+            client.query('SELECT * FROM trips')
                 .then(result => {
-                    return res.json({ success: true, result: result.rows });
+                    return res.json({
+                        success: true,
+                        result: result.rows
+                    });
                     client.release();
                 })
                 .catch(error => {
@@ -18,26 +20,29 @@ router
                     return res.json({
                         success: false,
                         message: error
-                    });
+                    })
                 })
         })
     })
+    
+    .post('/', function (req,res) {
 
-    .post('/', function (req, res) {
+        req.checkBody(schemas.trip);
+        let errors = req.validationErrors();
 
-		req.checkBody(schemas.request);
-		let errors = req.validationErrors();
-
-		if (errors) {
+        if (errors) {
 			return res.json({ success: false, errors: errors });
 		}
 
         req.pool.connect().then(client => {
-            client.query('INSERT INTO items (name, price, description) VALUES ($1, $2, $3) RETURNING id, name, price, description',
-                [req.body.name, req.body.price, req.body.description])
+            client.query('INSERT INTO trips (travelcountrycode, returncountrycode, traveldate, returndate) VALUES ($1, $2, $3, $4) RETURNING id, travelcountrycode, returncountrycode, traveldate, returndate',
+                [req.body.travelcountrycode, req.body.returncountrycode, req.body.traveldate, req.body.returndate])
                 .then(result => {
                     client.release();
-                    return res.json({ success: true, result: result.rows[0] });
+                    return res.json({
+                        success: true,
+                        result: result.rows[0]
+                    })
                 })
                 .catch(error => {
                     client.release();
@@ -45,9 +50,9 @@ router
                     return res.json({
                         success: false,
                         message: error
-                    });
+                    })
                 })
         })
     });
-
+    
 module.exports = router;
