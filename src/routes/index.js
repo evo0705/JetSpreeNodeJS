@@ -37,7 +37,17 @@ router.get('/', function (req, res) {
 			},
 			{ name: "GET: Login with Facebook", url: "/login/facebook", desc: "login to jetspree via facebook" },
 			{ name: "GET: Login with Google", url: "/login/google", desc: "login to jetspree via google" },
-			{ name: "GET: User (x-access-token)", url: "/auth/user", desc: "get logged in user's info, require x-access-token header" }
+			{ name: "GET: User (x-access-token)", url: "/auth/user", desc: "get logged in user's info, require x-access-token header" },
+			{ name: "GET: User (PostgreSQL)", url: "/auth/user", desc: "get logged in user's info, require x-access-token header" },
+			{
+				name: "POST: Requests (PostgreSQL)", url: "/requests/post", desc: "create a new request",
+				params: [
+					{ name: "name", desc: "-"},
+					{ name: "price", desc: "-"},
+					{ name: "description", desc: "-"}
+				]
+			},
+			{ name: "GET: Requests (PostgreSQL)", url: "/requests/post", desc: "get list of request" }
 		]
 	});
 });
