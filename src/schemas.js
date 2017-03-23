@@ -1,9 +1,7 @@
-﻿import request from './schemas/request';
-import trip from './schemas/trip';
+﻿import signup from './schemas/signup';
 
 const schemas = {
-    request: request,
-    trip: trip
+    signup: signup
 };
 
 module.exports = schemas;

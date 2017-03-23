@@ -2,7 +2,7 @@ import express from 'express';
 import config from './../config';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import validator from 'validator';
+import schemas from '../schemas';
 
 const saltRounds = 10;
 
@@ -12,69 +12,62 @@ router
 
 	.post('/signup', function (req, res) {
 
-		if (req.body.email == undefined || req.body.password == undefined
-			|| req.body.email == '' || req.body.password == '') {
-			return res.json({ success: false, message: "Email and Password are required." });
-		} else {
+		req.checkBody(schemas.signup);
+		let errors = req.validationErrors();
 
-			// check if email is valid
-			if (!validator.isEmail(req.body.email))
-				return res.json({ success: false, message: "Invalid email address." });
+		if (errors) {
+			return res.json({ success: false, errors: errors });
+		}
 
-			// check password mininum length
-			if (req.body.password.length < 6)
-				return res.json({ success: false, message: "Password too short." });
+		req.pool.connect().then(client => {
 
-			req.pool.connect().then(client => {
+			// check if email already exists
+			client.query('SELECT email FROM users WHERE email=$1', [req.body.email])
+				.then(result => {
+					if (result.rowCount >= 1)
+						return res.json({ success: false, message: "This email has already been taken." });
+				})
+				.catch(e => {
+					client.release();
+					throw e;
+				});
 
-				// check if email already exists
-				client.query('SELECT email FROM users WHERE email=$1', [req.body.email])
-					.then(result => {
-						if (result.rowCount >= 1)
-							return res.json({ success: false, message: "This email has already been taken." });
-					})
-					.catch(e => {
-						client.release();
-						throw e;
-					});
+			// encrypt password
+			bcrypt.hash(req.body.password, saltRounds)
+				.then(function (hash) {
 
-				// encrypt password
-				bcrypt.hash(req.body.password, saltRounds)
-					.then(function (hash) {
-
-						// create new user record
-						client.query('INSERT INTO users(email, password) VALUES($1, $2) RETURNING id,email', [req.body.email, hash])
-							.then(result => {
-								client.release();
-								if (result.rowCount == 1) {
-									// create a token
-									var token = jwt.sign({
-										id: result.rows[0].id,
-										email: result.rows[0].email
-									}, config.secret, {
-											expiresIn: config.token_duration
-										});
-
-									// return the token information
-									return res.json({
-										success: true,
-										token: token,
+					// create new user record
+					client.query('INSERT INTO users(email, password) VALUES($1, $2) RETURNING id,email', [req.body.email, hash])
+						.then(result => {
+							client.release();
+							if (result.rowCount == 1) {
+								// create a token
+								var token = jwt.sign({
+									id: result.rows[0].id,
+									email: result.rows[0].email
+								}, config.secret, {
 										expiresIn: config.token_duration
 									});
-								} else
-									return res.json({ success: false });
-								console.log("already res.json");
-							})
-							.catch(e => {
-								client.release();
-								throw e;
-							});
-					})
-					.catch(function (err) {
-						throw err;
-					});
-			});
-		}
+
+								// return the token information
+								return res.json({
+									success: true,
+									token: token,
+									expiresIn: config.token_duration
+								});
+							} else
+								return res.json({ success: false });
+						})
+						.catch(e => {
+							client.release();
+							throw e;
+						});
+				})
+				.catch(function (err) {
+					throw err;
+				});
+		});
+
 	})
 
 	.post('/account', function (req, res) {
