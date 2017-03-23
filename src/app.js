@@ -1,4 +1,5 @@
 ﻿// libraries
+import 'babel-polyfill';
 import config from './config';
 import express from 'express';
 import expressSession from 'express-session';
@@ -11,18 +12,13 @@ import favicon from 'serve-favicon';
 import logger from 'morgan';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
-import mongo from 'mongodb';
-import monk from 'monk';
 import passport from 'passport';
 import passportSetup from './passport';
 import flash from 'connect-flash';
 
 import routes from './routes/index';
 // public routes
-import requests from './routes/requests';
 import countries from './routes/countries';
-import categories from './routes/categories';
-import trips from './routes/trips';
 import twitter from './routes/twitter';
 import login from './routes/login';
 // private routes
@@ -31,7 +27,6 @@ import user from './routes/private/user';
 
 const app = express();
 app.use(helmet());
-const db = monk('admin:P%40ssword123@cluster0-shard-00-00-ajvux.mongodb.net:27017,cluster0-shard-00-01-ajvux.mongodb.net:27017,cluster0-shard-00-02-ajvux.mongodb.net:27017/jetspree?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -49,7 +44,6 @@ app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use((req, res, next) => {
-	req.db = db;
 	let parsedConnStr = url.parse(config.connection_string);
 	let dbAuth = parsedConnStr.auth.split(':');
 	let dbConfig = {
@@ -69,27 +63,32 @@ app.use((req, res, next) => {
 
 // required for passport
 app.use(expressSession({
-    secret: config.secret,
-    resave: true,
-    saveUninitialized: true
+	secret: config.secret,
+	resave: true,
+	saveUninitialized: true
 }));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 
 //Facebook Passport Router
-app.get('/login/facebook', passport.authenticate('facebook'));
+app.get('/login/facebook', passport.authenticate('facebook', { scope: 'email' }));
 app.get('/login/facebook/callback',
 	passport.authenticate('facebook', {
 		successRedirect: '/login/authenticated',
 		failureRedirect: '/login'
 	}));
 
+//Google Passport Router
+app.get('/login/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+app.get('/login/google/callback',
+	passport.authenticate('google', {
+		successRedirect: '/login/authenticated',
+		failureRedirect: '/login'
+	}));
+
 app.use('/', routes);
-app.use('/requests', requests);
 app.use('/countries', countries);
-app.use('/categories', categories);
-app.use('/trips', trips);
 app.use('/twitter', twitter);
 app.use('/login', login);
 

@@ -39,15 +39,15 @@
     "debug": "~2.6.3",
     "pug": "~2.0.0-beta11",
     "stylus": "0.54.5",
-    "mongodb": "2.2.25",
-    "monk": "4.0.0",
     "request": "2.81.0",
     "pg": "6.1.5",
     "jsonwebtoken": "7.3.0",
     "bcrypt": "1.0.2",
     "passport": "~0.3.2",
     "passport-facebook": "~2.1.1",
-    "connect-flash": "~0.1.1"
+    "passport-google-oauth": "~1.0.0",
+    "connect-flash": "~0.1.1",
+    "babel-polyfill": "~6.23.0"
   },
   "engines": {
     "node": "6.2.0"
