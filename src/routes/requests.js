@@ -88,7 +88,6 @@ router
         req.pool.connect().then(client => {
             client.query('SELECT * FROM public.items')
             .then(result => {
-                client.release();
                 var jsondata = result.rows.map((d) =>
                     ({
                         id: d.id,
