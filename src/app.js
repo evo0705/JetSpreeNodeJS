@@ -21,6 +21,7 @@ import routes from './routes/index';
 import countries from './routes/countries';
 import twitter from './routes/twitter';
 import login from './routes/login';
+import requests from './routes/requests';
 // private routes
 import authorize from './routes/private/authorize';
 import user from './routes/private/user';
@@ -91,6 +92,7 @@ app.use('/', routes);
 app.use('/countries', countries);
 app.use('/twitter', twitter);
 app.use('/login', login);
+app.use('/requests', requests);
 
 // routes that requires login to access
 authorize.use('/user', user);
