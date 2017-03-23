@@ -83,6 +83,50 @@ router
         }
     })
 
+    // PostgresSQL Post and Get method
+    .get('/post', function (req,res) {
+        req.pool.connect().then(client => {
+            client.query('SELECT * FROM public.items')
+            .then(result => {
+                client.release();
+                var jsondata = result.rows.map((d) =>
+                    ({
+                        id: d.id,
+                        name: d.name,
+                        email: d.price,
+                        description: d.description
+                    })
+                );
+                res.send(jsondata);
+                client.release();
+            })
+            .catch(error => {
+                if (error) throw errro;
+                res.send(error);
+                client.release();
+            })
+        })
+    })
+
+    .post('/post', function (req,res) {
+		req.pool.connect().then(client => {
+			client.query('INSERT INTO public.items (name, price, description) VALUES ($1 , $2, $3) RETURNING id, name, price, description',
+						[req.body.name, req.body.price, req.body.description])
+                        .then(result => {
+                            client.release();
+                            return res.json(result.rows[0]);
+                        })
+                        .catch(error => {
+                            if (error) throw error;
+                            client.release();
+                            return res.json({
+                                success: false,
+                                message: error
+                            });
+                        })
+        })
+	})
+
     /*
 	 * DELETE Only to clear junk records, we shouldn't delete any record in
 	 * Production
