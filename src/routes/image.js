@@ -7,7 +7,6 @@ router
 
     // Get image
     .get('/:key', function (req, res) {
-
         let originalBucket = config.s3_bucket_root;
         let bucket = config.s3_bucket_root;
         if (req.query.width && req.query.height)
