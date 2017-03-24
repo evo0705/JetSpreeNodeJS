@@ -11,5 +11,7 @@ module.exports = {
 	'smtp_provider': 'outlook',
 	'smtp_username': 'jetspree@outlook.com',
 	'smtp_password': 'drowss@P123',
+	'aws_access_key_id': process.env.AWS_ACCESS_KEY_ID || 'AKIAITHJ4ICSBK5ZY77A',
+	'aws_secret_access_key': process.env.AWS_SECRET_ACCESS_KEY || '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',
 	's3_bucket_root': 'jetspree'
 };

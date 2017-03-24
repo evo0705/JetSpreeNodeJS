@@ -60,7 +60,7 @@ app.use((req, res, next) => {
 	};
 	req.pool = new pgPool(dbConfig);
 	passportSetup(passport, req.pool);
-	aws.config.credentials = new aws.Credentials('AKIAITHJ4ICSBK5ZY77A', 'grs7iC2vt90Fs/qwZtl6A/k5lexuqdxEPXH9o5nM');
+	aws.config.credentials = new aws.Credentials(config.aws_access_key_id, config.aws_secret_access_key);
 	req.aws = aws;
 	res.header("Access-Control-Allow-Origin", "*");
 	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
