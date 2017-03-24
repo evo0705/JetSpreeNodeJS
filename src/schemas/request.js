@@ -10,10 +10,10 @@ const schema = {
 			errorMessage: 'Invalid price.'
 		}
 	},
-    'description': {
+  'description': {
 		notEmpty: true,
 		errorMessage: 'Description is required.'
-    }
+  }
 };
 
 module.exports = schema;
