@@ -7,15 +7,23 @@ router
 	/* GET list of Countries */
 	.get('/', function (req, res) {
 		req.pool.connect().then(client => {
-			client.query('SELECT * FROM countries', [])
+			client.query('SELECT * FROM countries')
 				.then(result => {
 					client.release();
-					res.json(result.rows);
+					return res.json({ success: true, result: result.rows });
 				})
-				.catch(e => {
+				.catch(err => {
 					client.release();
-					throw e;
+					throw err;
+					return res.json({ success: false, error: err });
 				});
+		});
+	})
+
+	.get("/img", function (req, res) {
+		let s3 = new req.aws.S3({ params: { Bucket: 'jetspree' } });
+		s3.getObject({ Key: 'dukenukem.jpg' }, function (err, file) {
+			res.sendFile(file);
 		});
 	})
 

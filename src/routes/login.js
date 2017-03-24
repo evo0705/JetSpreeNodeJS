@@ -124,6 +124,7 @@ router
 	//authenticated by passport
 	.get('/authenticated', function (req, res) {
 		if (req.isAuthenticated()) {
+
 			// create a token
 			var token = jwt.sign(req.user, config.secret, {
 				expiresIn: config.token_duration

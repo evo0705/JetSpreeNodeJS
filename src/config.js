@@ -7,5 +7,9 @@ module.exports = {
 	'facebook_callback_url': (process.env.NODE_ENV == 'production' ? 'https://jetspree-node-test.herokuapp.com/login/facebook/callback' : "/login/facebook/callback"),
 	'google_client_id': '1026553286185-hnjobie57kruh6ehrfhgta83bjf3mato.apps.googleusercontent.com',
 	'google_client_secret': '2OrzhkQ1YEqeIZ_Cy9WZqYc2',
-	'google_callback_url': (process.env.NODE_ENV == 'production' ? 'https://jetspree-node-test.herokuapp.com/login/google/callback' : "/login/google/callback")
+	'google_callback_url': (process.env.NODE_ENV == 'production' ? 'https://jetspree-node-test.herokuapp.com/login/google/callback' : "/login/google/callback"),
+	'smtp_provider': 'outlook',
+	'smtp_username': 'jetspree@outlook.com',
+	'smtp_password': 'drowss@P123',
+	's3_bucket_root': 'jetspree'
 };

@@ -15,13 +15,15 @@ import bodyParser from 'body-parser';
 import passport from 'passport';
 import passportSetup from './passport';
 import flash from 'connect-flash';
+import aws from 'aws-sdk';
 
-import routes from './routes/index';
+import index from './routes/index';
 // public routes
 import countries from './routes/countries';
 import twitter from './routes/twitter';
 import login from './routes/login';
 import requests from './routes/requests';
+import image from './routes/image';
 // private routes
 import authorize from './routes/private/authorize';
 import authUser from './routes/private/user';
@@ -58,6 +60,8 @@ app.use((req, res, next) => {
 	};
 	req.pool = new pgPool(dbConfig);
 	passportSetup(passport, req.pool);
+	aws.config.credentials = new aws.Credentials('AKIAITHJ4ICSBK5ZY77A', 'grs7iC2vt90Fs/qwZtl6A/k5lexuqdxEPXH9o5nM');
+	req.aws = aws;
 	res.header("Access-Control-Allow-Origin", "*");
 	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	next();
@@ -89,11 +93,12 @@ app.get('/login/google/callback',
 		failureRedirect: '/login'
 	}));
 
-app.use('/', routes);
+app.use('/', index);
 app.use('/countries', countries);
 app.use('/twitter', twitter);
 app.use('/login', login);
 app.use('/requests', requests);
+app.use('/image', image);
 
 // routes that requires login to access
 authorize.use('/user', authUser);

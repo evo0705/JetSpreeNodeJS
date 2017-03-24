@@ -7,18 +7,6 @@ router.get('/', function (req, res) {
 		title: 'JetSpree API',
 		version: process.env.npm_package_version,
 		apis: [
-			// { name: "GET: Countries (MongoDB)", url: "/countries", desc: "list of countries" },
-			// { name: "GET: Categories (MongoDB)", url: "/categories", desc: "list of categories" },
-			// { name: "GET: Sub-Categories (MongoDB)", url: "/categories/sub", desc: "list of sub-categories" },
-			// {
-			// 	name: "GET: Requests (MongoDB)", url: "/requests", desc: "list of filtered requests",
-			// 	params: [
-			// 		{ name: "name", desc: "filter request name" },
-			// 		{ name: "category", desc: "filter category id" },
-			// 		{ name: "page", desc: "pagination page number" },
-			// 		{ name: "pagesize", desc: "pagination pagesize number" }
-			// 	]
-			// },
 			{ name: "GET: Search tweets", url: "/twitter/user/nodejs", desc: "filtered JSON of tweets from twitter api" },
 			{ name: "GET: Countries", url: "/countries", desc: "list of countries" },
 			{ name: "GET: Requests", url: "/requests", desc: "get list of request" },
@@ -42,9 +30,9 @@ router.get('/', function (req, res) {
 			{
 				name: "POST: Requests (x-access-token)", url: "/auth/requests", desc: "create a new request",
 				params: [
-					{ name: "name", desc: "-"},
-					{ name: "price", desc: "-"},
-					{ name: "description", desc: "-"}
+					{ name: "name", desc: "-" },
+					{ name: "price", desc: "-" },
+					{ name: "description", desc: "-" }
 				]
 			}
 		]

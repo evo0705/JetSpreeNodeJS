@@ -47,7 +47,11 @@
     "passport-facebook": "~2.1.1",
     "passport-google-oauth": "~1.0.0",
     "connect-flash": "~0.1.1",
-    "babel-polyfill": "~6.23.0"
+    "babel-polyfill": "~6.23.0",
+    "nodemailer": "~3.1.8",
+    "nodemailer-smtp-transport": "~2.7.2",
+    "aws-sdk": "~2.31.0",
+    "gm": "~1.23.0"
   },
   "engines": {
     "node": "6.2.0"
