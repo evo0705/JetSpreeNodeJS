@@ -9,7 +9,7 @@ module.exports = {
 	'google_client_secret': process.env.GOOGLE_CLIENT_SECRET,
 	'google_callback_url': (process.env.NODE_ENV == 'production' ? 'https://jetspree-node-test.herokuapp.com/login/google/callback' : "/login/google/callback"),
 	'smtp_provider': 'outlook',
-	'smtp_username': 'jetspree@outlook.com',
+	'smtp_username': process.env.SMTP_USERNAME || 'xxx',
 	'smtp_password': process.env.SMTP_PASSWORD || 'xxx',
 	'aws_access_key_id': process.env.AWS_ACCESS_KEY_ID || 'xxx',
 	'aws_secret_access_key': process.env.AWS_SECRET_ACCESS_KEY || 'xxx',
