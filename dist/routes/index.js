@@ -7,8 +7,8 @@ var router = express.Router();
 router.get('/', function (req, res) {
 	res.render('index', {
 		title: 'JetSpree API',
-		version: process.env.npm_package_version,
-		apis: [{ name: "GET: Search tweets", url: "/twitter/user/nodejs", desc: "filtered JSON of tweets from twitter api" }, { name: "GET: Countries", url: "/countries", desc: "list of countries" }, { name: "GET: Requests", url: "/requests", desc: "get list of request" }, { name: "GET: Requests", url: "/requests", desc: "get list of request" }, { name: "GET: Trips", url: "/trips", desc: "get list of trips" }, { name: "GET: Image", url: "/image/dukenukem.jpg?width=150&height=150", desc: "get image from S3" }, {
+		version: require('../../package.json').version,
+		apis: [{ name: "GET: Search tweets", url: "/twitter/user/nodejs", desc: "filtered JSON of tweets from twitter api" }, { name: "GET: Countries", url: "/countries", desc: "list of countries" }, { name: "GET: Requests", url: "/requests", desc: "get list of request" }, { name: "GET: Trips", url: "/trips", desc: "get list of trips" }, { name: "GET: Image", url: "/image/dukenukem.jpg?width=150&height=150", desc: "get image from S3" }, {
 			name: "POST: Signup", url: "/login/signup", desc: "register a new account",
 			params: [{ name: "email", desc: "-" }, { name: "password", desc: "-" }]
 		}, {
