@@ -9,6 +9,7 @@ router
     .get('/:key', function (req, res) {
         let originalBucket = config.s3_bucket_root;
         let bucket = config.s3_bucket_root;
+
         if (req.query.width && req.query.height)
             bucket += "/" + req.query.width + "_" + req.query.height;
 
@@ -23,12 +24,13 @@ router
                 });
                 return res.end(response.data.Body, 'binary');
             }).on('error', function (error) {
-                // resized image not found, get the original image first
+                // resized image not found, get the original image for resize
                 s3.getObject({ Bucket: originalBucket, Key: req.params.key })
                     .on('success', function (response) {
                         gm(response.data.Body)
                             .resize(req.query.width, req.query.height)
                             .toBuffer(function (err, buffer) {
+                                // upload resized image to S3
                                 var data = {
                                     Bucket: bucket,
                                     Key: req.params.key,
@@ -52,6 +54,7 @@ router
                                 });
                             });
                     }).on('error', function (error) {
+                        console.error(error);
                         let err = new Error('Not Found');
                         err.status = 404;
                         next(err);
