@@ -192,7 +192,7 @@ app.use('/trips', _trips2.default);
 // routes that requires login to access
 _authorize2.default.use('/user', _user2.default);
 _authorize2.default.use('/requests', _requests4.default);
-_authorize2.default.use('/trips', _requests4.default);
+_authorize2.default.use('/trips', _trips4.default);
 app.use('/auth', _authorize2.default);
 
 // catch 404 and forward to error handler

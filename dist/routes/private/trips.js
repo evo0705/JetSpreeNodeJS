@@ -25,7 +25,7 @@ router
     }
 
     req.pool.connect().then(function (client) {
-        client.query('INSERT INTO trips (travel_country_code, return_country_code, travel_date, return_date, user_id) VALUES ($1, $2, $3, $4, $5) RETURNING id, travelcountrycode, returncountrycode, traveldate, returndate', [req.body.travelCountryCode, req.body.returnCountryCode, req.body.travelDate, req.body.returnDate, req.decoded.id]).then(function (result) {
+        client.query('INSERT INTO trips (travel_country_code, return_country_code, travel_date, return_date, user_id) VALUES ($1, $2, $3, $4, $5) RETURNING id, travel_country_code, return_country_code, travel_date, return_date', [req.body.travelCountryCode, req.body.returnCountryCode, req.body.travelDate, req.body.returnDate, req.decoded.id]).then(function (result) {
             client.release();
             return res.json({
                 success: true,
