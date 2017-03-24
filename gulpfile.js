@@ -8,10 +8,11 @@ const clean = require('gulp-clean');
 gulp.task('default', ['watch']);
 
 gulp.task('compile', function () {
-	// Compile babel code
+	// Compile everything
 	return gulp.src('dist', { read: false })
 		.pipe(clean())
 		.on('end', function () {
+
 			gulp.src('./src/**/*.js')
 				.pipe(babel({
 					presets: ['es2015', 'stage-0']
@@ -19,11 +20,13 @@ gulp.task('compile', function () {
 				.pipe(gulp.dest('./dist'))
 				.pipe(livereload())
 				.on('end', function () {
+
 					gulp.src('./src/views/**/*.pug')
 						.pipe(gulp.dest('./dist/views'))
 						.pipe(livereload())
 						.on('end', function () {
-							gulp.src('./src/public/*')
+
+							gulp.src('./src/public/**/*')
 								.pipe(gulp.dest('./dist/public'))
 								.pipe(livereload());
 						});
