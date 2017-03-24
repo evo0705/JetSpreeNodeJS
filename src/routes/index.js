@@ -29,9 +29,8 @@ router.get('/', function (req, res) {
 			{ name: "GET: Login with Facebook", url: "/login/facebook", desc: "login to jetspree via facebook" },
 			{ name: "GET: Login with Google", url: "/login/google", desc: "login to jetspree via google" },
 			{ name: "GET: User (x-access-token)", url: "/auth/user", desc: "get logged in user's info, require x-access-token header" },
-			{ name: "POST: Requests (x-access-token)", url: "/auth/requests", desc: "create a new request" },
 			{
-				name: "POST: Requests", url: "/requests", desc: "create a new request",
+				name: "POST: Requests (x-access-token)", url: "/requests", desc: "create a new request",
 				params: [
 					{ name: "name", desc: "-" },
 					{ name: "price", desc: "-" },
@@ -39,12 +38,12 @@ router.get('/', function (req, res) {
 				]
 			},
 			{
-				name: "POST: Trips", url: "/trips", desc: "create a new trip",
+				name: "POST: Trips (x-access-token)", url: "/trips", desc: "create a new trip",
 				params: [
-					{ name: "travelcountrycode", desc: "-" },
-					{ name: "returncountrycode", desc: "-" },
-					{ name: "traveldate", desc: "-" },
-					{ name: "returndate", desc: "-" }
+					{ name: "travelCountryCode", desc: "-" },
+					{ name: "returnCountryCode", desc: "-" },
+					{ name: "travelDate", desc: "-" },
+					{ name: "returnDate", desc: "-" }
 				]
 			}
 		]

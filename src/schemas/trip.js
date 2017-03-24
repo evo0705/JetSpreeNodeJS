@@ -1,17 +1,17 @@
 const schema = {
-    'travelcountrycode': {
+    'travelCountryCode': {
         notEmpty: true,
 		errorMessage: 'Travel country is required.'
     },
-    'returncountrycode': {
+    'returnCountryCode': {
         notEmpty: true,
 		errorMessage: 'Return country is required.'
     },
-    'traveldate': {
+    'travelDate': {
         notEmpty: true,
 		errorMessage: 'Travel date is required.'
     },
-    'returndate': {
+    'returnDate': {
         notEmpty: true,
 		errorMessage: 'Return date is required.'
     }

@@ -106,14 +106,19 @@ var _requests3 = require('./routes/private/requests');
 
 var _requests4 = _interopRequireDefault(_requests3);
 
+var _trips3 = require('./routes/private/trips');
+
+var _trips4 = _interopRequireDefault(_trips3);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// index routes
-var app = (0, _express2.default)();
 // private routes
 
 // public routes
 // libraries
+var app = (0, _express2.default)();
+
+// index routes
 
 app.use((0, _helmet2.default)());
 
@@ -187,6 +192,7 @@ app.use('/trips', _trips2.default);
 // routes that requires login to access
 _authorize2.default.use('/user', _user2.default);
 _authorize2.default.use('/requests', _requests4.default);
+_authorize2.default.use('/trips', _requests4.default);
 app.use('/auth', _authorize2.default);
 
 // catch 404 and forward to error handler

@@ -30,6 +30,7 @@ import trips from './routes/trips';
 import authorize from './routes/private/authorize';
 import authUser from './routes/private/user';
 import authRequests from './routes/private/requests';
+import authTrips from './routes/private/trips';
 
 const app = express();
 app.use(helmet());
@@ -106,6 +107,7 @@ app.use('/trips', trips);
 // routes that requires login to access
 authorize.use('/user', authUser);
 authorize.use('/requests', authRequests);
+authorize.use('/trips', authRequests);
 app.use('/auth', authorize);
 
 // catch 404 and forward to error handler
