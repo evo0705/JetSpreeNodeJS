@@ -10,6 +10,8 @@ router.get('/', function (req, res) {
 			{ name: "GET: Search tweets", url: "/twitter/user/nodejs", desc: "filtered JSON of tweets from twitter api" },
 			{ name: "GET: Countries", url: "/countries", desc: "list of countries" },
 			{ name: "GET: Requests", url: "/requests", desc: "get list of request" },
+			{ name: "GET: Requests", url: "/requests", desc: "get list of request" },
+			{ name: "GET: Trips", url: "/trips", desc: "get list of trips" },
 			{ name: "GET: Image", url: "/image/dukenukem.jpg?width=150&height=150", desc: "get image from S3" },
 			{
 				name: "POST: Signup", url: "/login/signup", desc: "register a new account",
@@ -28,12 +30,22 @@ router.get('/', function (req, res) {
 			{ name: "GET: Login with Facebook", url: "/login/facebook", desc: "login to jetspree via facebook" },
 			{ name: "GET: Login with Google", url: "/login/google", desc: "login to jetspree via google" },
 			{ name: "GET: User (x-access-token)", url: "/auth/user", desc: "get logged in user's info, require x-access-token header" },
+			{ name: "POST: Requests (x-access-token)", url: "/auth/requests", desc: "create a new request" },
 			{
-				name: "POST: Requests (x-access-token)", url: "/auth/requests", desc: "create a new request",
+				name: "POST: Requests", url: "/requests", desc: "create a new request",
 				params: [
 					{ name: "name", desc: "-" },
 					{ name: "price", desc: "-" },
 					{ name: "description", desc: "-" }
+				]
+			},
+			{
+				name: "POST: Trips", url: "/trips", desc: "create a new trip",
+				params: [
+					{ name: "travelcountrycode", desc: "-" },
+					{ name: "returncountrycode", desc: "-" },
+					{ name: "traveldate", desc: "-" },
+					{ name: "returndate", desc: "-" }
 				]
 			}
 		]

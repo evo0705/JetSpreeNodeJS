@@ -1,22 +1,20 @@
-'use strict';
-
-var schema = {
+const schema = {
     'travelcountrycode': {
         notEmpty: true,
-        errorMessage: 'Travel country is required.'
+		errorMessage: 'Travel country is required.'
     },
     'returncountrycode': {
         notEmpty: true,
-        errorMessage: 'Return country is required.'
+		errorMessage: 'Return country is required.'
     },
     'traveldate': {
         notEmpty: true,
-        errorMessage: 'Travel date is required.'
+		errorMessage: 'Travel date is required.'
     },
     'returndate': {
         notEmpty: true,
-        errorMessage: 'Return date is required.'
+		errorMessage: 'Return date is required.'
     }
-};
+}
 
 module.exports = schema;

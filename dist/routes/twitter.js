@@ -42,4 +42,3 @@ router.get('/user/:user', function (req, res) {
 });
 
 module.exports = router;
-//# sourceMappingURL=twitter.js.map

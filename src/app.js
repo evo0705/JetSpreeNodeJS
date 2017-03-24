@@ -17,6 +17,7 @@ import passportSetup from './passport';
 import flash from 'connect-flash';
 import aws from 'aws-sdk';
 
+// index routes
 import index from './routes/index';
 // public routes
 import countries from './routes/countries';
@@ -24,6 +25,7 @@ import twitter from './routes/twitter';
 import login from './routes/login';
 import requests from './routes/requests';
 import image from './routes/image';
+import trips from './routes/trips';
 // private routes
 import authorize from './routes/private/authorize';
 import authUser from './routes/private/user';
@@ -99,6 +101,7 @@ app.use('/twitter', twitter);
 app.use('/login', login);
 app.use('/requests', requests);
 app.use('/image', image);
+app.use('/trips', trips);
 
 // routes that requires login to access
 authorize.use('/user', authUser);

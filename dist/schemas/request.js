@@ -1,31 +1,21 @@
 'use strict';
 
-var request = {
-	'uid': {
-		notEmpty: true,
-		errorMessage: 'Invalid uid'
-	},
+var schema = {
 	'name': {
 		notEmpty: true,
-		errorMessage: 'Invalid name'
-	},
-	'category': {
-		notEmpty: true,
-		errorMessage: 'Invalid category'
+		errorMessage: 'Item name is required.'
 	},
 	'price': {
 		notEmpty: true,
-		errorMessage: 'Invalid price'
+		errorMessage: 'Price is required.',
+		isFloat: {
+			errorMessage: 'Invalid price.'
+		}
 	},
-	'datetime': {
+	'description': {
 		notEmpty: true,
-		errorMessage: 'Invalid datetime'
-	},
-	'lastModified': {
-		notEmpty: true,
-		errorMessage: 'Invalid datetime'
+		errorMessage: 'Description is required.'
 	}
 };
 
-module.exports = request;
-//# sourceMappingURL=request.js.map
+module.exports = schema;

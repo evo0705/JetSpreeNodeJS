@@ -13,28 +13,24 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var router = _express2.default.Router();
 
 router
+
 /* GET list of Countries */
 .get('/', function (req, res) {
-	var db = req.db;
-	var collection = db.get('countries');
-
-	collection.find({}, {}, function (e, docs) {
-		res.json(docs);
-	});
-})
-
-/* GET list of Countries from Postgres */
-.get('/pg', function (req, res) {
 	req.pool.connect().then(function (client) {
-		client.query('SELECT * FROM public.countries', []).then(function (result) {
+		client.query('SELECT * FROM countries').then(function (result) {
 			client.release();
-			res.json(result.rows);
-		}).catch(function (e) {
+			return res.json({ success: true, result: result.rows });
+		}).catch(function (err) {
 			client.release();
-			throw e;
+			throw err;
+			return res.json({ success: false, error: err });
 		});
+	});
+}).get("/img", function (req, res) {
+	var s3 = new req.aws.S3({ params: { Bucket: 'jetspree' } });
+	s3.getObject({ Key: 'dukenukem.jpg' }, function (err, file) {
+		res.sendFile(file);
 	});
 });
 
 module.exports = router;
-//# sourceMappingURL=countries.js.map

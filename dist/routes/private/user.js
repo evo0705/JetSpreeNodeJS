@@ -28,4 +28,3 @@ router.get('/', function (req, res) {
 });
 
 module.exports = router;
-//# sourceMappingURL=user.js.map
