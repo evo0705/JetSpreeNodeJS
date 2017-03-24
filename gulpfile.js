@@ -14,9 +14,19 @@ gulp.task('compile', function() {
 			   .pipe(livereload());
 })
 
+gulp.task('templates', function () {
+    // Update Jade template
+    return gulp.src('./src/views/*.jade')
+               .pipe(gulp.dest('./dist/views'))
+               .pipe(livereload());
+})
+
 gulp.task('watch', function() {
 	// livereload for browser
 	livereload.listen();
+
+    // Jade Template
+    gulp.watch('./src/views/*.jade', ['templates']);
 
 	// configure nodemon
 	nodemon({
