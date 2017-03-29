@@ -1,7 +1,10 @@
 import fs from 'fs';
 var localConfig = {};
-if (fs.exists('./localConfig.json'))
+try{
 	localConfig = require('./localConfig.json');
+} catch(e){
+
+}
 
 module.exports = {
 	'secret': 'qcOPpjBuPfFCvHf8dD0O',
