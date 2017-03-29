@@ -1,4 +1,8 @@
-import localConfig from './localConfig.json'
+import fs from 'fs';
+var localConfig = {};
+if (fs.exists('./localConfig.json'))
+	localConfig = require('./localConfig.json');
+
 module.exports = {
 	'secret': 'qcOPpjBuPfFCvHf8dD0O',
 	'connection_string': process.env.DATABASE_URL || 'postgres://postgres:P%40ssword@localhost:5432/jetspree',
