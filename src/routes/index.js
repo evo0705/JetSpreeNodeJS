@@ -34,7 +34,8 @@ router.get('/', function (req, res) {
 				params: [
 					{ name: "name", desc: "-" },
 					{ name: "price", desc: "-" },
-					{ name: "description", desc: "-" }
+					{ name: "description", desc: "-" },
+					{ name: "image", desc: "base64" }
 				]
 			},
 			{

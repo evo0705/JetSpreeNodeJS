@@ -16,6 +16,7 @@ import passport from 'passport';
 import passportSetup from './passport';
 import flash from 'connect-flash';
 import aws from 'aws-sdk';
+import bluebird from 'bluebird';
 
 // index routes
 import index from './routes/index';
@@ -64,6 +65,7 @@ app.use((req, res, next) => {
 	req.pool = new pgPool(dbConfig);
 	passportSetup(passport, req.pool);
 	aws.config.credentials = new aws.Credentials(config.aws_access_key_id, config.aws_secret_access_key);
+	aws.config.setPromisesDependency(bluebird);
 	req.aws = aws;
 	res.header("Access-Control-Allow-Origin", "*");
 	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");

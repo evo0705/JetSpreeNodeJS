@@ -16,7 +16,6 @@ router
         let s3 = new req.aws.S3({ params: { Bucket: bucket } });
         s3.getObject({ Bucket: bucket, Key: req.params.key })
             .on('success', function (response) {
-                console.log("resized image found");
                 // resized image found
                 res.writeHead(200, {
                     'Content-Type': response.data.ContentType,
@@ -24,7 +23,7 @@ router
                 });
                 return res.end(response.data.Body, 'binary');
             }).on('error', function (error) {
-                // resized image not found, get the original image for resize
+                // resized image not found, get the original image to resize
                 s3.getObject({ Bucket: originalBucket, Key: req.params.key })
                     .on('success', function (response) {
                         gm(response.data.Body)
