@@ -244,8 +244,10 @@ ModelManifest.xml
 .fake/
 
 npm-debug.log*
+
 src/localConfig.json
-dist/
+dist/localConfig.json
+.gulp-cache
 
 # intelliJ
 #.idea/*
