@@ -1,12 +1,12 @@
-'use strict';
+"use strict";
 
-var _express = require('express');
+var _express = require("express");
 
 var _express2 = _interopRequireDefault(_express);
 
-var _schemas = require('../schemas');
+var _config = require("../config");
 
-var _schemas2 = _interopRequireDefault(_schemas);
+var _config2 = _interopRequireDefault(_config);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -28,8 +28,12 @@ router
 
     req.pool.connect().then(function (client) {
         client.query('SELECT * FROM items' + queryFrom + ' WHERE 1=1' + queryWhere, queryParams).then(function (result) {
-            return res.json({ success: true, result: result.rows });
             client.release();
+            return res.json({
+                success: true,
+                result: result.rows,
+                image_host: _config2.default.s3_region_url + "/" + _config2.default.s3_bucket_root
+            });
         }).catch(function (error) {
             client.release();
             if (error) throw error;

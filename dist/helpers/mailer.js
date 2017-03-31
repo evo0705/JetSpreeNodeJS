@@ -1,14 +1,14 @@
-'use strict';
+"use strict";
 
-var _config = require('../config');
+var _config = require("../config");
 
 var _config2 = _interopRequireDefault(_config);
 
-var _nodemailer = require('nodemailer');
+var _nodemailer = require("nodemailer");
 
 var _nodemailer2 = _interopRequireDefault(_nodemailer);
 
-var _nodemailerSmtpTransport = require('nodemailer-smtp-transport');
+var _nodemailerSmtpTransport = require("nodemailer-smtp-transport");
 
 var _nodemailerSmtpTransport2 = _interopRequireDefault(_nodemailerSmtpTransport);
 

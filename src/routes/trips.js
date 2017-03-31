@@ -1,5 +1,4 @@
-import express from 'express';
-import schemas from '../schemas';
+import express from "express";
 const router = express.Router();
 
 router
@@ -7,15 +6,15 @@ router
         req.pool.connect().then(client => {
             client.query('SELECT * FROM trips')
                 .then(result => {
+                    client.release();
                     return res.json({
                         success: true,
                         result: result.rows
                     });
-                    client.release();
                 })
                 .catch(error => {
                     client.release();
-                    if (error) throw error;
+                    console.error(error);
                     return res.json({
                         success: false,
                         message: error

@@ -1,16 +1,12 @@
-'use strict';
+"use strict";
 
-var _express = require('express');
+var _express = require("express");
 
 var _express2 = _interopRequireDefault(_express);
 
-var _request = require('request');
+var _request = require("request");
 
 var _request2 = _interopRequireDefault(_request);
-
-var _querystring = require('querystring');
-
-var _querystring2 = _interopRequireDefault(_querystring);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -27,11 +23,11 @@ router.get('/user/:user', function (req, res) {
 	};
 	_request2.default.get({ url: 'https://api.twitter.com/1.1/search/tweets.json?q=from%3A' + req.params.user, oauth: oauth }, function (e, r, body) {
 
-		var tidyUp = JSON.parse(body).statuses.map(function (obj, i) {
+        var tidyUp = JSON.parse(body).statuses.map(function (obj) {
 			return {
 				created_at: obj.created_at,
 				text: obj.text,
-				urls: obj.entities.urls.map(function (obj, i) {
+                urls: obj.entities.urls.map(function (obj) {
 					return obj.url;
 				}),
 				user: obj.user.screen_name

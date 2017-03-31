@@ -67,11 +67,11 @@
     "eslint": "^3.17.1",
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
+    "gulp-clean": "^0.3.2",
+    "gulp-file-cache": "^0.0.1",
     "gulp-livereload": "^3.8.1",
     "gulp-nodemon": "^2.2.1",
     "gulp-notify": "^3.0.0",
-    "gulp-clean": "^0.3.2",
-    "gulp-file-cache": "^0.0.1",
     "nodemon": "^1.11.0"
   },
   "repository": {

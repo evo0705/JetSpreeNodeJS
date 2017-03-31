@@ -13,7 +13,7 @@ router.get('/', function (req, res) {
 		client.query('SELECT * FROM users WHERE id=$1', [req.decoded.id]).then(function (result) {
 			client.release();
 
-			if (result.rowCount == 1) {
+            if (result.rowCount === 1) {
 				return res.json({
 					id: result.rows[0].id,
 					email: result.rows[0].email,

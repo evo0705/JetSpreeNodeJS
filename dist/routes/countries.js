@@ -4,10 +4,6 @@ var _express = require('express');
 
 var _express2 = _interopRequireDefault(_express);
 
-var _schemas = require('../schemas');
-
-var _schemas2 = _interopRequireDefault(_schemas);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var router = _express2.default.Router();
@@ -20,10 +16,10 @@ router
 		client.query('SELECT * FROM countries').then(function (result) {
 			client.release();
 			return res.json({ success: true, result: result.rows });
-		}).catch(function (err) {
+        }).catch(function (error) {
 			client.release();
-			throw err;
-			return res.json({ success: false, error: err });
+            console.error(error);
+            return res.json({success: false, error: error});
 		});
 	});
 }).get("/img", function (req, res) {

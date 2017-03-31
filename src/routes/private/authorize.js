@@ -1,12 +1,12 @@
-import express from 'express';
-import config from './../../config';
-import jwt from 'jsonwebtoken';
+import express from "express";
+import config from "./../../config";
+import jwt from "jsonwebtoken";
 
 const router = express.Router();
 
 router
 	.use(function(req, res, next) {
-		var token = req.body.token || req.query.token || req.headers['x-access-token'];
+        let token = req.body.token || req.query.token || req.headers['x-access-token'];
 		if (token) {
 		
 			// verifies secret and checks exp

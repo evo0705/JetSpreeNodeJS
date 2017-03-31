@@ -1,5 +1,4 @@
-import express from 'express';
-import schemas from '../schemas';
+import express from "express";
 const router = express.Router();
 
 router
@@ -12,10 +11,10 @@ router
 					client.release();
 					return res.json({ success: true, result: result.rows });
 				})
-				.catch(err => {
+                .catch(error => {
 					client.release();
-					throw err;
-					return res.json({ success: false, error: err });
+                    console.error(error);
+                    return res.json({success: false, error: error});
 				});
 		});
 	})

@@ -1,6 +1,5 @@
 import express from "express";
 import schemas from "../../schemas";
-import config from "../../config";
 import GM from "gm";
 import Promise from "bluebird";
 import Slug from "slug";
@@ -70,7 +69,7 @@ router
 
                 // s3 initialization and objects that required
                 let s3 = new req.aws.S3();
-                let bucket = config.s3_bucket_root + "/requests/" + ret.id;
+                let bucket = "/requests/" + ret.id;
                 let data = {
                     Bucket: bucket,
                     Key: imageName,

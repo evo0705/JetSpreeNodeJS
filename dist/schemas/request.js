@@ -15,6 +15,10 @@ var schema = {
 	'description': {
 		notEmpty: true,
 		errorMessage: 'Description is required.'
+    },
+    'image': {
+        notEmpty: true,
+        errorMessage: 'Image is required.'
 	}
 };
 

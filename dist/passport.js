@@ -1,12 +1,12 @@
-'use strict';
+"use strict";
 
-var _config = require('./config');
+var _config = require("./config");
 
 var _config2 = _interopRequireDefault(_config);
 
-var _passportFacebook = require('passport-facebook');
+var _passportFacebook = require("passport-facebook");
 
-var _passportGoogleOauth = require('passport-google-oauth');
+var _passportGoogleOauth = require("passport-google-oauth");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -53,7 +53,7 @@ module.exports = function (passport, pool) {
                             case 7:
                                 result = _context.sent;
 
-                                if (!(result.rows.length == 0)) {
+                                if (!(result.rows.length === 0)) {
                                     _context.next = 12;
                                     break;
                                 }
@@ -71,10 +71,10 @@ module.exports = function (passport, pool) {
 
                             case 15:
                                 _context.prev = 15;
-                                _context.t0 = _context['catch'](4);
+                                _context.t0 = _context["catch"](4);
 
                                 console.error(_context.t0.message, e.stack);
-                                return _context.abrupt('return', done(_context.t0));
+                                return _context.abrupt("return", done(_context.t0));
 
                             case 19:
                                 _context.prev = 19;
@@ -83,10 +83,10 @@ module.exports = function (passport, pool) {
                                 return _context.finish(19);
 
                             case 22:
-                                return _context.abrupt('return', done(null, user));
+                                return _context.abrupt("return", done(null, user));
 
                             case 23:
-                            case 'end':
+                            case "end":
                                 return _context.stop();
                         }
                     }
@@ -128,7 +128,7 @@ module.exports = function (passport, pool) {
                             case 7:
                                 result = _context2.sent;
 
-                                if (!(result.rows.length == 0)) {
+                                if (!(result.rows.length === 0)) {
                                     _context2.next = 12;
                                     break;
                                 }
@@ -146,10 +146,10 @@ module.exports = function (passport, pool) {
 
                             case 15:
                                 _context2.prev = 15;
-                                _context2.t0 = _context2['catch'](4);
+                                _context2.t0 = _context2["catch"](4);
 
                                 console.error(_context2.t0.message, e.stack);
-                                return _context2.abrupt('return', done(_context2.t0));
+                                return _context2.abrupt("return", done(_context2.t0));
 
                             case 19:
                                 _context2.prev = 19;
@@ -158,10 +158,10 @@ module.exports = function (passport, pool) {
                                 return _context2.finish(19);
 
                             case 22:
-                                return _context2.abrupt('return', done(null, user));
+                                return _context2.abrupt("return", done(null, user));
 
                             case 23:
-                            case 'end':
+                            case "end":
                                 return _context2.stop();
                         }
                     }

@@ -15,6 +15,6 @@ const schema = {
         notEmpty: true,
 		errorMessage: 'Return date is required.'
     }
-}
+};
 
 module.exports = schema;

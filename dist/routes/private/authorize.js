@@ -1,14 +1,14 @@
-'use strict';
+"use strict";
 
-var _express = require('express');
+var _express = require("express");
 
 var _express2 = _interopRequireDefault(_express);
 
-var _config = require('./../../config');
+var _config = require("./../../config");
 
 var _config2 = _interopRequireDefault(_config);
 
-var _jsonwebtoken = require('jsonwebtoken');
+var _jsonwebtoken = require("jsonwebtoken");
 
 var _jsonwebtoken2 = _interopRequireDefault(_jsonwebtoken);
 

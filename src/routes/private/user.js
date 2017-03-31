@@ -1,4 +1,4 @@
-import express from 'express';
+import express from "express";
 
 const router = express.Router();
 
@@ -8,8 +8,8 @@ router
 			client.query('SELECT * FROM users WHERE id=$1', [req.decoded.id])
 			.then(result => {	
 				client.release();
-						
-				if(result.rowCount == 1){					
+
+                if (result.rowCount === 1) {
 					return res.json({
 						id: result.rows[0].id,
 						email: result.rows[0].email,

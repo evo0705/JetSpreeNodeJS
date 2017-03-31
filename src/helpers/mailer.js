@@ -1,6 +1,6 @@
-import config from '../config';
-import nodemailer, { SendMailOptions } from 'nodemailer';
-import smtpTransport from 'nodemailer-smtp-transport';
+import config from "../config";
+import nodemailer from "nodemailer";
+import smtpTransport from "nodemailer-smtp-transport";
 
 const transporter = nodemailer.createTransport(smtpTransport({
     service: config.smtp_provider,

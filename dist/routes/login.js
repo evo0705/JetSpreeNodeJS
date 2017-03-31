@@ -1,22 +1,22 @@
-'use strict';
+"use strict";
 
-var _express = require('express');
+var _express = require("express");
 
 var _express2 = _interopRequireDefault(_express);
 
-var _config = require('./../config');
+var _config = require("./../config");
 
 var _config2 = _interopRequireDefault(_config);
 
-var _jsonwebtoken = require('jsonwebtoken');
+var _jsonwebtoken = require("jsonwebtoken");
 
 var _jsonwebtoken2 = _interopRequireDefault(_jsonwebtoken);
 
-var _bcrypt = require('bcrypt');
+var _bcrypt = require("bcrypt");
 
 var _bcrypt2 = _interopRequireDefault(_bcrypt);
 
-var _schemas = require('../schemas');
+var _schemas = require("../schemas");
 
 var _schemas2 = _interopRequireDefault(_schemas);
 
@@ -51,7 +51,7 @@ router.post('/signup', function (req, res) {
 			// create new user record
 			client.query('INSERT INTO users(email, password) VALUES($1, $2) RETURNING id,email', [req.body.email, hash]).then(function (result) {
 				client.release();
-				if (result.rowCount == 1) {
+                if (result.rowCount === 1) {
 					// create a token
 					var token = _jsonwebtoken2.default.sign({
 						id: result.rows[0].id,
@@ -85,7 +85,7 @@ router.post('/signup', function (req, res) {
 			// user not found
 			if (result.rows.length < 1) {
 				return res.json({ success: false, message: 'Authentication failed.' });
-			} else if (result.rows[0].password == null) {
+            } else if (result.rows[0].password === null) {
 				return res.json({ success: false, message: 'Authentication failed.' });
 			} else {
 				var user = result.rows[0];
@@ -155,7 +155,5 @@ router.post('/signup', function (req, res) {
 	});
 })
 */
-
-;
 
 module.exports = router;

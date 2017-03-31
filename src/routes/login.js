@@ -1,8 +1,8 @@
-import express from 'express';
-import config from './../config';
-import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
-import schemas from '../schemas';
+import express from "express";
+import config from "./../config";
+import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
+import schemas from "../schemas";
 
 const saltRounds = 10;
 
@@ -40,9 +40,9 @@ router
 					client.query('INSERT INTO users(email, password) VALUES($1, $2) RETURNING id,email', [req.body.email, hash])
 						.then(result => {
 							client.release();
-							if (result.rowCount == 1) {
+                            if (result.rowCount === 1) {
 								// create a token
-								var token = jwt.sign({
+                                let token = jwt.sign({
 									id: result.rows[0].id,
 									email: result.rows[0].email
 								}, config.secret, {
@@ -81,10 +81,10 @@ router
 					// user not found
 					if (result.rows.length < 1) {
 						return res.json({ success: false, message: 'Authentication failed.' });
-					} else if (result.rows[0].password == null) {
+                    } else if (result.rows[0].password === null) {
 						return res.json({ success: false, message: 'Authentication failed.' });
 					} else {
-						var user = result.rows[0];
+                        let user = result.rows[0];
 
 						bcrypt.compare(req.body.password, user.password)
 							.then(function (match) {
@@ -95,7 +95,7 @@ router
 								} else {
 
 									// create a token
-									var token = jwt.sign({
+                                    let token = jwt.sign({
 										id: user.id,
 										email: user.email
 									}, config.secret, {
@@ -126,7 +126,7 @@ router
 		if (req.isAuthenticated()) {
 
 			// create a token
-			var token = jwt.sign(req.user, config.secret, {
+            let token = jwt.sign(req.user, config.secret, {
 				expiresIn: config.token_duration
 			});
 
@@ -155,7 +155,5 @@ router
 	});
 })
 */
-
-;
 
 module.exports = router;
