@@ -10,17 +10,16 @@
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
-# Build results
-[Dd]ebug/
+# Build results#
 [Dd]ebugPublic/
-[Rr]elease/
+#[Rr]elease/
 [Rr]eleases/
 [Xx]64/
 [Xx]86/
-[Bb]uild/
+#[Bb]uild/
 bld/
-[Bb]in/
-[Oo]bj/
+#[Bb]in/
+#[Oo]bj/
 
 # Visual Studio 2015 cache/options directory
 .vs/
@@ -42,16 +41,16 @@ dlldata.c
 
 # DNX
 project.lock.json
-artifacts/
+#artifacts/
 
 *_i.c
 *_p.c
 *_i.h
 *.ilk
 *.meta
-*.obj
+#*.obj
 *.pch
-*.pdb
+#*.pdb
 *.pgc
 *.pgd
 *.rsp
@@ -121,7 +120,7 @@ AutoTest.Net/
 .sass-cache/
 
 # Installshield output folder
-[Ee]xpress/
+#[Ee]xpress/
 
 # DocProject is a documentation generator add-in
 DocProject/buildhelp/
@@ -183,7 +182,7 @@ BundleArtifacts/
 ClientBin/
 [Ss]tyle[Cc]op.*
 ~$*
-*~
+#*~
 *.dbmdl
 *.dbproj.schemaview
 *.pfx
@@ -246,3 +245,7 @@ ModelManifest.xml
 
 npm-debug.log*
 src/localConfig.json
+
+# intelliJ
+#.idea/*
+.idea/

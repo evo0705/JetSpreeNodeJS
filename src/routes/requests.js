@@ -1,5 +1,5 @@
-﻿import express from 'express';
-import schemas from '../schemas';
+﻿import express from "express";
+import config from "../config";
 const router = express.Router();
 
 router
@@ -19,8 +19,8 @@ router
         req.pool.connect().then(client => {
             client.query('SELECT * FROM items' + queryFrom + ' WHERE 1=1' + queryWhere, queryParams)
                 .then(result => {
-                    return res.json({ success: true, result: result.rows });
                     client.release();
+                    return res.json({success: true, result: result.rows, image_host: config.s3_region});
                 })
                 .catch(error => {
                     client.release();

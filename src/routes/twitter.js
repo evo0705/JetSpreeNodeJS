@@ -1,6 +1,5 @@
-import express from 'express';
-import request from 'request';
-import qs from 'querystring';
+import express from "express";
+import request from "request";
 
 const router = express.Router();
 const CONSUMER_KEY = 'C26AzqB4KX27vptotRfsl2mci';
@@ -17,11 +16,13 @@ router
 		};
 		request.get({ url: 'https://api.twitter.com/1.1/search/tweets.json?q=from%3A' + req.params.user, oauth: oauth }, function (e, r, body) {
 
-			let tidyUp = JSON.parse(body).statuses.map((obj, i) => {
+            let tidyUp = JSON.parse(body).statuses.map((obj) => {
 				return {
 					created_at: obj.created_at,
 					text: obj.text,
-					urls: obj.entities.urls.map((obj, i) => { return obj.url }),
+                    urls: obj.entities.urls.map((obj) => {
+                        return obj.url
+                    }),
 					user: obj.user.screen_name
 				};
 			});
