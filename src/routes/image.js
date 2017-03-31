@@ -72,19 +72,23 @@ router
 
             let putObject = function (data) {
                 return new Promise(function (resolve, reject) {
-                    let params = {
-                        Bucket: bucket,
-                        Key: req.params.key,
-                        Body: data.Body,
-                        ContentType: data.ContentType
-                    };
-                    s3.putObject(params, (error) => {
-                        if (error) {
-                            reject(error);
-                        } else {
-                            resolve(data);
-                        }
-                    });
+                    if (!data.ContentLength) {
+                        reject({statusCode: 404});
+                    } else {
+                        let params = {
+                            Bucket: bucket,
+                            Key: req.params.key,
+                            Body: data.Body,
+                            ContentType: data.ContentType
+                        };
+                        s3.putObject(params, (error) => {
+                            if (error) {
+                                reject(error);
+                            } else {
+                                resolve(data);
+                            }
+                        });
+                    }
                 });
             };
 
@@ -97,35 +101,26 @@ router
                 throw new Error();
             };
 
+            let handleRespond = function (ret) {
+                res.writeHead(200, {
+                    'Content-Type': ret.ContentType,
+                    'Content-Length': ret.Body.length
+                });
+                res.end(ret.Body, 'binary');
+            };
+
             getResized()
                 .then(ret => {
                     if (ret === null) {
                         // resized image not found, get the original image to resize
                         return getOriginal()
-                            .then(ret => {
-                                return resizeImage(ret)
-                            }, handleError)
-                            .catch(Error)
-                            .then(ret => {
-                                return putObject(ret)
-                            }, handleError)
-                            .catch(Error)
-                            .then(ret => {
-                                res.writeHead(200, {
-                                    'Content-Type': ret.ContentType,
-                                    'Content-Length': ret.Body.length
-                                });
-                                res.end(ret.Body, 'binary');
-                            }, handleError)
-                            .catch(Error)
+                            .then(resizeImage, handleError).catch(Error)
+                            .then(putObject, handleError).catch(Error)
+                            .then(handleRespond, handleError).catch(Error)
                     } else {
                         if (ret.ContentLength > 0) {
                             // resized image found, so just respond it.
-                            res.writeHead(200, {
-                                'Content-Type': ret.ContentType,
-                                'Content-Length': ret.Body.length
-                            });
-                            res.end(ret.Body, 'binary');
+                            handleRespond(ret);
                         } else {
                             // probably wrong url or the file no longer exists.
                             res.end();
