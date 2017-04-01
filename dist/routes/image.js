@@ -33,7 +33,15 @@ router
     if (req.params.folder3 !== undefined) originalBucket += "/" + req.params.folder3;
     if (req.params.folder4 !== undefined) originalBucket += "/" + req.params.folder4;
     if (req.params.folder5 !== undefined) originalBucket += "/" + req.params.folder5;
-    if (req.query.width && req.query.height) bucket += originalBucket + "/" + req.query.width + "_" + req.query.height;
+
+    if (/^\d+$/.test(req.query.width) && /^\d+$/.test(req.query.height)) {
+        bucket += originalBucket + "/" + req.query.width + "_" + req.query.height;
+        if (req.query.crop === 'true') {
+            bucket += "_crop";
+        }
+    } else {
+        return res.redirect(_config2.default.s3_url + "/" + originalBucket + "/" + req.params.key);
+    }
 
     var s3 = new req.aws.S3();
 
@@ -59,18 +67,34 @@ router
 
     var resizeImage = function resizeImage(data) {
         return new _bluebird2.default(function (resolve, reject) {
-            (0, _gm2.default)(data.Body).resize(req.query.width, req.query.height).toBuffer('jpg', function (error, buffer) {
-                if (error) reject(error);else {
-                    data.Body = buffer;
-                    resolve(data);
+            if (!/^\d+$/.test(req.query.width) && !/^\d+$/.test(req.query.height)) {
+                resolve(data);
+            } else {
+                if (req.query.crop === 'true') {
+                    var newSize = req.query.width > req.query.height ? req.query.width : req.query.height;
+                    (0, _gm2.default)(data.Body).resize(newSize, newSize, '^').gravity("Center").crop(req.query.width, req.query.height).toBuffer('jpg', function (error, buffer) {
+                        if (error) reject(error);else {
+                            data.Body = buffer;
+                            resolve(data);
+                        }
+                    });
+                } else {
+                    (0, _gm2.default)(data.Body).resize(req.query.width, req.query.height).toBuffer('jpg', function (error, buffer) {
+                        if (error) reject(error);else {
+                            data.Body = buffer;
+                            resolve(data);
+                        }
+                    });
                 }
-            });
+            }
         });
     };
 
     var putObject = function putObject(data) {
         return new _bluebird2.default(function (resolve, reject) {
-            if (!data.ContentLength) {
+            if (!/^\d+$/.test(req.query.width) && !/^\d+$/.test(req.query.height)) {
+                resolve(data);
+            } else if (!data.ContentLength) {
                 reject({ statusCode: 404 });
             } else {
                 var params = {
@@ -96,12 +120,12 @@ router
         throw new Error();
     };
 
-    var handleRespond = function handleRespond(ret) {
+    var handleRespond = function handleRespond(respond) {
         res.writeHead(200, {
-            'Content-Type': ret.ContentType,
-            'Content-Length': ret.Body.length
+            'Content-Type': respond.ContentType,
+            'Content-Length': respond.Body.length
         });
-        res.end(ret.Body, 'binary');
+        res.end(respond.Body, 'binary');
     };
 
     getResized().then(function (ret) {

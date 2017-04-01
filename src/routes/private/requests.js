@@ -1,5 +1,6 @@
 import express from "express";
 import schemas from "../../schemas";
+import config from "../../config";
 import GM from "gm";
 import Promise from "bluebird";
 import Slug from "slug";
@@ -16,27 +17,14 @@ router
         let errors = req.validationErrors();
         if (errors) return res.json({success: false, errors: errors});
 
-        insertRequest(req)
-            .then((ret) => {
-                return uploadImage(req, ret)
-            }, (error) => { // insertRequest() error
-                console.error(error);
-                return res.json({success: false, errors: [error]});
-            })
-            .then((ret) => {
-                return updateImagePath(req, ret)
-            }, (error) => { // uploadImage() error
-                console.error(error);
-                return res.json({success: false, errors: [error]});
-            })
-            .then((ret) => {
-                return res.json({success: true, result: ret});
-            }, (error) => { // updateImagePath() error
-                console.error(error);
-                return res.json({success: false, errors: [error]});
-            });
+        let handleError = function (error) {
+            console.error(error);
+            res.json({success: false, errors: [error]});
+            res.end();
+            throw new Error();
+        };
 
-        function insertRequest(req) {
+        let insertRequest = function () {
             return new Promise((resolve, reject) => {
                 req.pool.connect()
                     .then(client => {
@@ -56,9 +44,9 @@ router
                         reject(error);
                     });
             });
-        }
+        };
 
-        function uploadImage(req, ret) {
+        let uploadImage = function (ret) {
             return new Promise((resolve, reject) => {
                 Promise.promisifyAll(GM.prototype);
 
@@ -69,7 +57,7 @@ router
 
                 // s3 initialization and objects that required
                 let s3 = new req.aws.S3();
-                let bucket = "/requests/" + ret.id;
+                let bucket = config.s3_bucket_root + "/requests/" + ret.id;
                 let data = {
                     Bucket: bucket,
                     Key: imageName,
@@ -78,18 +66,25 @@ router
                 };
                 let image = GM(buffer);
                 return image
-                    .size((err, size) => {
-                        if (err) reject(err);
-                        if (size.width > 100 || size.height > 100)
-                            image.resize(100, 100).toBuffer('jpg', (err, buff) => {
-                                buffer = buff
+                    .size((error, size) => {
+                        if (error) reject(error);
+                        if (size.width > config.image_max_resolution.width ||
+                            size.height > config.image_max_resolution.height) {
+                            image.resize(config.image_max_resolution.width,
+                                config.image_max_resolution.height).toBuffer('jpg', (error, buff) => {
+                                if (error) reject(error);
+                                else data.Body = buff;
                             });
-                        else
-                            image.resize(size.width, size.height).toBuffer('jpg', (err, buff) => {
-                                buffer = buff
+                        } else {
+                            image.resize(size.width, size.height).toBuffer('jpg', (error, buff) => {
+                                if (error) reject(error);
+                                else data.Body = buff;
                             });
+                        }
                     }).identifyAsync()
-                    .then(s3.putObject(data).promise())
+                    .then(() => {
+                        s3.putObject(data).promise()
+                    }, handleError).catch(Error)
                     .then(() => {
                         ret.imagePath = bucket + "/" + imageName;
                         resolve(ret);
@@ -98,9 +93,9 @@ router
                         reject(error);
                     });
             });
-        }
+        };
 
-        function updateImagePath(req, ret) {
+        let updateImagePath = function (ret) {
             return new Promise((resolve, reject) => {
                 req.pool.connect()
                     .then(client => {
@@ -114,11 +109,20 @@ router
                                 client.release();
                                 reject(error);
                             });
-                    }).catch(error => {
-                    reject(error);
-                });
+                    })
+                    .catch(error => {
+                        reject(error);
+                    });
             });
-        }
+        };
+
+        insertRequest()
+            .then(uploadImage, handleError).catch(Error)
+            .then(updateImagePath, handleError).catch(Error)
+            .then(ret => {
+                res.json({success: true, result: ret});
+                res.end();
+            }, handleError).catch(Error);
     });
 
 module.exports = router;

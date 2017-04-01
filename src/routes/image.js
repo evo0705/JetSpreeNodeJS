@@ -27,8 +27,15 @@ router
                 originalBucket += "/" + req.params.folder4;
             if (req.params.folder5 !== undefined)
                 originalBucket += "/" + req.params.folder5;
-            if (req.query.width && req.query.height)
+
+            if (/^\d+$/.test(req.query.width) && /^\d+$/.test(req.query.height)) {
                 bucket += originalBucket + "/" + req.query.width + "_" + req.query.height;
+                if (req.query.crop === 'true') {
+                    bucket += "_crop"
+                }
+            } else {
+                return res.redirect(config.s3_url + "/" + originalBucket + "/" + req.params.key);
+            }
 
             let s3 = new req.aws.S3();
 
@@ -57,22 +64,44 @@ router
 
             let resizeImage = function (data) {
                 return new Promise(function (resolve, reject) {
-                    GM(data.Body)
-                        .resize(req.query.width, req.query.height)
-                        .toBuffer('jpg', (error, buffer) => {
-                            if (error)
-                                reject(error);
-                            else {
-                                data.Body = buffer;
-                                resolve(data);
-                            }
-                        });
+                    if (!/^\d+$/.test(req.query.width) && !/^\d+$/.test(req.query.height)) {
+                        resolve(data);
+                    } else {
+                        if (req.query.crop === 'true') {
+                            let newSize = (req.query.width > req.query.height ? req.query.width : req.query.height);
+                            GM(data.Body)
+                                .resize(newSize, newSize, '^')
+                                .gravity("Center")
+                                .crop(req.query.width, req.query.height)
+                                .toBuffer('jpg', (error, buffer) => {
+                                    if (error)
+                                        reject(error);
+                                    else {
+                                        data.Body = buffer;
+                                        resolve(data);
+                                    }
+                                });
+                        } else {
+                            GM(data.Body)
+                                .resize(req.query.width, req.query.height)
+                                .toBuffer('jpg', (error, buffer) => {
+                                    if (error)
+                                        reject(error);
+                                    else {
+                                        data.Body = buffer;
+                                        resolve(data);
+                                    }
+                                });
+                        }
+                    }
                 });
             };
 
             let putObject = function (data) {
                 return new Promise(function (resolve, reject) {
-                    if (!data.ContentLength) {
+                    if (!/^\d+$/.test(req.query.width) && !/^\d+$/.test(req.query.height)) {
+                        resolve(data);
+                    } else if (!data.ContentLength) {
                         reject({statusCode: 404});
                     } else {
                         let params = {
@@ -101,12 +130,12 @@ router
                 throw new Error();
             };
 
-            let handleRespond = function (ret) {
+            let handleRespond = function (respond) {
                 res.writeHead(200, {
-                    'Content-Type': ret.ContentType,
-                    'Content-Length': ret.Body.length
+                    'Content-Type': respond.ContentType,
+                    'Content-Length': respond.Body.length
                 });
-                res.end(ret.Body, 'binary');
+                res.end(respond.Body, 'binary');
             };
 
             getResized()
@@ -126,8 +155,7 @@ router
                             res.end();
                         }
                     }
-                }, handleError)
-                .catch(Error);
+                }, handleError).catch(Error);
         });
 
 module.exports = router;

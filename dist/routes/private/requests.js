@@ -8,6 +8,10 @@ var _schemas = require("../../schemas");
 
 var _schemas2 = _interopRequireDefault(_schemas);
 
+var _config = require("../../config");
+
+var _config2 = _interopRequireDefault(_config);
+
 var _gm = require("gm");
 
 var _gm2 = _interopRequireDefault(_gm);
@@ -32,29 +36,16 @@ router
     // validate user's input
     req.checkBody(_schemas2.default.request);
     var errors = req.validationErrors();
-    if (errors) return res.json({success: false, errors: errors});
+    if (errors) return res.json({ success: false, errors: errors });
 
-    insertRequest(req).then(function (ret) {
-        return uploadImage(req, ret);
-    }, function (error) {
-        // insertRequest() error
+    var handleError = function handleError(error) {
         console.error(error);
-        return res.json({success: false, errors: [error]});
-    }).then(function (ret) {
-        return updateImagePath(req, ret);
-    }, function (error) {
-        // uploadImage() error
-        console.error(error);
-        return res.json({success: false, errors: [error]});
-    }).then(function (ret) {
-        return res.json({success: true, result: ret});
-    }, function (error) {
-        // updateImagePath() error
-        console.error(error);
-        return res.json({success: false, errors: [error]});
-    });
+        res.json({ success: false, errors: [error] });
+        res.end();
+        throw new Error();
+    };
 
-    function insertRequest(req) {
+    var insertRequest = function insertRequest() {
         return new _bluebird2.default(function (resolve, reject) {
             req.pool.connect().then(function (client) {
                 client.query('INSERT INTO items (name, price, description, user_id) ' + 'VALUES ($1, $2, $3, $4) RETURNING id, name, price, description', [req.body.name, req.body.price, req.body.description, req.decoded.id]).then(function (result) {
@@ -68,9 +59,9 @@ router
                 reject(error);
             });
         });
-    }
+    };
 
-    function uploadImage(req, ret) {
+    var uploadImage = function uploadImage(ret) {
         return new _bluebird2.default(function (resolve, reject) {
             _bluebird2.default.promisifyAll(_gm2.default.prototype);
 
@@ -81,7 +72,7 @@ router
 
             // s3 initialization and objects that required
             var s3 = new req.aws.S3();
-            var bucket = "/requests/" + ret.id;
+            var bucket = _config2.default.s3_bucket_root + "/requests/" + ret.id;
             var data = {
                 Bucket: bucket,
                 Key: imageName,
@@ -89,23 +80,29 @@ router
                 ContentType: imageData[1]
             };
             var image = (0, _gm2.default)(buffer);
-            return image.size(function (err, size) {
-                if (err) reject(err);
-                if (size.width > 100 || size.height > 100) image.resize(100, 100).toBuffer('jpg', function (err, buff) {
-                    buffer = buff;
-                }); else image.resize(size.width, size.height).toBuffer('jpg', function (err, buff) {
-                    buffer = buff;
-                });
-            }).identifyAsync().then(s3.putObject(data).promise()).then(function () {
+            return image.size(function (error, size) {
+                if (error) reject(error);
+                if (size.width > _config2.default.image_max_resolution.width || size.height > _config2.default.image_max_resolution.height) {
+                    image.resize(_config2.default.image_max_resolution.width, _config2.default.image_max_resolution.height).toBuffer('jpg', function (error, buff) {
+                        if (error) reject(error);else data.Body = buff;
+                    });
+                } else {
+                    image.resize(size.width, size.height).toBuffer('jpg', function (error, buff) {
+                        if (error) reject(error);else data.Body = buff;
+                    });
+                }
+            }).identifyAsync().then(function () {
+                s3.putObject(data).promise();
+            }, handleError).catch(Error).then(function () {
                 ret.imagePath = bucket + "/" + imageName;
                 resolve(ret);
             }).catch(function (error) {
                 reject(error);
             });
         });
-    }
+    };
 
-    function updateImagePath(req, ret) {
+    var updateImagePath = function updateImagePath(ret) {
         return new _bluebird2.default(function (resolve, reject) {
             req.pool.connect().then(function (client) {
                 client.query('UPDATE items SET image_path=$1 WHERE id=$2 AND user_id=$3', [ret.imagePath, ret.id, req.decoded.id]).then(function () {
@@ -119,7 +116,12 @@ router
                 reject(error);
             });
         });
-    }
+    };
+
+    insertRequest().then(uploadImage, handleError).catch(Error).then(updateImagePath, handleError).catch(Error).then(function (ret) {
+        res.json({ success: true, result: ret });
+        res.end();
+    }, handleError).catch(Error);
 });
 
 module.exports = router;

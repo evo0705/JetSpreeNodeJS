@@ -23,5 +23,6 @@ module.exports = {
     'aws_access_key_id': process.env.AWS_ACCESS_KEY_ID || localConfig.AWS_ACCESS_KEY_ID,
     'aws_secret_access_key': process.env.AWS_SECRET_ACCESS_KEY || localConfig.AWS_SECRET_ACCESS_KEY,
     's3_bucket_root': process.env.S3_BUKCET_ROOT || localConfig.S3_BUKCET_ROOT,
-    's3_url': 'https://s3-ap-southeast-1.amazonaws.com'
+    's3_url': 'https://s3-ap-southeast-1.amazonaws.com',
+    'image_max_resolution': {width: 1024, height: 1024}
 };
