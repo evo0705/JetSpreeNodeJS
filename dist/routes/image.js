@@ -43,6 +43,11 @@ router
         return res.redirect(_config2.default.s3_url + "/" + originalBucket + "/" + req.params.key);
     }
 
+    // if (!/^\d+$/.test(req.query.width) && !/^\d+$/.test(req.query.height) && !req.query.crop) {
+    // } else {
+    //     bucket += originalBucket + "/" + req.query.width + "_" + req.query.height;
+    // }
+
     var s3 = new req.aws.S3();
 
     var getResized = function getResized() {
@@ -73,14 +78,14 @@ router
                 if (req.query.crop === 'true') {
                     var newSize = req.query.width > req.query.height ? req.query.width : req.query.height;
                     (0, _gm2.default)(data.Body).resize(newSize, newSize, '^').gravity("Center").crop(req.query.width, req.query.height).toBuffer('jpg', function (error, buffer) {
-                        if (error) reject(error);else {
+                        if (error) reject(error); else {
                             data.Body = buffer;
                             resolve(data);
                         }
                     });
                 } else {
                     (0, _gm2.default)(data.Body).resize(req.query.width, req.query.height).toBuffer('jpg', function (error, buffer) {
-                        if (error) reject(error);else {
+                        if (error) reject(error); else {
                             data.Body = buffer;
                             resolve(data);
                         }

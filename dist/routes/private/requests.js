@@ -92,7 +92,7 @@ router
                     });
                 }
             }).identifyAsync().then(function () {
-                s3.putObject(data).promise();
+                return s3.putObject(data).promise();
             }, handleError).catch(Error).then(function () {
                 ret.imagePath = bucket + "/" + imageName;
                 resolve(ret);

@@ -83,7 +83,7 @@ router
                         }
                     }).identifyAsync()
                     .then(() => {
-                        s3.putObject(data).promise()
+                        return s3.putObject(data).promise();
                     }, handleError).catch(Error)
                     .then(() => {
                         ret.imagePath = bucket + "/" + imageName;
