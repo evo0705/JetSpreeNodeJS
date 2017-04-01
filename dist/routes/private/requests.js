@@ -38,6 +38,13 @@ router
     var errors = req.validationErrors();
     if (errors) return res.json({ success: false, errors: errors });
 
+    // image details
+    var imageData = req.body.image.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
+    var imageExt = imageData[1].substring(6).toLowerCase().replace("jpeg", "jpg");
+    if (['jpg', 'png', 'gif', 'webp'].indexOf(imageExt) < 0) {
+        return res.json({success: false, errors: [{field: "image", msg: "Unsupported image type."}]});
+    }
+
     var handleError = function handleError(error) {
         console.error(error);
         res.json({ success: false, errors: [error] });
@@ -64,10 +71,7 @@ router
     var uploadImage = function uploadImage(ret) {
         return new _bluebird2.default(function (resolve, reject) {
             _bluebird2.default.promisifyAll(_gm2.default.prototype);
-
-            // image details
-            var imageName = (0, _slug2.default)(req.body.name.toLowerCase()) + ".jpg";
-            var imageData = req.body.image.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
+            var imageName = (0, _slug2.default)(req.body.name.toLowerCase()) + "." + imageExt;
             var buffer = Buffer.from(imageData[2], 'base64');
 
             // s3 initialization and objects that required
@@ -83,11 +87,11 @@ router
             return image.size(function (error, size) {
                 if (error) reject(error);
                 if (size.width > _config2.default.image_max_resolution.width || size.height > _config2.default.image_max_resolution.height) {
-                    image.resize(_config2.default.image_max_resolution.width, _config2.default.image_max_resolution.height).toBuffer('jpg', function (error, buff) {
+                    image.resize(_config2.default.image_max_resolution.width, _config2.default.image_max_resolution.height).toBuffer(imageExt, function (error, buff) {
                         if (error) reject(error);else data.Body = buff;
                     });
                 } else {
-                    image.resize(size.width, size.height).toBuffer('jpg', function (error, buff) {
+                    image.resize(size.width, size.height).toBuffer(imageExt, function (error, buff) {
                         if (error) reject(error);else data.Body = buff;
                     });
                 }

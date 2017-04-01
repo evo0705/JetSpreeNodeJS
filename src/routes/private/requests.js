@@ -17,6 +17,13 @@ router
         let errors = req.validationErrors();
         if (errors) return res.json({success: false, errors: errors});
 
+        // image details
+        let imageData = req.body.image.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
+        let imageExt = imageData[1].substring(6).toLowerCase().replace("jpeg", "jpg");
+        if (['jpg', 'png', 'gif', 'webp'].indexOf(imageExt) < 0) {
+            return res.json({success: false, errors: [{field: "image", msg: "Unsupported image type."}]});
+        }
+
         let handleError = function (error) {
             console.error(error);
             res.json({success: false, errors: [error]});
@@ -49,10 +56,7 @@ router
         let uploadImage = function (ret) {
             return new Promise((resolve, reject) => {
                 Promise.promisifyAll(GM.prototype);
-
-                // image details
-                let imageName = Slug(req.body.name.toLowerCase()) + ".jpg";
-                let imageData = req.body.image.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
+                let imageName = Slug(req.body.name.toLowerCase()) + "." + imageExt;
                 let buffer = Buffer.from(imageData[2], 'base64');
 
                 // s3 initialization and objects that required
@@ -71,12 +75,12 @@ router
                         if (size.width > config.image_max_resolution.width ||
                             size.height > config.image_max_resolution.height) {
                             image.resize(config.image_max_resolution.width,
-                                config.image_max_resolution.height).toBuffer('jpg', (error, buff) => {
+                                config.image_max_resolution.height).toBuffer(imageExt, (error, buff) => {
                                 if (error) reject(error);
                                 else data.Body = buff;
                             });
                         } else {
-                            image.resize(size.width, size.height).toBuffer('jpg', (error, buff) => {
+                            image.resize(size.width, size.height).toBuffer(imageExt, (error, buff) => {
                                 if (error) reject(error);
                                 else data.Body = buff;
                             });
