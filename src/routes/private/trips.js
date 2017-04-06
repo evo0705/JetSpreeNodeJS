@@ -1,5 +1,5 @@
-import express from 'express';
-import schemas from '../../schemas';
+import express from "express";
+import schemas from "../../schemas";
 const router = express.Router();
 
 router
@@ -35,4 +35,4 @@ router
         })
     });
 
-module.exports = router;
+export default router;

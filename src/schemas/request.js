@@ -20,4 +20,4 @@ const schema = {
 	}
 };
 
-module.exports = schema;
+export default schema;

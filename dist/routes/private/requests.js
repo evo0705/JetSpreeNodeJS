@@ -1,5 +1,9 @@
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
 var _express = require("express");
 
 var _express2 = _interopRequireDefault(_express);
@@ -38,7 +42,7 @@ router
     var errors = req.validationErrors();
     if (errors) return res.json({ success: false, errors: errors });
 
-    // image details
+    // image details and check type
     var imageData = req.body.image.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
     var imageExt = imageData[1].substring(6).toLowerCase().replace("jpeg", "jpg");
     if (['jpg', 'png', 'gif', 'webp'].indexOf(imageExt) < 0) {
@@ -76,7 +80,7 @@ router
 
             // s3 initialization and objects that required
             var s3 = new req.aws.S3();
-            var bucket = _config2.default.s3_bucket_root + "/requests/" + ret.id;
+            var bucket = "/requests/" + ret.id;
             var data = {
                 Bucket: bucket,
                 Key: imageName,
@@ -128,4 +132,4 @@ router
     }, handleError).catch(Error);
 });
 
-module.exports = router;
+exports.default = router;

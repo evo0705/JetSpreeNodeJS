@@ -21,3 +21,4 @@ var schemas = {
 };
 
 module.exports = schemas;
+//# sourceMappingURL=schemas.js.map

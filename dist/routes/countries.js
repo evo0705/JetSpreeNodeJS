@@ -1,5 +1,9 @@
 'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
 var _express = require('express');
 
 var _express2 = _interopRequireDefault(_express);
@@ -29,4 +33,4 @@ router
 	});
 });
 
-module.exports = router;
+exports.default = router;

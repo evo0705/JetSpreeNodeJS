@@ -10,7 +10,7 @@ const transporter = nodemailer.createTransport(smtpTransport({
     }
 }));
 
-module.exports = transporter;
+export default transporter;
 
 // to send email, import and call SendMail as below
 // mailer.sendMail({

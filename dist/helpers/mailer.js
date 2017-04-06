@@ -1,5 +1,9 @@
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
 var _config = require("../config");
 
 var _config2 = _interopRequireDefault(_config);
@@ -22,7 +26,7 @@ var transporter = _nodemailer2.default.createTransport((0, _nodemailerSmtpTransp
     }
 }));
 
-module.exports = transporter;
+exports.default = transporter;
 
 // to send email, import and call SendMail as below
 // mailer.sendMail({

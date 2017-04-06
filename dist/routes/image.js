@@ -1,5 +1,9 @@
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
 var _express = require("express");
 
 var _express2 = _interopRequireDefault(_express);
@@ -42,11 +46,6 @@ router
     } else {
         return res.redirect(_config2.default.s3_url + "/" + originalBucket + "/" + req.params.key);
     }
-
-    // if (!/^\d+$/.test(req.query.width) && !/^\d+$/.test(req.query.height) && !req.query.crop) {
-    // } else {
-    //     bucket += originalBucket + "/" + req.query.width + "_" + req.query.height;
-    // }
 
     var s3 = new req.aws.S3();
 
@@ -149,4 +148,4 @@ router
     }, handleError).catch(Error);
 });
 
-module.exports = router;
+exports.default = router;

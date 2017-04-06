@@ -2,6 +2,7 @@
 import "babel-polyfill";
 import config from "./config";
 import express from "express";
+import cors from "cors";
 import expressSession from "express-session";
 import expressValidator from "express-validator";
 import helmet from "helmet";
@@ -34,6 +35,7 @@ import authTrips from "./routes/private/trips";
 
 const app = express();
 app.use(helmet());
+app.use(cors());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -42,8 +44,8 @@ app.set('view engine', 'pug');
 app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(expressValidator([]));
-app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({extended: true, limit: '50mb'}));
+app.use(bodyParser.json({limit: '50mb'}));
 app.use(cookieParser());
 app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));

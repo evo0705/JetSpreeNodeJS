@@ -158,4 +158,4 @@ router
                 }, handleError).catch(Error);
         });
 
-module.exports = router;
+export default router;

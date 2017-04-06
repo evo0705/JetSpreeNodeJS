@@ -1,5 +1,9 @@
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
 var _express = require("express");
 
 var _express2 = _interopRequireDefault(_express);
@@ -32,7 +36,7 @@ router
             return res.json({
                 success: true,
                 result: result.rows,
-                image_host: _config2.default.s3_region_url + "/" + _config2.default.s3_bucket_root
+                image_host: _config2.default.s3_url + "/" + _config2.default.s3_bucket_root
             });
         }).catch(function (error) {
             client.release();
@@ -45,4 +49,4 @@ router
     });
 });
 
-module.exports = router;
+exports.default = router;

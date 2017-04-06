@@ -1,5 +1,8 @@
 'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 var schema = {
 	'email': {
 		notEmpty: true,
@@ -18,4 +21,4 @@ var schema = {
 	}
 };
 
-module.exports = schema;
+exports.default = schema;

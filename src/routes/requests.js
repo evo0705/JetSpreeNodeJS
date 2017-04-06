@@ -23,7 +23,7 @@ router
                     return res.json({
                         success: true,
                         result: result.rows,
-                        image_host: config.s3_region_url + "/" + config.s3_bucket_root
+                        image_host: config.s3_url + "/" + config.s3_bucket_root
                     });
                 })
                 .catch(error => {
@@ -37,4 +37,4 @@ router
         })
     });
 
-module.exports = router;
+export default router;

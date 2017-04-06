@@ -10,6 +10,10 @@ var _express = require("express");
 
 var _express2 = _interopRequireDefault(_express);
 
+var _cors = require("cors");
+
+var _cors2 = _interopRequireDefault(_cors);
+
 var _expressSession = require("express-session");
 
 var _expressSession2 = _interopRequireDefault(_expressSession);
@@ -119,11 +123,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // private routes
 
 // public routes
+// libraries
 var app = (0, _express2.default)();
 // index routes
-// libraries
 
 app.use((0, _helmet2.default)());
+app.use((0, _cors2.default)());
 
 // view engine setup
 app.set('views', _path2.default.join(__dirname, 'views'));
@@ -132,8 +137,8 @@ app.set('view engine', 'pug');
 app.use((0, _serveFavicon2.default)(__dirname + '/public/favicon.ico'));
 app.use((0, _morgan2.default)('dev'));
 app.use((0, _expressValidator2.default)([]));
-app.use(_bodyParser2.default.json({limit: '50mb'}));
 app.use(_bodyParser2.default.urlencoded({extended: true, limit: '50mb'}));
+app.use(_bodyParser2.default.json({limit: '50mb'}));
 app.use((0, _cookieParser2.default)());
 app.use(require('stylus').middleware(_path2.default.join(__dirname, 'public')));
 app.use(_express2.default.static(_path2.default.join(__dirname, 'public')));

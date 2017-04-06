@@ -17,7 +17,7 @@ router
         let errors = req.validationErrors();
         if (errors) return res.json({success: false, errors: errors});
 
-        // image details
+        // image details and check type
         let imageData = req.body.image.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
         let imageExt = imageData[1].substring(6).toLowerCase().replace("jpeg", "jpg");
         if (['jpg', 'png', 'gif', 'webp'].indexOf(imageExt) < 0) {
@@ -61,7 +61,7 @@ router
 
                 // s3 initialization and objects that required
                 let s3 = new req.aws.S3();
-                let bucket = config.s3_bucket_root + "/requests/" + ret.id;
+                let bucket = "/requests/" + ret.id;
                 let data = {
                     Bucket: bucket,
                     Key: imageName,
@@ -129,4 +129,4 @@ router
             }, handleError).catch(Error);
     });
 
-module.exports = router;
+export default router;
