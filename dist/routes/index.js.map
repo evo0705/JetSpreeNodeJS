@@ -1,0 +1,30 @@
+{
+  "version": 3,
+  "sources": [
+    "../../src/routes/index.js"
+  ],
+  "names": [
+    "express",
+    "require",
+    "router",
+    "Router",
+    "get",
+    "req",
+    "res",
+    "render",
+    "title",
+    "version",
+    "apis",
+    "name",
+    "url",
+    "desc",
+    "params",
+    "module",
+    "exports"
+  ],
+  "mappings": ";;AAAC,IAAIA,UAAUC,QAAQ,SAAR,CAAd;AACD,IAAIC,SAASF,QAAQG,MAAR,EAAb;;AAEA;AACAD,OAAOE,GAAP,CAAW,GAAX,EAAgB,UAAUC,GAAV,EAAeC,GAAf,EAAoB;AACnCA,KAAIC,MAAJ,CAAW,OAAX,EAAoB;AACnBC,SAAO,cADY;AAEnBC,WAASR,QAAQ,oBAAR,EAA8BQ,OAFpB;AAGnBC,QAAM,CACL,EAAEC,MAAM,oBAAR,EAA8BC,KAAK,sBAAnC,EAA2DC,MAAM,0CAAjE,EADK,EAEL,EAAEF,MAAM,gBAAR,EAA0BC,KAAK,YAA/B,EAA6CC,MAAM,mBAAnD,EAFK,EAGL,EAAEF,MAAM,eAAR,EAAyBC,KAAK,WAA9B,EAA2CC,MAAM,qBAAjD,EAHK,EAIL,EAAEF,MAAM,YAAR,EAAsBC,KAAK,QAA3B,EAAqCC,MAAM,mBAA3C,EAJK,EAKL,EAAEF,MAAM,YAAR,EAAsBC,KAAK,2CAA3B,EAAwEC,MAAM,mBAA9E,EALK,EAML;AACCF,SAAM,cADP,EACuBC,KAAK,eAD5B,EAC6CC,MAAM,wBADnD;AAECC,WAAQ,CACP,EAAEH,MAAM,OAAR,EAAiBE,MAAM,GAAvB,EADO,EAEP,EAAEF,MAAM,UAAR,EAAoBE,MAAM,GAA1B,EAFO;AAFT,GANK,EAaL;AACCF,SAAM,aADP,EACsBC,KAAK,gBAD3B,EAC6CC,MAAM,2BADnD;AAECC,WAAQ,CACP,EAAEH,MAAM,OAAR,EAAiBE,MAAM,GAAvB,EADO,EAEP,EAAEF,MAAM,UAAR,EAAoBE,MAAM,GAA1B,EAFO;AAFT,GAbK,EAoBL,EAAEF,MAAM,0BAAR,EAAoCC,KAAK,iBAAzC,EAA4DC,MAAM,gCAAlE,EApBK,EAqBL,EAAEF,MAAM,wBAAR,EAAkCC,KAAK,eAAvC,EAAwDC,MAAM,8BAA9D,EArBK,EAsBL,EAAEF,MAAM,4BAAR,EAAsCC,KAAK,YAA3C,EAAyDC,MAAM,0DAA/D,EAtBK,EAuBL;AACCF,SAAM,iCADP,EAC0CC,KAAK,WAD/C,EAC4DC,MAAM,sBADlE;AAECC,WAAQ,CACP,EAAEH,MAAM,MAAR,EAAgBE,MAAM,GAAtB,EADO,EAEP,EAAEF,MAAM,OAAR,EAAiBE,MAAM,GAAvB,EAFO,EAGP,EAAEF,MAAM,aAAR,EAAuBE,MAAM,GAA7B,EAHO,EAIP,EAAEF,MAAM,OAAR,EAAiBE,MAAM,QAAvB,EAJO;AAFT,GAvBK,EAgCL;AACCF,SAAM,8BADP,EACuCC,KAAK,QAD5C,EACsDC,MAAM,mBAD5D;AAECC,WAAQ,CACP,EAAEH,MAAM,mBAAR,EAA6BE,MAAM,GAAnC,EADO,EAEP,EAAEF,MAAM,mBAAR,EAA6BE,MAAM,GAAnC,EAFO,EAGP,EAAEF,MAAM,YAAR,EAAsBE,MAAM,GAA5B,EAHO,EAIP,EAAEF,MAAM,YAAR,EAAsBE,MAAM,GAA5B,EAJO;AAFT,GAhCK;AAHa,EAApB;AA8CA,CA/CD;;AAiDAE,OAAOC,OAAP,GAAiBd,MAAjB",
+  "file": "index.js",
+  "sourcesContent": [
+    "﻿let express = require('express');\r\nlet router = express.Router();\r\n\r\n/* GET home page. */\r\nrouter.get('/', function (req, res) {\r\n\tres.render('index', {\r\n\t\ttitle: 'JetSpree API',\r\n\t\tversion: require('../../package.json').version,\r\n\t\tapis: [\r\n\t\t\t{ name: \"GET: Search tweets\", url: \"/twitter/user/nodejs\", desc: \"filtered JSON of tweets from twitter api\" },\r\n\t\t\t{ name: \"GET: Countries\", url: \"/countries\", desc: \"list of countries\" },\r\n\t\t\t{ name: \"GET: Requests\", url: \"/requests\", desc: \"get list of request\" },\r\n\t\t\t{ name: \"GET: Trips\", url: \"/trips\", desc: \"get list of trips\" },\r\n\t\t\t{ name: \"GET: Image\", url: \"/image/dukenukem.jpg?width=150&height=150\", desc: \"get image from S3\" },\r\n\t\t\t{\r\n\t\t\t\tname: \"POST: Signup\", url: \"/login/signup\", desc: \"register a new account\",\r\n\t\t\t\tparams: [\r\n\t\t\t\t\t{ name: \"email\", desc: \"-\" },\r\n\t\t\t\t\t{ name: \"password\", desc: \"-\" }\r\n\t\t\t\t]\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\tname: \"POST: Login\", url: \"/login/account\", desc: \"login to jetspree account\",\r\n\t\t\t\tparams: [\r\n\t\t\t\t\t{ name: \"email\", desc: \"-\" },\r\n\t\t\t\t\t{ name: \"password\", desc: \"-\" }\r\n\t\t\t\t]\r\n\t\t\t},\r\n\t\t\t{ name: \"GET: Login with Facebook\", url: \"/login/facebook\", desc: \"login to jetspree via facebook\" },\r\n\t\t\t{ name: \"GET: Login with Google\", url: \"/login/google\", desc: \"login to jetspree via google\" },\r\n\t\t\t{ name: \"GET: User (x-access-token)\", url: \"/auth/user\", desc: \"get logged in user's info, require x-access-token header\" },\r\n\t\t\t{\r\n\t\t\t\tname: \"POST: Requests (x-access-token)\", url: \"/requests\", desc: \"create a new request\",\r\n\t\t\t\tparams: [\r\n\t\t\t\t\t{ name: \"name\", desc: \"-\" },\r\n\t\t\t\t\t{ name: \"price\", desc: \"-\" },\r\n\t\t\t\t\t{ name: \"description\", desc: \"-\" },\r\n\t\t\t\t\t{ name: \"image\", desc: \"base64\" }\r\n\t\t\t\t]\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\tname: \"POST: Trips (x-access-token)\", url: \"/trips\", desc: \"create a new trip\",\r\n\t\t\t\tparams: [\r\n\t\t\t\t\t{ name: \"travelCountryCode\", desc: \"-\" },\r\n\t\t\t\t\t{ name: \"returnCountryCode\", desc: \"-\" },\r\n\t\t\t\t\t{ name: \"travelDate\", desc: \"-\" },\r\n\t\t\t\t\t{ name: \"returnDate\", desc: \"-\" }\r\n\t\t\t\t]\r\n\t\t\t}\r\n\t\t]\r\n\t});\r\n});\r\n\r\nmodule.exports = router;"
+  ]
+}

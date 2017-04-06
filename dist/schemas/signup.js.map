@@ -1,0 +1,22 @@
+{
+  "version": 3,
+  "sources": [
+    "../../src/schemas/signup.js"
+  ],
+  "names": [
+    "schema",
+    "notEmpty",
+    "errorMessage",
+    "isEmail",
+    "isLength",
+    "options",
+    "min",
+    "module",
+    "exports"
+  ],
+  "mappings": ";;AAAA,IAAMA,SAAS;AACd,UAAS;AACRC,YAAU,IADF;AAERC,gBAAc,4BAFN;AAGRC,WAAS;AACRD,iBAAc;AADN;AAHD,EADK;AAQd,aAAY;AACXD,YAAU,IADC;AAEXC,gBAAc,uBAFH;AAGXE,YAAU;AACTC,YAAS,CAAC,EAAEC,KAAK,CAAP,EAAD,CADA;AAETJ,iBAAc;AAFL;AAHC;AARE,CAAf;;AAkBAK,OAAOC,OAAP,GAAiBR,MAAjB",
+  "file": "signup.js",
+  "sourcesContent": [
+    "const schema = {\r\n\t'email': {\r\n\t\tnotEmpty: true,\r\n\t\terrorMessage: 'Email address is required.',\r\n\t\tisEmail: {\r\n\t\t\terrorMessage: 'Invalid email address.'\r\n\t\t}\r\n\t},\r\n\t'password': {\r\n\t\tnotEmpty: true,\r\n\t\terrorMessage: 'Password is required.',\r\n\t\tisLength: {\r\n\t\t\toptions: [{ min: 6 }],\r\n\t\t\terrorMessage: 'Password must be at least 6 characters long.'\r\n\t\t}\r\n\t}\r\n};\r\n\r\nmodule.exports = schema;"
+  ]
+}

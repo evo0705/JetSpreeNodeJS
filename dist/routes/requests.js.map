@@ -1,0 +1,42 @@
+{
+  "version": 3,
+  "sources": [
+    "../../src/routes/requests.js"
+  ],
+  "names": [
+    "router",
+    "Router",
+    "get",
+    "req",
+    "res",
+    "queryFrom",
+    "queryWhere",
+    "queryParams",
+    "query",
+    "name",
+    "length",
+    "push",
+    "pool",
+    "connect",
+    "then",
+    "client",
+    "release",
+    "json",
+    "success",
+    "result",
+    "rows",
+    "image_host",
+    "s3_url",
+    "s3_bucket_root",
+    "catch",
+    "error",
+    "message",
+    "module",
+    "exports"
+  ],
+  "mappings": ";;AAAC;;;;AACD;;;;;;AACA,IAAMA,SAAS,kBAAQC,MAAR,EAAf;;AAEAD;;AAEA;AAFA,CAGKE,GAHL,CAGS,GAHT,EAGc,UAAUC,GAAV,EAAeC,GAAf,EAAoB;;AAE1B,QAAIC,YAAY,EAAhB;AACA,QAAIC,aAAa,EAAjB;AACA,QAAIC,cAAc,EAAlB;AACA,QAAIJ,IAAIK,KAAJ,CAAUC,IAAd,EAAoB;AAChBJ,qBAAa,yDAAyDE,YAAYG,MAAZ,GAAqB,CAA9E,IAAmF,gBAAhG;AACAJ,sBAAc,6BAAd;AACAC,oBAAYI,IAAZ,CAAiBR,IAAIK,KAAJ,CAAUC,IAA3B;AACH;;AAEDN,QAAIS,IAAJ,CAASC,OAAT,GAAmBC,IAAnB,CAAwB,kBAAU;AAC9BC,eAAOP,KAAP,CAAa,wBAAwBH,SAAxB,GAAoC,YAApC,GAAmDC,UAAhE,EAA4EC,WAA5E,EACKO,IADL,CACU,kBAAU;AACZC,mBAAOC,OAAP;AACA,mBAAOZ,IAAIa,IAAJ,CAAS;AACZC,yBAAS,IADG;AAEZC,wBAAQA,OAAOC,IAFH;AAGZC,4BAAY,iBAAOC,MAAP,GAAgB,GAAhB,GAAsB,iBAAOC;AAH7B,aAAT,CAAP;AAKH,SARL,EASKC,KATL,CASW,iBAAS;AACZT,mBAAOC,OAAP;AACA,gBAAIS,KAAJ,EAAW,MAAMA,KAAN;AACX,mBAAOrB,IAAIa,IAAJ,CAAS;AACZC,yBAAS,KADG;AAEZQ,yBAASD;AAFG,aAAT,CAAP;AAIH,SAhBL;AAiBH,KAlBD;AAmBH,CAjCL;;AAmCAE,OAAOC,OAAP,GAAiB5B,MAAjB",
+  "file": "requests.js",
+  "sourcesContent": [
+    "﻿import express from \"express\";\r\nimport config from \"../config\";\r\nconst router = express.Router();\r\n\r\nrouter\r\n\r\n// Get list of requests\r\n    .get('/', function (req, res) {\r\n\r\n        let queryFrom = '';\r\n        let queryWhere = '';\r\n        let queryParams = [];\r\n        if (req.query.name) {\r\n            queryFrom += \", to_tsvector(name) AS the_field, plainto_tsquery($\" + (queryParams.length + 1) + \") AS the_words\";\r\n            queryWhere += \" AND the_field @@ the_words\";\r\n            queryParams.push(req.query.name);\r\n        }\r\n\r\n        req.pool.connect().then(client => {\r\n            client.query('SELECT * FROM items' + queryFrom + ' WHERE 1=1' + queryWhere, queryParams)\r\n                .then(result => {\r\n                    client.release();\r\n                    return res.json({\r\n                        success: true,\r\n                        result: result.rows,\r\n                        image_host: config.s3_url + \"/\" + config.s3_bucket_root\r\n                    });\r\n                })\r\n                .catch(error => {\r\n                    client.release();\r\n                    if (error) throw error;\r\n                    return res.json({\r\n                        success: false,\r\n                        message: error\r\n                    });\r\n                })\r\n        })\r\n    });\r\n\r\nmodule.exports = router;"
+  ]
+}

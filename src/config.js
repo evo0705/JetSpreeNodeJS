@@ -16,6 +16,7 @@ module.exports = {
     'google_client_secret': process.env.GOOGLE_CLIENT_SECRET,
     'google_callback_url': (process.env.NODE_ENV === 'production' ? 'https://jetspree-node-test.herokuapp.com/login/google/callback' : "/login/google/callback"),
     'smtp_provider': 'outlook',
+    'image_max_resolution': {width: 1280, height: 1280},
     'smtp_username': process.env.SMTP_USERNAME,
     'smtp_password': process.env.SMTP_PASSWORD,
     'aws_access_key_id': process.env.AWS_ACCESS_KEY_ID,

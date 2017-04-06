@@ -1,0 +1,43 @@
+{
+  "version": 3,
+  "sources": [
+    "../../src/routes/countries.js"
+  ],
+  "names": [
+    "router",
+    "Router",
+    "get",
+    "req",
+    "res",
+    "pool",
+    "connect",
+    "then",
+    "client",
+    "query",
+    "release",
+    "json",
+    "success",
+    "result",
+    "rows",
+    "catch",
+    "console",
+    "error",
+    "s3",
+    "aws",
+    "S3",
+    "params",
+    "Bucket",
+    "getObject",
+    "Key",
+    "err",
+    "file",
+    "sendFile",
+    "module",
+    "exports"
+  ],
+  "mappings": ";;AAAA;;;;;;AACA,IAAMA,SAAS,kBAAQC,MAAR,EAAf;;AAEAD;;AAEC;AAFD,CAGEE,GAHF,CAGM,GAHN,EAGW,UAAUC,GAAV,EAAeC,GAAf,EAAoB;AAC7BD,KAAIE,IAAJ,CAASC,OAAT,GAAmBC,IAAnB,CAAwB,kBAAU;AACjCC,SAAOC,KAAP,CAAa,yBAAb,EACEF,IADF,CACO,kBAAU;AACfC,UAAOE,OAAP;AACA,UAAON,IAAIO,IAAJ,CAAS,EAAEC,SAAS,IAAX,EAAiBC,QAAQA,OAAOC,IAAhC,EAAT,CAAP;AACA,GAJF,EAKcC,KALd,CAKoB,iBAAS;AAC3BP,UAAOE,OAAP;AACeM,WAAQC,KAAR,CAAcA,KAAd;AACA,UAAOb,IAAIO,IAAJ,CAAS,EAACC,SAAS,KAAV,EAAiBK,OAAOA,KAAxB,EAAT,CAAP;AACf,GATF;AAUA,EAXD;AAYA,CAhBF,EAkBEf,GAlBF,CAkBM,MAlBN,EAkBc,UAAUC,GAAV,EAAeC,GAAf,EAAoB;AAChC,KAAIc,KAAK,IAAIf,IAAIgB,GAAJ,CAAQC,EAAZ,CAAe,EAAEC,QAAQ,EAAEC,QAAQ,UAAV,EAAV,EAAf,CAAT;AACAJ,IAAGK,SAAH,CAAa,EAAEC,KAAK,eAAP,EAAb,EAAuC,UAAUC,GAAV,EAAeC,IAAf,EAAqB;AAC3DtB,MAAIuB,QAAJ,CAAaD,IAAb;AACA,EAFD;AAGA,CAvBF;;AA2BAE,OAAOC,OAAP,GAAiB7B,MAAjB",
+  "file": "countries.js",
+  "sourcesContent": [
+    "import express from \"express\";\r\nconst router = express.Router();\r\n\r\nrouter\r\n\r\n\t/* GET list of Countries */\r\n\t.get('/', function (req, res) {\r\n\t\treq.pool.connect().then(client => {\r\n\t\t\tclient.query('SELECT * FROM countries')\r\n\t\t\t\t.then(result => {\r\n\t\t\t\t\tclient.release();\r\n\t\t\t\t\treturn res.json({ success: true, result: result.rows });\r\n\t\t\t\t})\r\n                .catch(error => {\r\n\t\t\t\t\tclient.release();\r\n                    console.error(error);\r\n                    return res.json({success: false, error: error});\r\n\t\t\t\t});\r\n\t\t});\r\n\t})\r\n\r\n\t.get(\"/img\", function (req, res) {\r\n\t\tlet s3 = new req.aws.S3({ params: { Bucket: 'jetspree' } });\r\n\t\ts3.getObject({ Key: 'dukenukem.jpg' }, function (err, file) {\r\n\t\t\tres.sendFile(file);\r\n\t\t});\r\n\t})\r\n\r\n\t;\r\n\r\nmodule.exports = router;"
+  ]
+}

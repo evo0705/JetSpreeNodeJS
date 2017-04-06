@@ -1,0 +1,19 @@
+{
+  "version": 3,
+  "sources": [
+    "../../src/schemas/request.js"
+  ],
+  "names": [
+    "schema",
+    "notEmpty",
+    "errorMessage",
+    "isFloat",
+    "module",
+    "exports"
+  ],
+  "mappings": ";;AAAA,IAAMA,SAAS;AACd,SAAQ;AACPC,YAAU,IADH;AAEPC,gBAAc;AAFP,EADM;AAKd,UAAS;AACRD,YAAU,IADF;AAERC,gBAAc,oBAFN;AAGRC,WAAS;AACRD,iBAAc;AADN;AAHD,EALK;AAYb,gBAAe;AACfD,YAAU,IADK;AAEfC,gBAAc;AAFC,EAZF;AAgBd,UAAQ;AACPD,YAAU,IADH;AAEPC,gBAAc;AAFP;AAhBM,CAAf;;AAsBAE,OAAOC,OAAP,GAAiBL,MAAjB",
+  "file": "request.js",
+  "sourcesContent": [
+    "const schema = {\r\n\t'name': {\r\n\t\tnotEmpty: true,\r\n\t\terrorMessage: 'Item name is required.'\r\n\t},\r\n\t'price': {\r\n\t\tnotEmpty: true,\r\n\t\terrorMessage: 'Price is required.',\r\n\t\tisFloat: {\r\n\t\t\terrorMessage: 'Invalid price.'\r\n\t\t}\r\n\t},\r\n  'description': {\r\n\t\tnotEmpty: true,\r\n\t\terrorMessage: 'Description is required.'\r\n  },\r\n\t'image':{\r\n\t\tnotEmpty: true,\r\n\t\terrorMessage: 'Image is required.'\r\n\t}\r\n};\r\n\r\nmodule.exports = schema;"
+  ]
+}
