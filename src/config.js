@@ -1,11 +1,4 @@
-let localConfig = {};
-try {
-    localConfig = require('./localConfig.json');
-} catch (e) {
-    // no local config was found
-}
-
-module.exports = {
+export default {
     'secret': process.env.JETSPREE_SECRET,
     'connection_string': process.env.DATABASE_URL || 'postgres://postgres:P%40ssword@localhost:5432/jetspree',
     'token_duration': 60 * 60 * 24, // expires in 24 hours

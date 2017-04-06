@@ -82,7 +82,7 @@ router
             var s3 = new req.aws.S3();
             var bucket = "/requests/" + ret.id;
             var data = {
-                Bucket: bucket,
+                Bucket: _config2.default.s3_bucket_root + bucket,
                 Key: imageName,
                 Body: buffer,
                 ContentType: imageData[1]
@@ -104,7 +104,7 @@ router
             }, handleError).catch(Error).then(function () {
                 ret.imagePath = bucket + "/" + imageName;
                 resolve(ret);
-            }).catch(function (error) {
+            }, handleError).catch(Error).catch(function (error) {
                 reject(error);
             });
         });

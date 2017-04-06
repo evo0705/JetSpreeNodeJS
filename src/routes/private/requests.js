@@ -63,7 +63,7 @@ router
                 let s3 = new req.aws.S3();
                 let bucket = "/requests/" + ret.id;
                 let data = {
-                    Bucket: bucket,
+                    Bucket: config.s3_bucket_root + bucket,
                     Key: imageName,
                     Body: buffer,
                     ContentType: imageData[1]
@@ -87,12 +87,12 @@ router
                         }
                     }).identifyAsync()
                     .then(() => {
-                        return s3.putObject(data).promise();
+                        return s3.putObject(data).promise()
                     }, handleError).catch(Error)
                     .then(() => {
                         ret.imagePath = bucket + "/" + imageName;
                         resolve(ret);
-                    })
+                    }, handleError).catch(Error)
                     .catch((error) => {
                         reject(error);
                     });
