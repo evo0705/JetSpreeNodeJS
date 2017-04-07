@@ -9,7 +9,7 @@
     "build": "babel src -s -D -d dist --presets es2015,stage-0",
     "start": "node dist/app",
     "prestart": "npm run -s build",
-    "test": "eslint src"
+    "test": "mocha --compilers js:babel-core/register"
   },
   "eslintConfig": {
     "extends": "eslint:recommended",
@@ -74,7 +74,10 @@
     "gulp-nodemon": "^2.2.1",
     "gulp-notify": "^3.0.0",
     "node-inspector": "^1.0.0",
-    "nodemon": "^1.11.0"
+    "nodemon": "^1.11.0",
+    "mocha": "^3.2.0",
+    "chai": "^3.5.0",
+    "chai-http": "^3.0.0"
   },
   "repository": {
     "type": "git",

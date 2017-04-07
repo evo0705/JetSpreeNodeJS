@@ -4,7 +4,7 @@ const router = express.Router();
 
 router
 
-// Get list of requests
+// Get list of requests.js
     .get('/', function (req, res) {
 
         let queryFrom = '';

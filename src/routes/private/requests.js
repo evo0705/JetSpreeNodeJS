@@ -61,7 +61,7 @@ router
 
                 // s3 initialization and objects that required
                 let s3 = new req.aws.S3();
-                let bucket = "/requests/" + ret.id;
+                let bucket = "/requests.js/" + ret.id;
                 let data = {
                     Bucket: config.s3_bucket_root + bucket,
                     Key: imageName,

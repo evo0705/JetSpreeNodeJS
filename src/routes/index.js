@@ -9,7 +9,7 @@ router.get('/', function (req, res) {
 		apis: [
 			{ name: "GET: Search tweets", url: "/twitter/user/nodejs", desc: "filtered JSON of tweets from twitter api" },
 			{ name: "GET: Countries", url: "/countries", desc: "list of countries" },
-			{ name: "GET: Requests", url: "/requests", desc: "get list of request" },
+            {name: "GET: Requests", url: "/requests.js", desc: "get list of request"},
 			{ name: "GET: Trips", url: "/trips", desc: "get list of trips" },
 			{ name: "GET: Image", url: "/image/dukenukem.jpg?width=150&height=150", desc: "get image from S3" },
 			{
@@ -30,7 +30,7 @@ router.get('/', function (req, res) {
 			{ name: "GET: Login with Google", url: "/login/google", desc: "login to jetspree via google" },
 			{ name: "GET: User (x-access-token)", url: "/auth/user", desc: "get logged in user's info, require x-access-token header" },
 			{
-				name: "POST: Requests (x-access-token)", url: "/requests", desc: "create a new request",
+                name: "POST: Requests (x-access-token)", url: "/requests.js", desc: "create a new request",
 				params: [
 					{ name: "name", desc: "-" },
 					{ name: "price", desc: "-" },

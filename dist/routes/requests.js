@@ -18,7 +18,7 @@ var router = _express2.default.Router();
 
 router
 
-// Get list of requests
+// Get list of requests.js
 .get('/', function (req, res) {
 
     var queryFrom = '';
