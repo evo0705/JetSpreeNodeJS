@@ -29,6 +29,10 @@ router
         queryWhere += " AND the_field @@ the_words";
         queryParams.push(req.query.name);
     }
+    if (req.query.id) {
+        queryWhere += " AND id=$" + (queryParams.length + 1);
+        queryParams.push(req.query.id);
+    }
 
     req.pool.connect().then(function (client) {
         client.query('SELECT * FROM items' + queryFrom + ' WHERE 1=1' + queryWhere, queryParams).then(function (result) {
