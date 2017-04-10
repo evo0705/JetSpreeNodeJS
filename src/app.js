@@ -108,10 +108,10 @@ index.use('/image', image);
 index.use('/trips', trips);
 
 // routes that requires login to access
-app.use('/auth', authorize);
 authorize.use('/user', authUser);
 authorize.use('/requests', authRequests);
 authorize.use('/trips', authTrips);
+index.use('/auth', authorize);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

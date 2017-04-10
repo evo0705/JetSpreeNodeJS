@@ -199,10 +199,10 @@ _index2.default.use('/image', _image2.default);
 _index2.default.use('/trips', _trips2.default);
 
 // routes that requires login to access
-app.use('/auth', _authorize2.default);
 _authorize2.default.use('/user', _user2.default);
 _authorize2.default.use('/requests', _requests4.default);
 _authorize2.default.use('/trips', _trips4.default);
+_index2.default.use('/auth', _authorize2.default);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
