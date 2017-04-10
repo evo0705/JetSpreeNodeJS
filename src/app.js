@@ -99,19 +99,19 @@ app.get('/login/google/callback',
         failureRedirect: '/login'
     }));
 
-app.use('/', index);
-app.use('/countries', countries);
-app.use('/twitter', twitter);
-app.use('/login', login);
-app.use('/requests', requests);
-app.use('/image', image);
-app.use('/trips', trips);
+app.use('/v1', index);
+index.use('/countries', countries);
+index.use('/twitter', twitter);
+index.use('/login', login);
+index.use('/requests', requests);
+index.use('/image', image);
+index.use('/trips', trips);
 
 // routes that requires login to access
+app.use('/auth', authorize);
 authorize.use('/user', authUser);
 authorize.use('/requests', authRequests);
 authorize.use('/trips', authTrips);
-app.use('/auth', authorize);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

@@ -190,19 +190,19 @@ app.get('/login/google/callback', _passport2.default.authenticate('google', {
     failureRedirect: '/login'
 }));
 
-app.use('/', _index2.default);
-app.use('/countries', _countries2.default);
-app.use('/twitter', _twitter2.default);
-app.use('/login', _login2.default);
-app.use('/requests', _requests2.default);
-app.use('/image', _image2.default);
-app.use('/trips', _trips2.default);
+app.use('/v1', _index2.default);
+_index2.default.use('/countries', _countries2.default);
+_index2.default.use('/twitter', _twitter2.default);
+_index2.default.use('/login', _login2.default);
+_index2.default.use('/requests', _requests2.default);
+_index2.default.use('/image', _image2.default);
+_index2.default.use('/trips', _trips2.default);
 
 // routes that requires login to access
+app.use('/auth', _authorize2.default);
 _authorize2.default.use('/user', _user2.default);
 _authorize2.default.use('/requests', _requests4.default);
 _authorize2.default.use('/trips', _trips4.default);
-app.use('/auth', _authorize2.default);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
