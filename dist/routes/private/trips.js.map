@@ -1,7 +1,7 @@
 {
   "version": 3,
   "sources": [
-    "../../../src/routes/private/trips.js"
+    "routes/private/trips.js"
   ],
   "names": [
     "router",
@@ -32,13 +32,11 @@
     "rows",
     "catch",
     "error",
-    "message",
-    "module",
-    "exports"
+    "message"
   ],
-  "mappings": ";;AAAA;;;;AACA;;;;;;AACA,IAAMA,SAAS,kBAAQC,MAAR,EAAf;;AAEAD;;AAEI;AAFJ,CAGKE,IAHL,CAGU,GAHV,EAGe,UAAUC,GAAV,EAAcC,GAAd,EAAmB;;AAE1BD,QAAIE,SAAJ,CAAc,kBAAQC,IAAtB;AACA,QAAIC,SAASJ,IAAIK,gBAAJ,EAAb;;AAEA,QAAID,MAAJ,EAAY;AACjB,eAAOH,IAAIK,IAAJ,CAAS,EAAEC,SAAS,KAAX,EAAkBH,QAAQA,MAA1B,EAAT,CAAP;AACA;;AAEKJ,QAAIQ,IAAJ,CAASC,OAAT,GAAmBC,IAAnB,CAAwB,kBAAU;AAC9BC,eAAOC,KAAP,CAAa,8MAAb,EACI,CAACZ,IAAIa,IAAJ,CAASC,iBAAV,EAA6Bd,IAAIa,IAAJ,CAASE,iBAAtC,EAAyDf,IAAIa,IAAJ,CAASG,UAAlE,EAA8EhB,IAAIa,IAAJ,CAASI,UAAvF,EAAmGjB,IAAIkB,OAAJ,CAAYC,EAA/G,CADJ,EAEKT,IAFL,CAEU,kBAAU;AACZC,mBAAOS,OAAP;AACA,mBAAOnB,IAAIK,IAAJ,CAAS;AACZC,yBAAS,IADG;AAEZc,wBAAQA,OAAOC,IAAP,CAAY,CAAZ;AAFI,aAAT,CAAP;AAIH,SARL,EASKC,KATL,CASW,iBAAS;AACZZ,mBAAOS,OAAP;AACA,gBAAII,KAAJ,EAAW,MAAMA,KAAN;AACX,mBAAOvB,IAAIK,IAAJ,CAAS;AACZC,yBAAS,KADG;AAEZkB,yBAASD;AAFG,aAAT,CAAP;AAIH,SAhBL;AAiBH,KAlBD;AAmBH,CA/BL;;AAiCAE,OAAOC,OAAP,GAAiB9B,MAAjB",
+  "mappings": ";;;;;;AAAA;;;;AACA;;;;;;AACA,IAAMA,SAAS,kBAAQC,MAAR,EAAf;;AAEAD;;AAEI;AAFJ,CAGKE,IAHL,CAGU,GAHV,EAGe,UAAUC,GAAV,EAAcC,GAAd,EAAmB;;AAE1BD,QAAIE,SAAJ,CAAc,kBAAQC,IAAtB;AACA,QAAIC,SAASJ,IAAIK,gBAAJ,EAAb;;AAEA,QAAID,MAAJ,EAAY;AACjB,eAAOH,IAAIK,IAAJ,CAAS,EAAEC,SAAS,KAAX,EAAkBH,QAAQA,MAA1B,EAAT,CAAP;AACA;;AAEKJ,QAAIQ,IAAJ,CAASC,OAAT,GAAmBC,IAAnB,CAAwB,kBAAU;AAC9BC,eAAOC,KAAP,CAAa,8MAAb,EACI,CAACZ,IAAIa,IAAJ,CAASC,iBAAV,EAA6Bd,IAAIa,IAAJ,CAASE,iBAAtC,EAAyDf,IAAIa,IAAJ,CAASG,UAAlE,EAA8EhB,IAAIa,IAAJ,CAASI,UAAvF,EAAmGjB,IAAIkB,OAAJ,CAAYC,EAA/G,CADJ,EAEKT,IAFL,CAEU,kBAAU;AACZC,mBAAOS,OAAP;AACA,mBAAOnB,IAAIK,IAAJ,CAAS;AACZC,yBAAS,IADG;AAEZc,wBAAQA,OAAOC,IAAP,CAAY,CAAZ;AAFI,aAAT,CAAP;AAIH,SARL,EASKC,KATL,CASW,iBAAS;AACZZ,mBAAOS,OAAP;AACA,gBAAII,KAAJ,EAAW,MAAMA,KAAN;AACX,mBAAOvB,IAAIK,IAAJ,CAAS;AACZC,yBAAS,KADG;AAEZkB,yBAASD;AAFG,aAAT,CAAP;AAIH,SAhBL;AAiBH,KAlBD;AAmBH,CA/BL;;kBAiCe3B,M",
   "file": "trips.js",
   "sourcesContent": [
-    "import express from 'express';\r\nimport schemas from '../../schemas';\r\nconst router = express.Router();\r\n\r\nrouter\r\n\r\n    // Post a trip\r\n    .post('/', function (req,res) {\r\n\r\n        req.checkBody(schemas.trip);\r\n        let errors = req.validationErrors();\r\n\r\n        if (errors) {\r\n\t\t\treturn res.json({ success: false, errors: errors });\r\n\t\t}\r\n\r\n        req.pool.connect().then(client => {\r\n            client.query('INSERT INTO trips (travel_country_code, return_country_code, travel_date, return_date, user_id) VALUES ($1, $2, $3, $4, $5) RETURNING id, travel_country_code, return_country_code, travel_date, return_date',\r\n                [req.body.travelCountryCode, req.body.returnCountryCode, req.body.travelDate, req.body.returnDate, req.decoded.id])\r\n                .then(result => {\r\n                    client.release();\r\n                    return res.json({\r\n                        success: true,\r\n                        result: result.rows[0]\r\n                    })\r\n                })\r\n                .catch(error => {\r\n                    client.release();\r\n                    if (error) throw error;\r\n                    return res.json({\r\n                        success: false,\r\n                        message: error\r\n                    })\r\n                })\r\n        })\r\n    });\r\n\r\nmodule.exports = router;"
+    "import express from \"express\";\r\nimport schemas from \"../../schemas\";\r\nconst router = express.Router();\r\n\r\nrouter\r\n\r\n    // Post a trip\r\n    .post('/', function (req,res) {\r\n\r\n        req.checkBody(schemas.trip);\r\n        let errors = req.validationErrors();\r\n\r\n        if (errors) {\r\n\t\t\treturn res.json({ success: false, errors: errors });\r\n\t\t}\r\n\r\n        req.pool.connect().then(client => {\r\n            client.query('INSERT INTO trips (travel_country_code, return_country_code, travel_date, return_date, user_id) VALUES ($1, $2, $3, $4, $5) RETURNING id, travel_country_code, return_country_code, travel_date, return_date',\r\n                [req.body.travelCountryCode, req.body.returnCountryCode, req.body.travelDate, req.body.returnDate, req.decoded.id])\r\n                .then(result => {\r\n                    client.release();\r\n                    return res.json({\r\n                        success: true,\r\n                        result: result.rows[0]\r\n                    })\r\n                })\r\n                .catch(error => {\r\n                    client.release();\r\n                    if (error) throw error;\r\n                    return res.json({\r\n                        success: false,\r\n                        message: error\r\n                    })\r\n                })\r\n        })\r\n    });\r\n\r\nexport default router;"
   ]
 }

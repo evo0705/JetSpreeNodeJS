@@ -47,3 +47,4 @@ router
 });
 
 exports.default = router;
+//# sourceMappingURL=trips.js.map

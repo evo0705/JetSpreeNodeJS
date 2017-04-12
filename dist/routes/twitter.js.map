@@ -1,7 +1,7 @@
 {
   "version": 3,
   "sources": [
-    "../../src/routes/twitter.js"
+    "routes/twitter.js"
   ],
   "names": [
     "router",
@@ -33,13 +33,11 @@
     "urls",
     "entities",
     "screen_name",
-    "send",
-    "module",
-    "exports"
+    "send"
   ],
-  "mappings": ";;AAAA;;;;AACA;;;;;;AAEA,IAAMA,SAAS,kBAAQC,MAAR,EAAf;AACA,IAAMC,eAAe,2BAArB;AACA,IAAMC,kBAAkB,oDAAxB;;AAEAH,OAEEI,GAFF,CAEM,aAFN,EAEqB,UAAUC,GAAV,EAAeC,GAAf,EAAoB;AACvC,KAAIC,QAAQ;AACXC,gBAAcN,YADH;AAEXO,mBAAiBN,eAFN;AAGXO,gBAAc,oDAHH;AAIXC,uBAAqB;AAJV,EAAZ;AAMA,mBAAQP,GAAR,CAAY,EAAEQ,KAAK,6DAA6DP,IAAIQ,MAAJ,CAAWC,IAA/E,EAAqFP,OAAOA,KAA5F,EAAZ,EAAiH,UAAUQ,CAAV,EAAaC,CAAb,EAAgBC,IAAhB,EAAsB;;AAE7H,MAAIC,SAASC,KAAKC,KAAL,CAAWH,IAAX,EAAiBI,QAAjB,CAA0BC,GAA1B,CAA8B,UAACC,GAAD,EAAS;AAC5D,UAAO;AACNC,gBAAYD,IAAIC,UADV;AAENC,UAAMF,IAAIE,IAFJ;AAGSC,UAAMH,IAAII,QAAJ,CAAaD,IAAb,CAAkBJ,GAAlB,CAAsB,UAACC,GAAD,EAAS;AACjC,YAAOA,IAAIX,GAAX;AACH,KAFK,CAHf;AAMNE,UAAMS,IAAIT,IAAJ,CAASc;AANT,IAAP;AAQA,GATqB,CAAb;AAUTtB,MAAIuB,IAAJ,CAASX,MAAT;AACA,EAbD;AAcA,CAvBF;;AA2BAY,OAAOC,OAAP,GAAiB/B,MAAjB",
+  "mappings": ";;;;;;AAAA;;;;AACA;;;;;;AAEA,IAAMA,SAAS,kBAAQC,MAAR,EAAf;AACA,IAAMC,eAAe,2BAArB;AACA,IAAMC,kBAAkB,oDAAxB;;AAEAH,OAEEI,GAFF,CAEM,aAFN,EAEqB,UAAUC,GAAV,EAAeC,GAAf,EAAoB;AACvC,KAAIC,QAAQ;AACXC,gBAAcN,YADH;AAEXO,mBAAiBN,eAFN;AAGXO,gBAAc,oDAHH;AAIXC,uBAAqB;AAJV,EAAZ;AAMA,mBAAQP,GAAR,CAAY,EAAEQ,KAAK,6DAA6DP,IAAIQ,MAAJ,CAAWC,IAA/E,EAAqFP,OAAOA,KAA5F,EAAZ,EAAiH,UAAUQ,CAAV,EAAaC,CAAb,EAAgBC,IAAhB,EAAsB;;AAE7H,MAAIC,SAASC,KAAKC,KAAL,CAAWH,IAAX,EAAiBI,QAAjB,CAA0BC,GAA1B,CAA8B,UAACC,GAAD,EAAS;AAC5D,UAAO;AACNC,gBAAYD,IAAIC,UADV;AAENC,UAAMF,IAAIE,IAFJ;AAGSC,UAAMH,IAAII,QAAJ,CAAaD,IAAb,CAAkBJ,GAAlB,CAAsB,UAACC,GAAD,EAAS;AACjC,YAAOA,IAAIX,GAAX;AACH,KAFK,CAHf;AAMNE,UAAMS,IAAIT,IAAJ,CAASc;AANT,IAAP;AAQA,GATqB,CAAb;AAUTtB,MAAIuB,IAAJ,CAASX,MAAT;AACA,EAbD;AAcA,CAvBF;;kBA2BelB,M",
   "file": "twitter.js",
   "sourcesContent": [
-    "import express from \"express\";\r\nimport request from \"request\";\r\n\r\nconst router = express.Router();\r\nconst CONSUMER_KEY = 'C26AzqB4KX27vptotRfsl2mci';\r\nconst CONSUMER_SECRET = 'WLn5P77bBreEU4Lx6ia75ESQFtos1hR2EhYl8HW7xoCPoWpUw8';\r\n\r\nrouter\r\n\r\n\t.get('/user/:user', function (req, res) {\r\n\t\tlet oauth = {\r\n\t\t\tconsumer_key: CONSUMER_KEY,\r\n\t\t\tconsumer_secret: CONSUMER_SECRET,\r\n\t\t\taccess_token: '558478141-vP6gWUhaySNB0Lrkf2Rf2mOg8hemsHjSLyxi5GBv',\r\n\t\t\taccess_token_secret: 'AVUtd9EdLpkeyt2pPerwbnna2WB1YJQnDpd7SMyITAX3Z'\r\n\t\t};\r\n\t\trequest.get({ url: 'https://api.twitter.com/1.1/search/tweets.json?q=from%3A' + req.params.user, oauth: oauth }, function (e, r, body) {\r\n\r\n            let tidyUp = JSON.parse(body).statuses.map((obj) => {\r\n\t\t\t\treturn {\r\n\t\t\t\t\tcreated_at: obj.created_at,\r\n\t\t\t\t\ttext: obj.text,\r\n                    urls: obj.entities.urls.map((obj) => {\r\n                        return obj.url\r\n                    }),\r\n\t\t\t\t\tuser: obj.user.screen_name\r\n\t\t\t\t};\r\n\t\t\t});\r\n\t\t\tres.send(tidyUp);\r\n\t\t});\r\n\t})\r\n\r\n\t;\r\n\r\nmodule.exports = router;"
+    "import express from \"express\";\r\nimport request from \"request\";\r\n\r\nconst router = express.Router();\r\nconst CONSUMER_KEY = 'C26AzqB4KX27vptotRfsl2mci';\r\nconst CONSUMER_SECRET = 'WLn5P77bBreEU4Lx6ia75ESQFtos1hR2EhYl8HW7xoCPoWpUw8';\r\n\r\nrouter\r\n\r\n\t.get('/user/:user', function (req, res) {\r\n\t\tlet oauth = {\r\n\t\t\tconsumer_key: CONSUMER_KEY,\r\n\t\t\tconsumer_secret: CONSUMER_SECRET,\r\n\t\t\taccess_token: '558478141-vP6gWUhaySNB0Lrkf2Rf2mOg8hemsHjSLyxi5GBv',\r\n\t\t\taccess_token_secret: 'AVUtd9EdLpkeyt2pPerwbnna2WB1YJQnDpd7SMyITAX3Z'\r\n\t\t};\r\n\t\trequest.get({ url: 'https://api.twitter.com/1.1/search/tweets.json?q=from%3A' + req.params.user, oauth: oauth }, function (e, r, body) {\r\n\r\n            let tidyUp = JSON.parse(body).statuses.map((obj) => {\r\n\t\t\t\treturn {\r\n\t\t\t\t\tcreated_at: obj.created_at,\r\n\t\t\t\t\ttext: obj.text,\r\n                    urls: obj.entities.urls.map((obj) => {\r\n                        return obj.url\r\n                    }),\r\n\t\t\t\t\tuser: obj.user.screen_name\r\n\t\t\t\t};\r\n\t\t\t});\r\n\t\t\tres.send(tidyUp);\r\n\t\t});\r\n\t})\r\n\r\n\t;\r\n\r\nexport default router;"
   ]
 }

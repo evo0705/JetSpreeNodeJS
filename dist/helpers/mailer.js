@@ -36,3 +36,4 @@ exports.default = transporter;
 // 	html: '<b>hello world!</b>',
 // 	text: 'hello world!'
 // });
+//# sourceMappingURL=mailer.js.map

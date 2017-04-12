@@ -1,7 +1,7 @@
 {
   "version": 3,
   "sources": [
-    "../../src/routes/trips.js"
+    "routes/trips.js"
   ],
   "names": [
     "router",
@@ -22,13 +22,11 @@
     "catch",
     "console",
     "error",
-    "message",
-    "module",
-    "exports"
+    "message"
   ],
-  "mappings": ";;AAAA;;;;;;AACA,IAAMA,SAAS,kBAAQC,MAAR,EAAf;;AAEAD,OACKE,GADL,CACS,GADT,EACc,UAAUC,GAAV,EAAeC,GAAf,EAAoB;AAC1BD,QAAIE,IAAJ,CAASC,OAAT,GAAmBC,IAAnB,CAAwB,kBAAU;AAC9BC,eAAOC,KAAP,CAAa,qBAAb,EACKF,IADL,CACU,kBAAU;AACZC,mBAAOE,OAAP;AACA,mBAAON,IAAIO,IAAJ,CAAS;AACZC,yBAAS,IADG;AAEZC,wBAAQA,OAAOC;AAFH,aAAT,CAAP;AAIH,SAPL,EAQKC,KARL,CAQW,iBAAS;AACZP,mBAAOE,OAAP;AACAM,oBAAQC,KAAR,CAAcA,KAAd;AACA,mBAAOb,IAAIO,IAAJ,CAAS;AACZC,yBAAS,KADG;AAEZM,yBAASD;AAFG,aAAT,CAAP;AAIH,SAfL;AAgBH,KAjBD;AAkBH,CApBL;;AAsBAE,OAAOC,OAAP,GAAiBpB,MAAjB",
+  "mappings": ";;;;;;AAAA;;;;;;AACA,IAAMA,SAAS,kBAAQC,MAAR,EAAf;;AAEAD,OACKE,GADL,CACS,GADT,EACc,UAAUC,GAAV,EAAeC,GAAf,EAAoB;AAC1BD,QAAIE,IAAJ,CAASC,OAAT,GAAmBC,IAAnB,CAAwB,kBAAU;AAC9BC,eAAOC,KAAP,CAAa,qBAAb,EACKF,IADL,CACU,kBAAU;AACZC,mBAAOE,OAAP;AACA,mBAAON,IAAIO,IAAJ,CAAS;AACZC,yBAAS,IADG;AAEZC,wBAAQA,OAAOC;AAFH,aAAT,CAAP;AAIH,SAPL,EAQKC,KARL,CAQW,iBAAS;AACZP,mBAAOE,OAAP;AACAM,oBAAQC,KAAR,CAAcA,KAAd;AACA,mBAAOb,IAAIO,IAAJ,CAAS;AACZC,yBAAS,KADG;AAEZM,yBAASD;AAFG,aAAT,CAAP;AAIH,SAfL;AAgBH,KAjBD;AAkBH,CApBL;;kBAsBejB,M",
   "file": "trips.js",
   "sourcesContent": [
-    "import express from \"express\";\r\nconst router = express.Router();\r\n\r\nrouter\r\n    .get('/', function (req, res) {\r\n        req.pool.connect().then(client => {\r\n            client.query('SELECT * FROM trips')\r\n                .then(result => {\r\n                    client.release();\r\n                    return res.json({\r\n                        success: true,\r\n                        result: result.rows\r\n                    });\r\n                })\r\n                .catch(error => {\r\n                    client.release();\r\n                    console.error(error);\r\n                    return res.json({\r\n                        success: false,\r\n                        message: error\r\n                    })\r\n                })\r\n        })\r\n    });\r\n    \r\nmodule.exports = router;"
+    "import express from \"express\";\r\nconst router = express.Router();\r\n\r\nrouter\r\n    .get('/', function (req, res) {\r\n        req.pool.connect().then(client => {\r\n            client.query('SELECT * FROM trips')\r\n                .then(result => {\r\n                    client.release();\r\n                    return res.json({\r\n                        success: true,\r\n                        result: result.rows\r\n                    });\r\n                })\r\n                .catch(error => {\r\n                    client.release();\r\n                    console.error(error);\r\n                    return res.json({\r\n                        success: false,\r\n                        message: error\r\n                    })\r\n                })\r\n        })\r\n    });\r\n\r\nexport default router;"
   ]
 }

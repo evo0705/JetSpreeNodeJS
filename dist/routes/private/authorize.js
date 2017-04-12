@@ -46,3 +46,4 @@ router.use(function (req, res, next) {
 });
 
 exports.default = router;
+//# sourceMappingURL=authorize.js.map

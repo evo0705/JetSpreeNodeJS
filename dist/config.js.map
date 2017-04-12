@@ -1,14 +1,9 @@
 {
   "version": 3,
   "sources": [
-    "../src/config.js"
+    "config.js"
   ],
   "names": [
-    "localConfig",
-    "require",
-    "e",
-    "module",
-    "exports",
     "process",
     "env",
     "JETSPREE_SECRET",
@@ -18,15 +13,17 @@
     "NODE_ENV",
     "GOOGLE_CLIENT_ID",
     "GOOGLE_CLIENT_SECRET",
+    "width",
+    "height",
     "SMTP_USERNAME",
     "SMTP_PASSWORD",
     "AWS_ACCESS_KEY_ID",
     "AWS_SECRET_ACCESS_KEY",
     "S3_BUKCET_ROOT"
   ],
-  "mappings": ";;AAAA,IAAIA,cAAc,EAAlB;AACA,IAAI;AACAA,kBAAcC,QAAQ,oBAAR,CAAd;AACH,CAFD,CAEE,OAAOC,CAAP,EAAU;AACR;AACH;;AAEDC,OAAOC,OAAP,GAAiB;AACb,cAAUC,QAAQC,GAAR,CAAYC,eAAZ,IAA+BP,YAAYO,eADxC;AAEb,yBAAqBF,QAAQC,GAAR,CAAYE,YAAZ,IAA4B,wDAFpC;AAGb,sBAAkB,KAAK,EAAL,GAAU,EAHf,EAGmB;AAChC,uBAAoBH,QAAQC,GAAR,CAAYG,eAAZ,IAA+BT,YAAYS,eAJlD;AAKb,2BAAwBJ,QAAQC,GAAR,CAAYI,mBAAZ,IAAmCV,YAAYU,mBAL1D;AAMb,6BAA0BL,QAAQC,GAAR,CAAYK,QAAZ,KAAyB,YAAzB,GAAwC,kEAAxC,GAA6G,0BAN1H;AAOb,wBAAoBN,QAAQC,GAAR,CAAYM,gBAAZ,IAAgCZ,YAAYY,gBAPnD;AAQb,4BAAwBP,QAAQC,GAAR,CAAYO,oBAAZ,IAAoCb,YAAYa,oBAR3D;AASb,2BAAwBR,QAAQC,GAAR,CAAYK,QAAZ,KAAyB,YAAzB,GAAwC,gEAAxC,GAA2G,wBATtH;AAUb,qBAAiB,SAVJ;AAWb,qBAAiBN,QAAQC,GAAR,CAAYQ,aAAZ,IAA6Bd,YAAYc,aAX7C;AAYb,qBAAiBT,QAAQC,GAAR,CAAYS,aAAZ,IAA6Bf,YAAYe,aAZ7C;AAab,yBAAqBV,QAAQC,GAAR,CAAYU,iBAAZ,IAAiChB,YAAYgB,iBAbrD;AAcb,6BAAyBX,QAAQC,GAAR,CAAYW,qBAAZ,IAAqCjB,YAAYiB,qBAd7D;AAeb,sBAAkBZ,QAAQC,GAAR,CAAYY,cAAZ,IAA8BlB,YAAYkB,cAf/C;AAgBb,cAAU;AAhBG,CAAjB",
+  "mappings": ";;;;;kBAAe;AACX,cAAUA,QAAQC,GAAR,CAAYC,eADX;AAEX,yBAAqBF,QAAQC,GAAR,CAAYE,YAAZ,IAA4B,wDAFtC;AAGX,sBAAkB,KAAK,EAAL,GAAU,EAHjB,EAGqB;AAChC,uBAAmBH,QAAQC,GAAR,CAAYG,eAJpB;AAKX,2BAAuBJ,QAAQC,GAAR,CAAYI,mBALxB;AAMX,6BAA0BL,QAAQC,GAAR,CAAYK,QAAZ,KAAyB,YAAzB,GAAwC,kEAAxC,GAA6G,0BAN5H;AAOX,wBAAoBN,QAAQC,GAAR,CAAYM,gBAPrB;AAQX,4BAAwBP,QAAQC,GAAR,CAAYO,oBARzB;AASX,2BAAwBR,QAAQC,GAAR,CAAYK,QAAZ,KAAyB,YAAzB,GAAwC,gEAAxC,GAA2G,wBATxH;AAUX,qBAAiB,SAVN;AAWX,4BAAwB,EAACG,OAAO,IAAR,EAAcC,QAAQ,IAAtB,EAXb;AAYX,qBAAiBV,QAAQC,GAAR,CAAYU,aAZlB;AAaX,qBAAiBX,QAAQC,GAAR,CAAYW,aAblB;AAcX,yBAAqBZ,QAAQC,GAAR,CAAYY,iBAdtB;AAeX,6BAAyBb,QAAQC,GAAR,CAAYa,qBAf1B;AAgBX,sBAAkBd,QAAQC,GAAR,CAAYc,cAhBnB;AAiBX,cAAU;AAjBC,C",
   "file": "config.js",
   "sourcesContent": [
-    "let localConfig = {};\r\ntry {\r\n    localConfig = require('./localConfig.json');\r\n} catch (e) {\r\n    // no local config was found\r\n}\r\n\r\nmodule.exports = {\r\n    'secret': process.env.JETSPREE_SECRET || localConfig.JETSPREE_SECRET,\r\n    'connection_string': process.env.DATABASE_URL || 'postgres://postgres:P%40ssword@localhost:5432/jetspree',\r\n    'token_duration': 60 * 60 * 24, // expires in 24 hours\r\n    'facebook_app_id': (process.env.FACEBOOK_APP_ID || localConfig.FACEBOOK_APP_ID),\r\n    'facebook_app_secret': (process.env.FACEBOOK_APP_SECRET || localConfig.FACEBOOK_APP_SECRET),\r\n    'facebook_callback_url': (process.env.NODE_ENV === 'production' ? 'https://jetspree-node-test.herokuapp.com/login/facebook/callback' : \"/login/facebook/callback\"),\r\n    'google_client_id': process.env.GOOGLE_CLIENT_ID || localConfig.GOOGLE_CLIENT_ID,\r\n    'google_client_secret': process.env.GOOGLE_CLIENT_SECRET || localConfig.GOOGLE_CLIENT_SECRET,\r\n    'google_callback_url': (process.env.NODE_ENV === 'production' ? 'https://jetspree-node-test.herokuapp.com/login/google/callback' : \"/login/google/callback\"),\r\n    'smtp_provider': 'outlook',\r\n    'smtp_username': process.env.SMTP_USERNAME || localConfig.SMTP_USERNAME,\r\n    'smtp_password': process.env.SMTP_PASSWORD || localConfig.SMTP_PASSWORD,\r\n    'aws_access_key_id': process.env.AWS_ACCESS_KEY_ID || localConfig.AWS_ACCESS_KEY_ID,\r\n    'aws_secret_access_key': process.env.AWS_SECRET_ACCESS_KEY || localConfig.AWS_SECRET_ACCESS_KEY,\r\n    's3_bucket_root': process.env.S3_BUKCET_ROOT || localConfig.S3_BUKCET_ROOT,\r\n    's3_url': 'https://s3-ap-southeast-1.amazonaws.com'\r\n};\r\n"
+    "export default {\r\n    'secret': process.env.JETSPREE_SECRET,\r\n    'connection_string': process.env.DATABASE_URL || 'postgres://postgres:P%40ssword@localhost:5432/jetspree',\r\n    'token_duration': 60 * 60 * 24, // expires in 24 hours\r\n    'facebook_app_id': process.env.FACEBOOK_APP_ID,\r\n    'facebook_app_secret': process.env.FACEBOOK_APP_SECRET,\r\n    'facebook_callback_url': (process.env.NODE_ENV === 'production' ? 'https://jetspree-node-test.herokuapp.com/login/facebook/callback' : \"/login/facebook/callback\"),\r\n    'google_client_id': process.env.GOOGLE_CLIENT_ID,\r\n    'google_client_secret': process.env.GOOGLE_CLIENT_SECRET,\r\n    'google_callback_url': (process.env.NODE_ENV === 'production' ? 'https://jetspree-node-test.herokuapp.com/login/google/callback' : \"/login/google/callback\"),\r\n    'smtp_provider': 'outlook',\r\n    'image_max_resolution': {width: 1280, height: 1280},\r\n    'smtp_username': process.env.SMTP_USERNAME,\r\n    'smtp_password': process.env.SMTP_PASSWORD,\r\n    'aws_access_key_id': process.env.AWS_ACCESS_KEY_ID,\r\n    'aws_secret_access_key': process.env.AWS_SECRET_ACCESS_KEY,\r\n    's3_bucket_root': process.env.S3_BUKCET_ROOT,\r\n    's3_url': 'https://s3-ap-southeast-1.amazonaws.com'\r\n};\r\n"
   ]
 }

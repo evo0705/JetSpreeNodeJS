@@ -1,18 +1,16 @@
 {
   "version": 3,
   "sources": [
-    "../../src/schemas/trip.js"
+    "schemas/trip.js"
   ],
   "names": [
     "schema",
     "notEmpty",
-    "errorMessage",
-    "module",
-    "exports"
+    "errorMessage"
   ],
-  "mappings": ";;AAAA,IAAMA,SAAS;AACX,yBAAqB;AACjBC,kBAAU,IADO;AAEvBC,sBAAc;AAFS,KADV;AAKX,yBAAqB;AACjBD,kBAAU,IADO;AAEvBC,sBAAc;AAFS,KALV;AASX,kBAAc;AACVD,kBAAU,IADA;AAEhBC,sBAAc;AAFE,KATH;AAaX,kBAAc;AACVD,kBAAU,IADA;AAEhBC,sBAAc;AAFE;AAbH,CAAf;;AAmBAC,OAAOC,OAAP,GAAiBJ,MAAjB",
+  "mappings": ";;;;;AAAA,IAAMA,SAAS;AACX,yBAAqB;AACjBC,kBAAU,IADO;AAEvBC,sBAAc;AAFS,KADV;AAKX,yBAAqB;AACjBD,kBAAU,IADO;AAEvBC,sBAAc;AAFS,KALV;AASX,kBAAc;AACVD,kBAAU,IADA;AAEhBC,sBAAc;AAFE,KATH;AAaX,kBAAc;AACVD,kBAAU,IADA;AAEhBC,sBAAc;AAFE;AAbH,CAAf;;kBAmBeF,M",
   "file": "trip.js",
   "sourcesContent": [
-    "const schema = {\r\n    'travelCountryCode': {\r\n        notEmpty: true,\r\n\t\terrorMessage: 'Travel country is required.'\r\n    },\r\n    'returnCountryCode': {\r\n        notEmpty: true,\r\n\t\terrorMessage: 'Return country is required.'\r\n    },\r\n    'travelDate': {\r\n        notEmpty: true,\r\n\t\terrorMessage: 'Travel date is required.'\r\n    },\r\n    'returnDate': {\r\n        notEmpty: true,\r\n\t\terrorMessage: 'Return date is required.'\r\n    }\r\n};\r\n\r\nmodule.exports = schema;"
+    "const schema = {\r\n    'travelCountryCode': {\r\n        notEmpty: true,\r\n\t\terrorMessage: 'Travel country is required.'\r\n    },\r\n    'returnCountryCode': {\r\n        notEmpty: true,\r\n\t\terrorMessage: 'Return country is required.'\r\n    },\r\n    'travelDate': {\r\n        notEmpty: true,\r\n\t\terrorMessage: 'Travel date is required.'\r\n    },\r\n    'returnDate': {\r\n        notEmpty: true,\r\n\t\terrorMessage: 'Return date is required.'\r\n    }\r\n};\r\n\r\nexport default schema;"
   ]
 }

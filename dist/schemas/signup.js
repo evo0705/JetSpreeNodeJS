@@ -22,3 +22,4 @@ var schema = {
 };
 
 exports.default = schema;
+//# sourceMappingURL=signup.js.map

@@ -23,3 +23,4 @@ var schema = {
 };
 
 exports.default = schema;
+//# sourceMappingURL=trip.js.map

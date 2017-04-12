@@ -22,3 +22,4 @@ exports.default = {
     's3_bucket_root': process.env.S3_BUKCET_ROOT,
     's3_url': 'https://s3-ap-southeast-1.amazonaws.com'
 };
+//# sourceMappingURL=config.js.map
