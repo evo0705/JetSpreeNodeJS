@@ -176,21 +176,22 @@ app.use(_passport2.default.initialize());
 app.use(_passport2.default.session());
 app.use((0, _connectFlash2.default)());
 
+app.use('/v1', _index2.default);
+
 //Facebook Passport Router
-app.get('/login/facebook', _passport2.default.authenticate('facebook', { scope: 'email' }));
-app.get('/login/facebook/callback', _passport2.default.authenticate('facebook', {
+_index2.default.get('/login/facebook', _passport2.default.authenticate('facebook', {scope: 'email'}));
+_index2.default.get('/login/facebook/callback', _passport2.default.authenticate('facebook', {
     successRedirect: '/login/authenticated',
     failureRedirect: '/login'
 }));
 
 //Google Passport Router
-app.get('/login/google', _passport2.default.authenticate('google', { scope: ['profile', 'email'] }));
-app.get('/login/google/callback', _passport2.default.authenticate('google', {
+_index2.default.get('/login/google', _passport2.default.authenticate('google', {scope: ['profile', 'email']}));
+_index2.default.get('/login/google/callback', _passport2.default.authenticate('google', {
     successRedirect: '/login/authenticated',
     failureRedirect: '/login'
 }));
 
-app.use('/v1', _index2.default);
 _index2.default.use('/countries', _countries2.default);
 _index2.default.use('/twitter', _twitter2.default);
 _index2.default.use('/login', _login2.default);

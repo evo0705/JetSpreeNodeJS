@@ -83,23 +83,24 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 
+app.use('/v1', index);
+
 //Facebook Passport Router
-app.get('/v1/login/facebook', passport.authenticate('facebook', {scope: 'email'}));
-app.get('/v1/login/facebook/callback',
+index.get('/login/facebook', passport.authenticate('facebook', {scope: 'email'}));
+index.get('/login/facebook/callback',
     passport.authenticate('facebook', {
-        successRedirect: '/v1/login/authenticated',
-        failureRedirect: '/v1/login'
+        successRedirect: '/login/authenticated',
+        failureRedirect: '/login'
     }));
 
 //Google Passport Router
-app.get('/v1/login/google', passport.authenticate('google', {scope: ['profile', 'email']}));
-app.get('/v1/login/google/callback',
+index.get('/login/google', passport.authenticate('google', {scope: ['profile', 'email']}));
+index.get('/login/google/callback',
     passport.authenticate('google', {
-        successRedirect: '/v1/login/authenticated',
-        failureRedirect: '/v1/login'
+        successRedirect: '/login/authenticated',
+        failureRedirect: '/login'
     }));
 
-app.use('/v1', index);
 index.use('/countries', countries);
 index.use('/twitter', twitter);
 index.use('/login', login);
