@@ -84,16 +84,16 @@ app.use(passport.session());
 app.use(flash());
 
 //Facebook Passport Router
-app.get('/login/facebook', passport.authenticate('facebook', {scope: 'email'}));
-app.get('/login/facebook/callback',
+app.get('/v1/login/facebook', passport.authenticate('facebook', {scope: 'email'}));
+app.get('/v1/login/facebook/callback',
     passport.authenticate('facebook', {
         successRedirect: '/login/authenticated',
         failureRedirect: '/login'
     }));
 
 //Google Passport Router
-app.get('/login/google', passport.authenticate('google', {scope: ['profile', 'email']}));
-app.get('/login/google/callback',
+app.get('/v1/login/google', passport.authenticate('google', {scope: ['profile', 'email']}));
+app.get('/v1/login/google/callback',
     passport.authenticate('google', {
         successRedirect: '/login/authenticated',
         failureRedirect: '/login'
