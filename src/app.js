@@ -53,6 +53,11 @@ app.use(cookieParser());
 app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
+const queue = kue.createQueue({
+    redis: process.env.REDIS
+});
+app.use('/queue', kue.app);
+
 app.use((req, res, next) => {
     let parsedConnStr = url.parse(config.connection_string);
     let dbAuth = parsedConnStr.auth.split(':');
@@ -71,6 +76,7 @@ app.use((req, res, next) => {
         setPromisesDependency: Promise
     };
     req.aws = aws;
+    req.queue = queue;
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
@@ -137,11 +143,6 @@ if (app.get('env') === 'development') {
             error: err
         });
     });
-} else if (app.get('env') === 'production') {
-    kue.createQueue({
-        redis: process.env.REDIS
-    });
-    app.use('/queue', kue.app);
 }
 
 // production error handler

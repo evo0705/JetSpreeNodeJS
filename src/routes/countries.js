@@ -1,5 +1,4 @@
 import express from "express";
-import kue from "kue";
 const router = express.Router();
 
 router
@@ -8,10 +7,7 @@ router
     .get('/', function (req, res) {
 
         // add email queue
-        let queue = kue.createQueue({
-            redis: process.env.REDIS
-        });
-        queue.create('email', {
+        req.queue.create('email', {
             subject: 'Welcome to JetSpree',
             to: 'samuel.lee@jetspree.com',
             content: 'Testing some Mailgun awesomness!',
