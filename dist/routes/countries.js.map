@@ -9,6 +9,22 @@
     "get",
     "req",
     "res",
+    "queue",
+    "createQueue",
+    "redis",
+    "process",
+    "env",
+    "REDIS",
+    "create",
+    "title",
+    "to",
+    "template",
+    "priority",
+    "attempts",
+    "removeOnComplete",
+    "save",
+    "error",
+    "console",
     "pool",
     "connect",
     "then",
@@ -20,8 +36,6 @@
     "result",
     "rows",
     "catch",
-    "console",
-    "error",
     "s3",
     "aws",
     "S3",
@@ -33,9 +47,9 @@
     "file",
     "sendFile"
   ],
-  "mappings": ";;;;;;AAAA;;;;;;AACA,IAAMA,SAAS,kBAAQC,MAAR,EAAf;;AAEAD;;AAEC;AAFD,CAGEE,GAHF,CAGM,GAHN,EAGW,UAAUC,GAAV,EAAeC,GAAf,EAAoB;AAC7BD,KAAIE,IAAJ,CAASC,OAAT,GAAmBC,IAAnB,CAAwB,kBAAU;AACjCC,SAAOC,KAAP,CAAa,yBAAb,EACEF,IADF,CACO,kBAAU;AACfC,UAAOE,OAAP;AACA,UAAON,IAAIO,IAAJ,CAAS,EAAEC,SAAS,IAAX,EAAiBC,QAAQA,OAAOC,IAAhC,EAAT,CAAP;AACA,GAJF,EAKcC,KALd,CAKoB,iBAAS;AAC3BP,UAAOE,OAAP;AACeM,WAAQC,KAAR,CAAcA,KAAd;AACA,UAAOb,IAAIO,IAAJ,CAAS,EAACC,SAAS,KAAV,EAAiBK,OAAOA,KAAxB,EAAT,CAAP;AACf,GATF;AAUA,EAXD;AAYA,CAhBF,EAkBEf,GAlBF,CAkBM,MAlBN,EAkBc,UAAUC,GAAV,EAAeC,GAAf,EAAoB;AAChC,KAAIc,KAAK,IAAIf,IAAIgB,GAAJ,CAAQC,EAAZ,CAAe,EAAEC,QAAQ,EAAEC,QAAQ,UAAV,EAAV,EAAf,CAAT;AACAJ,IAAGK,SAAH,CAAa,EAAEC,KAAK,eAAP,EAAb,EAAuC,UAAUC,GAAV,EAAeC,IAAf,EAAqB;AAC3DtB,MAAIuB,QAAJ,CAAaD,IAAb;AACA,EAFD;AAGA,CAvBF;;kBA2Be1B,M",
+  "mappings": ";;;;;;AAAA;;;;AACA;;;;;;AACA,IAAMA,SAAS,kBAAQC,MAAR,EAAf;;AAEAD;;AAEA;AAFA,CAGKE,GAHL,CAGS,GAHT,EAGc,UAAUC,GAAV,EAAeC,GAAf,EAAoB;;AAE1B;AACA,QAAIC,QAAQ,cAAIC,WAAJ,CAAgB;AACxBC,eAAOC,QAAQC,GAAR,CAAYC;AADK,KAAhB,CAAZ;AAGAL,UAAMM,MAAN,CAAa,QAAb,EAAuB;AACnBC,eAAO,qBADY;AAEjBC,YAAI,yBAFa;AAGjBC,kBAAU;AAHO,KAAvB,EAIGC,QAJH,CAIY,MAJZ,EAIoBC,QAJpB,CAI6B,CAJ7B,EAIgCC,gBAJhC,CAIiD,IAJjD,EAIuDC,IAJvD,CAI4D,UAACC,KAAD,EAAW;AACnEC,gBAAQD,KAAR,CAAcA,KAAd;AACH,KAND;;AAQAhB,QAAIkB,IAAJ,CAASC,OAAT,GAAmBC,IAAnB,CAAwB,kBAAU;AAC9BC,eAAOC,KAAP,CAAa,yBAAb,EACKF,IADL,CACU,kBAAU;AACZC,mBAAOE,OAAP;AACA,mBAAOtB,IAAIuB,IAAJ,CAAS,EAACC,SAAS,IAAV,EAAgBC,QAAQA,OAAOC,IAA/B,EAAT,CAAP;AACH,SAJL,EAKKC,KALL,CAKW,iBAAS;AACZP,mBAAOE,OAAP;AACAN,oBAAQD,KAAR,CAAcA,KAAd;AACA,mBAAOf,IAAIuB,IAAJ,CAAS,EAACC,SAAS,KAAV,EAAiBT,OAAOA,KAAxB,EAAT,CAAP;AACH,SATL;AAUH,KAXD;AAYH,CA7BL,EA+BKjB,GA/BL,CA+BS,MA/BT,EA+BiB,UAAUC,GAAV,EAAeC,GAAf,EAAoB;AAC7B,QAAI4B,KAAK,IAAI7B,IAAI8B,GAAJ,CAAQC,EAAZ,CAAe,EAACC,QAAQ,EAACC,QAAQ,UAAT,EAAT,EAAf,CAAT;AACAJ,OAAGK,SAAH,CAAa,EAACC,KAAK,eAAN,EAAb,EAAqC,UAAUC,GAAV,EAAeC,IAAf,EAAqB;AACtDpC,YAAIqC,QAAJ,CAAaD,IAAb;AACH,KAFD;AAGH,CApCL;;kBAwCexC,M",
   "file": "countries.js",
   "sourcesContent": [
-    "import express from \"express\";\r\nconst router = express.Router();\r\n\r\nrouter\r\n\r\n\t/* GET list of Countries */\r\n\t.get('/', function (req, res) {\r\n\t\treq.pool.connect().then(client => {\r\n\t\t\tclient.query('SELECT * FROM countries')\r\n\t\t\t\t.then(result => {\r\n\t\t\t\t\tclient.release();\r\n\t\t\t\t\treturn res.json({ success: true, result: result.rows });\r\n\t\t\t\t})\r\n                .catch(error => {\r\n\t\t\t\t\tclient.release();\r\n                    console.error(error);\r\n                    return res.json({success: false, error: error});\r\n\t\t\t\t});\r\n\t\t});\r\n\t})\r\n\r\n\t.get(\"/img\", function (req, res) {\r\n\t\tlet s3 = new req.aws.S3({ params: { Bucket: 'jetspree' } });\r\n\t\ts3.getObject({ Key: 'dukenukem.jpg' }, function (err, file) {\r\n\t\t\tres.sendFile(file);\r\n\t\t});\r\n\t})\r\n\r\n\t;\r\n\r\nexport default router;"
+    "import express from \"express\"\r\nimport kue from \"kue\";\r\nconst router = express.Router();\r\n\r\nrouter\r\n\r\n/* GET list of Countries */\r\n    .get('/', function (req, res) {\r\n\r\n        // add email queue\r\n        let queue = kue.createQueue({\r\n            redis: process.env.REDIS\r\n        });\r\n        queue.create('email ', {\r\n            title: 'Welcome to JetSpree'\r\n            , to: 'samuel.lee@jetspree.com'\r\n            , template: 'signup-email'\r\n        }).priority('high').attempts(5).removeOnComplete(true).save((error) => {\r\n            console.error(error);\r\n        });\r\n\r\n        req.pool.connect().then(client => {\r\n            client.query('SELECT * FROM countries')\r\n                .then(result => {\r\n                    client.release();\r\n                    return res.json({success: true, result: result.rows});\r\n                })\r\n                .catch(error => {\r\n                    client.release();\r\n                    console.error(error);\r\n                    return res.json({success: false, error: error});\r\n                });\r\n        });\r\n    })\r\n\r\n    .get(\"/img\", function (req, res) {\r\n        let s3 = new req.aws.S3({params: {Bucket: 'jetspree'}});\r\n        s3.getObject({Key: 'dukenukem.jpg'}, function (err, file) {\r\n            res.sendFile(file);\r\n        });\r\n    })\r\n\r\n;\r\n\r\nexport default router;"
   ]
 }

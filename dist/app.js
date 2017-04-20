@@ -136,10 +136,6 @@ var app = (0, _express2.default)();
 // public routes
 
 
-var queue = _kue2.default.createQueue({
-    redis: process.env.REDIS
-});
-
 app.use((0, _helmet2.default)());
 app.use((0, _cors2.default)());
 
@@ -174,7 +170,6 @@ app.use(function (req, res, next) {
         setPromisesDependency: _bluebird2.default
     };
     req.aws = _awsSdk2.default;
-    req.queue = queue;
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
@@ -212,14 +207,6 @@ _index2.default.use('/login', _login2.default);
 _index2.default.use('/requests', _requests2.default);
 _index2.default.use('/images', _image2.default);
 _index2.default.use('/trips', _trips2.default);
-_index2.default.use('/send', function (req, res, next) {
-    req.queue.create('email', {
-        title: 'Account renewal required',
-        to: 'tj@learnboost.com',
-        template: 'renewal-email'
-    }).priority('medium').attempts(5).save();
-    return res.send("sendEmail triggered");
-});
 
 // routes that requires login to access
 _authorize2.default.use('/user', _user2.default);
@@ -247,6 +234,11 @@ if (app.get('env') === 'development') {
             error: err
         });
     });
+} else if (app.get('env') === 'production') {
+    _kue2.default.createQueue({
+        redis: process.env.REDIS
+    });
+    app.use('/queue', _kue2.default.app);
 }
 
 // production error handler

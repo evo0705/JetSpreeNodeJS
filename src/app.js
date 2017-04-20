@@ -37,10 +37,6 @@ import authImages from "./routes/private/images";
 
 const app = express();
 
-const queue = kue.createQueue({
-    redis: process.env.REDIS
-});
-
 app.use(helmet());
 app.use(cors());
 
@@ -75,13 +71,10 @@ app.use((req, res, next) => {
         setPromisesDependency: Promise
     };
     req.aws = aws;
-    req.queue = queue;
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
-
-app.use('/queue', kue.app);
 
 // required for passport
 app.use(expressSession({
@@ -144,6 +137,11 @@ if (app.get('env') === 'development') {
             error: err
         });
     });
+} else if (app.get('env') === 'production') {
+    kue.createQueue({
+        redis: process.env.REDIS
+    });
+    app.use('/queue', kue.app);
 }
 
 // production error handler
