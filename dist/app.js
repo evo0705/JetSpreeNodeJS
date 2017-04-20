@@ -74,6 +74,10 @@ var _bluebird = require("bluebird");
 
 var _bluebird2 = _interopRequireDefault(_bluebird);
 
+var _kue = require("kue");
+
+var _kue2 = _interopRequireDefault(_kue);
+
 var _index = require("./routes/index");
 
 var _index2 = _interopRequireDefault(_index);
@@ -118,14 +122,23 @@ var _trips3 = require("./routes/private/trips");
 
 var _trips4 = _interopRequireDefault(_trips3);
 
+var _images = require("./routes/private/images");
+
+var _images2 = _interopRequireDefault(_images);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// index routes
+// libraries
+var app = (0, _express2.default)();
 // private routes
 
 // public routes
-// libraries
-var app = (0, _express2.default)();
-// index routes
+
+
+var queue = _kue2.default.createQueue({
+    redis: process.env.REDIS
+});
 
 app.use((0, _helmet2.default)());
 app.use((0, _cors2.default)());
@@ -161,6 +174,7 @@ app.use(function (req, res, next) {
         setPromisesDependency: _bluebird2.default
     };
     req.aws = _awsSdk2.default;
+    req.queue = queue;
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
@@ -181,28 +195,37 @@ app.use('/v1', _index2.default);
 //Facebook Passport Router
 _index2.default.get('/login/facebook', _passport2.default.authenticate('facebook', {scope: 'email'}));
 _index2.default.get('/login/facebook/callback', _passport2.default.authenticate('facebook', {
-    successRedirect: '/login/authenticated',
-    failureRedirect: '/login'
+    successRedirect: '/v1/login/authenticated',
+    failureRedirect: '/v1/login'
 }));
 
 //Google Passport Router
 _index2.default.get('/login/google', _passport2.default.authenticate('google', {scope: ['profile', 'email']}));
 _index2.default.get('/login/google/callback', _passport2.default.authenticate('google', {
-    successRedirect: '/login/authenticated',
-    failureRedirect: '/login'
+    successRedirect: '/v1/login/authenticated',
+    failureRedirect: '/v1/login'
 }));
 
 _index2.default.use('/countries', _countries2.default);
 _index2.default.use('/twitter', _twitter2.default);
 _index2.default.use('/login', _login2.default);
 _index2.default.use('/requests', _requests2.default);
-_index2.default.use('/image', _image2.default);
+_index2.default.use('/images', _image2.default);
 _index2.default.use('/trips', _trips2.default);
+_index2.default.use('/send', function (req, res, next) {
+    req.queue.create('email', {
+        title: 'Account renewal required',
+        to: 'tj@learnboost.com',
+        template: 'renewal-email'
+    }).priority('medium').attempts(5).save();
+    return res.send("sendEmail triggered");
+});
 
 // routes that requires login to access
 _authorize2.default.use('/user', _user2.default);
 _authorize2.default.use('/requests', _requests4.default);
 _authorize2.default.use('/trips', _trips4.default);
+_authorize2.default.use('/images', _images2.default);
 _index2.default.use('/auth', _authorize2.default);
 
 // catch 404 and forward to error handler

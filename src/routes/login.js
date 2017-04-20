@@ -49,6 +49,13 @@ router
 										expiresIn: config.token_duration
 									});
 
+                                // add email queue
+                                req.queue.create('email', {
+                                    title: 'Welcome to JetSpree'
+                                    , to: result.rows[0].email
+                                    , template: 'signup-email'
+                                }).priority('medium').attempts(5).save();
+
 								// return the token information
 								return res.json({
 									success: true,

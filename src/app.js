@@ -18,22 +18,29 @@ import passportSetup from "./passport";
 import flash from "connect-flash";
 import aws from "aws-sdk";
 import Promise from "bluebird";
+import kue from "kue";
 // index routes
-import index from "./routes/index";
+import indexV1 from "./routes/index";
 // public routes
 import countries from "./routes/countries";
 import twitter from "./routes/twitter";
 import login from "./routes/login";
 import requests from "./routes/requests";
-import image from "./routes/image";
+import images from "./routes/image";
 import trips from "./routes/trips";
 // private routes
 import authorize from "./routes/private/authorize";
 import authUser from "./routes/private/user";
 import authRequests from "./routes/private/requests";
 import authTrips from "./routes/private/trips";
+import authImages from "./routes/private/images";
 
 const app = express();
+
+const queue = kue.createQueue({
+    redis: process.env.REDIS
+});
+
 app.use(helmet());
 app.use(cors());
 
@@ -68,10 +75,13 @@ app.use((req, res, next) => {
         setPromisesDependency: Promise
     };
     req.aws = aws;
+    req.queue = queue;
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
+
+app.use('/queue', kue.app);
 
 // required for passport
 app.use(expressSession({
@@ -83,36 +93,37 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 
-app.use('/v1', index);
+app.use('/v1', indexV1);
 
 //Facebook Passport Router
-index.get('/login/facebook', passport.authenticate('facebook', {scope: 'email'}));
-index.get('/login/facebook/callback',
+indexV1.get('/login/facebook', passport.authenticate('facebook', {scope: 'email'}));
+indexV1.get('/login/facebook/callback',
     passport.authenticate('facebook', {
-        successRedirect: '/login/authenticated',
-        failureRedirect: '/login'
+        successRedirect: '/v1/login/authenticated',
+        failureRedirect: '/v1/login'
     }));
 
 //Google Passport Router
-index.get('/login/google', passport.authenticate('google', {scope: ['profile', 'email']}));
-index.get('/login/google/callback',
+indexV1.get('/login/google', passport.authenticate('google', {scope: ['profile', 'email']}));
+indexV1.get('/login/google/callback',
     passport.authenticate('google', {
-        successRedirect: '/login/authenticated',
-        failureRedirect: '/login'
+        successRedirect: '/v1/login/authenticated',
+        failureRedirect: '/v1/login'
     }));
 
-index.use('/countries', countries);
-index.use('/twitter', twitter);
-index.use('/login', login);
-index.use('/requests', requests);
-index.use('/image', image);
-index.use('/trips', trips);
+indexV1.use('/countries', countries);
+indexV1.use('/twitter', twitter);
+indexV1.use('/login', login);
+indexV1.use('/requests', requests);
+indexV1.use('/images', images);
+indexV1.use('/trips', trips);
 
 // routes that requires login to access
 authorize.use('/user', authUser);
 authorize.use('/requests', authRequests);
 authorize.use('/trips', authTrips);
-index.use('/auth', authorize);
+authorize.use('/images', authImages);
+indexV1.use('/auth', authorize);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

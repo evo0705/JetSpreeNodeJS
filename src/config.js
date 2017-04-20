@@ -1,13 +1,13 @@
 export default {
     'secret': process.env.JETSPREE_SECRET,
-    'connection_string': process.env.DATABASE_URL || 'postgres://postgres:P%40ssword@localhost:5432/jetspree',
+    'connection_string': process.env.DATABASE_URL || 'postgres://postgres:P%40ssword@localhost:5432/jetspree_v1',
     'token_duration': 60 * 60 * 24, // expires in 24 hours
     'facebook_app_id': process.env.FACEBOOK_APP_ID,
     'facebook_app_secret': process.env.FACEBOOK_APP_SECRET,
-    'facebook_callback_url': (process.env.NODE_ENV === 'production' ? 'https://jetspree-node-test.herokuapp.com/login/facebook/callback' : "/login/facebook/callback"),
+    'facebook_callback_url': (process.env.NODE_ENV === 'production' ? 'https://jetspree-node-test.herokuapp.com/v1/login/facebook/callback' : "/v1/login/facebook/callback"),
     'google_client_id': process.env.GOOGLE_CLIENT_ID,
     'google_client_secret': process.env.GOOGLE_CLIENT_SECRET,
-    'google_callback_url': (process.env.NODE_ENV === 'production' ? 'https://jetspree-node-test.herokuapp.com/login/google/callback' : "/login/google/callback"),
+    'google_callback_url': (process.env.NODE_ENV === 'production' ? 'https://jetspree-node-test.herokuapp.com/v1/login/google/callback' : "/v1/login/google/callback"),
     'smtp_provider': 'outlook',
     'image_max_resolution': {width: 1280, height: 1280},
     'smtp_username': process.env.SMTP_USERNAME,
