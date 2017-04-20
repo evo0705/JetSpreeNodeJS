@@ -51,6 +51,7 @@ router
 
                                 // add email queue
                                 req.queue.create('email', {
+                                    title: 'Sign Up',
                                     subject: 'Welcome to JetSpree',
                                     to: result.rows[0].email,
                                     content: 'Testing some Mailgun awesomness!',

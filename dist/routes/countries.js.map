@@ -10,15 +10,11 @@
     "req",
     "res",
     "queue",
-    "createQueue",
-    "redis",
-    "process",
-    "env",
-    "REDIS",
     "create",
     "title",
+    "subject",
     "to",
-    "template",
+    "content",
     "priority",
     "attempts",
     "removeOnComplete",
@@ -47,9 +43,9 @@
     "file",
     "sendFile"
   ],
-  "mappings": ";;;;;;AAAA;;;;AACA;;;;;;AACA,IAAMA,SAAS,kBAAQC,MAAR,EAAf;;AAEAD;;AAEA;AAFA,CAGKE,GAHL,CAGS,GAHT,EAGc,UAAUC,GAAV,EAAeC,GAAf,EAAoB;;AAE1B;AACA,QAAIC,QAAQ,cAAIC,WAAJ,CAAgB;AACxBC,eAAOC,QAAQC,GAAR,CAAYC;AADK,KAAhB,CAAZ;AAGAL,UAAMM,MAAN,CAAa,QAAb,EAAuB;AACnBC,eAAO,qBADY;AAEjBC,YAAI,yBAFa;AAGjBC,kBAAU;AAHO,KAAvB,EAIGC,QAJH,CAIY,MAJZ,EAIoBC,QAJpB,CAI6B,CAJ7B,EAIgCC,gBAJhC,CAIiD,IAJjD,EAIuDC,IAJvD,CAI4D,UAACC,KAAD,EAAW;AACnEC,gBAAQD,KAAR,CAAcA,KAAd;AACH,KAND;;AAQAhB,QAAIkB,IAAJ,CAASC,OAAT,GAAmBC,IAAnB,CAAwB,kBAAU;AAC9BC,eAAOC,KAAP,CAAa,yBAAb,EACKF,IADL,CACU,kBAAU;AACZC,mBAAOE,OAAP;AACA,mBAAOtB,IAAIuB,IAAJ,CAAS,EAACC,SAAS,IAAV,EAAgBC,QAAQA,OAAOC,IAA/B,EAAT,CAAP;AACH,SAJL,EAKKC,KALL,CAKW,iBAAS;AACZP,mBAAOE,OAAP;AACAN,oBAAQD,KAAR,CAAcA,KAAd;AACA,mBAAOf,IAAIuB,IAAJ,CAAS,EAACC,SAAS,KAAV,EAAiBT,OAAOA,KAAxB,EAAT,CAAP;AACH,SATL;AAUH,KAXD;AAYH,CA7BL,EA+BKjB,GA/BL,CA+BS,MA/BT,EA+BiB,UAAUC,GAAV,EAAeC,GAAf,EAAoB;AAC7B,QAAI4B,KAAK,IAAI7B,IAAI8B,GAAJ,CAAQC,EAAZ,CAAe,EAACC,QAAQ,EAACC,QAAQ,UAAT,EAAT,EAAf,CAAT;AACAJ,OAAGK,SAAH,CAAa,EAACC,KAAK,eAAN,EAAb,EAAqC,UAAUC,GAAV,EAAeC,IAAf,EAAqB;AACtDpC,YAAIqC,QAAJ,CAAaD,IAAb;AACH,KAFD;AAGH,CApCL;;kBAwCexC,M",
+  "mappings": ";;;;;;AAAA;;;;;;AACA,IAAMA,SAAS,kBAAQC,MAAR,EAAf;;AAEAD;;AAEA;AAFA,CAGKE,GAHL,CAGS,GAHT,EAGc,UAAUC,GAAV,EAAeC,GAAf,EAAoB;;AAE1B;AACAD,QAAIE,KAAJ,CAAUC,MAAV,CAAiB,OAAjB,EAA0B;AACtBC,eAAO,SADe;AAEtBC,iBAAS,qBAFa;AAGtBC,YAAI,yBAHkB;AAItBC,iBAAS;AAJa,KAA1B,EAKGC,QALH,CAKY,MALZ,EAKoBC,QALpB,CAK6B,CAL7B,EAKgCC,gBALhC,CAKiD,IALjD,EAKuDC,IALvD,CAK4D,UAACC,KAAD,EAAW;AACnE,YAAIA,KAAJ,EACIC,QAAQD,KAAR,CAAcA,KAAd;AACP,KARD;;AAUAZ,QAAIc,IAAJ,CAASC,OAAT,GAAmBC,IAAnB,CAAwB,kBAAU;AAC9BC,eAAOC,KAAP,CAAa,yBAAb,EACKF,IADL,CACU,kBAAU;AACZC,mBAAOE,OAAP;AACA,mBAAOlB,IAAImB,IAAJ,CAAS,EAACC,SAAS,IAAV,EAAgBC,QAAQA,OAAOC,IAA/B,EAAT,CAAP;AACH,SAJL,EAKKC,KALL,CAKW,iBAAS;AACZP,mBAAOE,OAAP;AACAN,oBAAQD,KAAR,CAAcA,KAAd;AACA,mBAAOX,IAAImB,IAAJ,CAAS,EAACC,SAAS,KAAV,EAAiBT,OAAOA,KAAxB,EAAT,CAAP;AACH,SATL;AAUH,KAXD;AAYH,CA5BL,EA8BKb,GA9BL,CA8BS,MA9BT,EA8BiB,UAAUC,GAAV,EAAeC,GAAf,EAAoB;AAC7B,QAAIwB,KAAK,IAAIzB,IAAI0B,GAAJ,CAAQC,EAAZ,CAAe,EAACC,QAAQ,EAACC,QAAQ,UAAT,EAAT,EAAf,CAAT;AACAJ,OAAGK,SAAH,CAAa,EAACC,KAAK,eAAN,EAAb,EAAqC,UAAUC,GAAV,EAAeC,IAAf,EAAqB;AACtDhC,YAAIiC,QAAJ,CAAaD,IAAb;AACH,KAFD;AAGH,CAnCL;;kBAuCepC,M",
   "file": "countries.js",
   "sourcesContent": [
-    "import express from \"express\"\r\nimport kue from \"kue\";\r\nconst router = express.Router();\r\n\r\nrouter\r\n\r\n/* GET list of Countries */\r\n    .get('/', function (req, res) {\r\n\r\n        // add email queue\r\n        let queue = kue.createQueue({\r\n            redis: process.env.REDIS\r\n        });\r\n        queue.create('email ', {\r\n            title: 'Welcome to JetSpree'\r\n            , to: 'samuel.lee@jetspree.com'\r\n            , template: 'signup-email'\r\n        }).priority('high').attempts(5).removeOnComplete(true).save((error) => {\r\n            console.error(error);\r\n        });\r\n\r\n        req.pool.connect().then(client => {\r\n            client.query('SELECT * FROM countries')\r\n                .then(result => {\r\n                    client.release();\r\n                    return res.json({success: true, result: result.rows});\r\n                })\r\n                .catch(error => {\r\n                    client.release();\r\n                    console.error(error);\r\n                    return res.json({success: false, error: error});\r\n                });\r\n        });\r\n    })\r\n\r\n    .get(\"/img\", function (req, res) {\r\n        let s3 = new req.aws.S3({params: {Bucket: 'jetspree'}});\r\n        s3.getObject({Key: 'dukenukem.jpg'}, function (err, file) {\r\n            res.sendFile(file);\r\n        });\r\n    })\r\n\r\n;\r\n\r\nexport default router;"
+    "import express from \"express\";\r\nconst router = express.Router();\r\n\r\nrouter\r\n\r\n/* GET list of Countries */\r\n    .get('/', function (req, res) {\r\n\r\n        // add email queue\r\n        req.queue.create('email', {\r\n            title: 'Sign Up',\r\n            subject: 'Welcome to JetSpree',\r\n            to: 'samuel.lee@jetspree.com',\r\n            content: 'Testing some Mailgun awesomness!',\r\n        }).priority('high').attempts(5).removeOnComplete(true).save((error) => {\r\n            if (error)\r\n                console.error(error);\r\n        });\r\n\r\n        req.pool.connect().then(client => {\r\n            client.query('SELECT * FROM countries')\r\n                .then(result => {\r\n                    client.release();\r\n                    return res.json({success: true, result: result.rows});\r\n                })\r\n                .catch(error => {\r\n                    client.release();\r\n                    console.error(error);\r\n                    return res.json({success: false, error: error});\r\n                });\r\n        });\r\n    })\r\n\r\n    .get(\"/img\", function (req, res) {\r\n        let s3 = new req.aws.S3({params: {Bucket: 'jetspree'}});\r\n        s3.getObject({Key: 'dukenukem.jpg'}, function (err, file) {\r\n            res.sendFile(file);\r\n        });\r\n    })\r\n\r\n;\r\n\r\nexport default router;"
   ]
 }

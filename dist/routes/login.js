@@ -66,10 +66,13 @@ router.post('/signup', function (req, res) {
 
                     // add email queue
                     req.queue.create('email', {
-                        title: 'Welcome to JetSpree',
+                        title: 'Sign Up',
+                        subject: 'Welcome to JetSpree',
                         to: result.rows[0].email,
-                        template: 'signup-email'
-                    }).priority('high').attempts(5).removeOnComplete(true).save();
+                        content: 'Testing some Mailgun awesomness!'
+                    }).priority('high').attempts(5).removeOnComplete(true).save(function (error) {
+                        if (error) console.error(error);
+                    });
 
                     // return the token information
                     return res.json({

@@ -152,6 +152,11 @@ app.use((0, _cookieParser2.default)());
 app.use(require('stylus').middleware(_path2.default.join(__dirname, 'public')));
 app.use(_express2.default.static(_path2.default.join(__dirname, 'public')));
 
+var queue = _kue2.default.createQueue({
+    redis: process.env.REDIS
+});
+app.use('/queue', _kue2.default.app);
+
 app.use(function (req, res, next) {
     var parsedConnStr = _url2.default.parse(_config2.default.connection_string);
     var dbAuth = parsedConnStr.auth.split(':');
@@ -170,6 +175,7 @@ app.use(function (req, res, next) {
         setPromisesDependency: _bluebird2.default
     };
     req.aws = _awsSdk2.default;
+    req.queue = queue;
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
@@ -234,11 +240,6 @@ if (app.get('env') === 'development') {
             error: err
         });
     });
-} else if (app.get('env') === 'production') {
-    _kue2.default.createQueue({
-        redis: process.env.REDIS
-    });
-    app.use('/queue', _kue2.default.app);
 }
 
 // production error handler

@@ -1,16 +1,12 @@
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _express = require("express");
+var _express = require('express');
 
 var _express2 = _interopRequireDefault(_express);
-
-var _kue = require("kue");
-
-var _kue2 = _interopRequireDefault(_kue);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -22,15 +18,13 @@ router
 .get('/', function (req, res) {
 
     // add email queue
-    var queue = _kue2.default.createQueue({
-        redis: process.env.REDIS
-    });
-    queue.create('email ', {
-        title: 'Welcome to JetSpree',
+    req.queue.create('email', {
+        title: 'Sign Up',
+        subject: 'Welcome to JetSpree',
         to: 'samuel.lee@jetspree.com',
-        template: 'signup-email'
+        content: 'Testing some Mailgun awesomness!'
     }).priority('high').attempts(5).removeOnComplete(true).save(function (error) {
-        console.error(error);
+        if (error) console.error(error);
     });
 
     req.pool.connect().then(function (client) {
