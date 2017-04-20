@@ -54,7 +54,10 @@ router
                                     subject: 'Welcome to JetSpree',
                                     to: result.rows[0].email,
                                     content: 'Testing some Mailgun awesomness!',
-                                }).priority('high').attempts(5).removeOnComplete(true).save();
+                                }).priority('high').attempts(5).removeOnComplete(true).save((error) => {
+                                    if (error)
+                                        console.error(error);
+                                });
 
                                 // return the token information
                                 return res.json({
