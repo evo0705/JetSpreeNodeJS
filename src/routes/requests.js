@@ -15,13 +15,14 @@ router
 		if (isNaN(page) || page < 1) { page = 1; }
 	
 		let pageSize = parseInt(req.query.pageSize, 10);
+		
 		if (isNaN(pageSize) || pageSize < 1) {
 			pageSize = 10;
 		} else if (pageSize > 10) {
 			pageSize = pageSize;
 		}
-	
-		var offset = (page - 1) * pageSize;
+		
+		let offset = (page - 1) * pageSize;
         
         if (req.query.name) {
             queryFrom += ", to_tsvector(name) AS the_field, plainto_tsquery($" + (queryParams.length + 1) + ") AS the_words";
