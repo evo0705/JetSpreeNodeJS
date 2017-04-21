@@ -24,7 +24,7 @@ router
 		var offset = (page - 1) * pageSize;
         
         if (req.query.name) {
-            queryFrom += ", to_tsvector(name) AS the_field, plainto_t[squery($" + (queryParams.length + 1) + ") AS the_words";
+            queryFrom += ", to_tsvector(name) AS the_field, plainto_tsquery($" + (queryParams.length + 1) + ") AS the_words";
             queryWhere += " AND the_field @@ the_words";
             queryParams.push(req.query.name);
         }
